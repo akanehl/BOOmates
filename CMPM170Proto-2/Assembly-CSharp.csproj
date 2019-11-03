@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Floater.cs" />
+    <Compile Include="Assets\Ghost Movement.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/Aaron/Portfolio/Unity/CMPM170-Proto2/CMPM170Proto-2/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
