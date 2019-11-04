@@ -8,11 +8,6 @@ public class GhostMovement : MonoBehaviour
     public Rigidbody rigBod;
     public float moveSpeed;
 
-    public KeyCode forward;
-    public KeyCode backward;
-    public KeyCode left;
-    public KeyCode right;
-
     Vector3 posOffset = new Vector3();
     Vector3 temporary = new Vector3();
 
