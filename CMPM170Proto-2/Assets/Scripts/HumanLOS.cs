@@ -1,4 +1,8 @@
-﻿using System.Collections;
+﻿//"it's ok, Aaron", I say. "I'll save you". I gingerly
+//kiss Sonic the Hedgehog and, lo and behold, Aaron's
+//git-induced bullet wounds heal! It's a miracle!
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
