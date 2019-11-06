@@ -26,6 +26,10 @@ public class GhostMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        temporary = posOffset;
+        temporary.y += Mathf.Sin(Time.fixedTime * Mathf.PI * speed) * amplitude;
+
+        transform.position = temporary;
 
         float moveHorizontal = Input.GetAxis(AxisNameHoriz);
         float moveVertical = Input.GetAxis(AxisNameVert);
