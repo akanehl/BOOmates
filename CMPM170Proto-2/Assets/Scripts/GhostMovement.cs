@@ -8,19 +8,12 @@ public class GhostMovement : MonoBehaviour
     public Rigidbody rigBod;
     public float moveSpeed;
 
-    Vector3 posOffset = new Vector3();
-    Vector3 temporary = new Vector3();
-
-    public float amplitude;
-    public float speed;
-
     public string AxisNameHoriz;
     public string AxisNameVert;
 
 
     void Start()
     {
-        posOffset = transform.position;
     }
 
     // Update is called once per frame
