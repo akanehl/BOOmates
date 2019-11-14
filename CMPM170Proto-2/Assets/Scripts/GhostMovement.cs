@@ -19,7 +19,6 @@ public class GhostMovement : MonoBehaviour
     private float maxPunch = 50;
     private bool punchCoolDown = false;
     
-
     Quaternion rotation = new Quaternion();
     void Start()
     {
@@ -52,8 +51,6 @@ public class GhostMovement : MonoBehaviour
                 }
                 moveSpeed = moveSpeed / 1.1;
             }
-
-
         }
 
         if (punchForce > 0)

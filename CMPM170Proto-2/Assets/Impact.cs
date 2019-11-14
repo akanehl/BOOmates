@@ -16,7 +16,6 @@ public class Impact : MonoBehaviour
     private string AxisNameVert;
     private bool controlsUnlocked = false;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -62,11 +61,7 @@ public class Impact : MonoBehaviour
 
             rigBod.AddForce(movement * (float)moveSpeed);
         }
-
-  
-
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {
