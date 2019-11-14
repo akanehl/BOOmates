@@ -6,14 +6,24 @@ public class GhostMovement : MonoBehaviour
 {
 
     public Rigidbody rigBod;
-    public float moveSpeed;
+    public double moveSpeed;
 
     public string AxisNameHoriz;
     public string AxisNameVert;
 
+    public KeyCode punchKey;
+
+    public float punchForce =0;
+    public float moveMod = 0;
+    private double saveSpeed;
+    private float maxPunch = 50;
+    private bool punchCoolDown = false;
+    
+
     Quaternion rotation = new Quaternion();
     void Start()
     {
+        saveSpeed = moveSpeed;
     }
 
     // Update is called once per frame
@@ -30,8 +40,42 @@ public class GhostMovement : MonoBehaviour
 
         //Debug.Log(movement);
 
-        rigBod.AddForce(movement * moveSpeed);
+        rigBod.AddForce(movement * (float)moveSpeed);
 
-   
+        if (!punchCoolDown)
+        {
+            if(Input.GetKey(punchKey))
+            {
+                if (punchForce < maxPunch)
+                {
+                    punchForce++;
+                }
+                moveSpeed = moveSpeed / 1.1;
+            }
+
+
+        }
+
+        if (punchForce > 0)
+        {
+            //Excecute punch and add punch force.
+            if (Input.GetKeyUp(punchKey))
+            {
+               // Debug.Log(punchForce);
+                moveMod = punchForce * 25;
+                rigBod.AddForce(movement * moveMod);
+                moveSpeed = saveSpeed;
+                punchCoolDown = true;
+                StartCoroutine(Wait());
+            }
+        }
+
+        IEnumerator Wait()
+        {
+            yield return  new WaitForSeconds(1);
+            //Debug.Log("Reset Punch Force");
+            punchForce = 0;
+            punchCoolDown = false;
+        }
     }
 }

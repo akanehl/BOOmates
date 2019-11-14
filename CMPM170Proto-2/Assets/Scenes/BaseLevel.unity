@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 900247630}
   m_Layer: 0
   m_Name: Ghost_1
-  m_TagString: Untagged
+  m_TagString: Ghost1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -337,6 +337,7 @@ MonoBehaviour:
   moveSpeed: 15
   AxisNameHoriz: Player1Horizontal
   AxisNameVert: Player1Vertical
+  punchKey: 120
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,8 +597,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1251984362}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -7.16, y: 0.56, z: -0.09}
-  m_LocalScale: {x: 15, y: 0.86709887, z: 0.5}
+  m_LocalPosition: {x: -7.16, y: 0.94, z: -0.09}
+  m_LocalScale: {x: 15, y: 1.7921201, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -617,7 +618,7 @@ GameObject:
   - component: {fileID: 1413050771}
   m_Layer: 0
   m_Name: Ghost2Anim
-  m_TagString: Untagged
+  m_TagString: Ghost2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -663,7 +664,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1413050769}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -685,7 +686,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2052de8160dedd84eb46aa91ea23de1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -798,8 +799,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513487057}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.10499668, y: 0.56, z: 7.14}
-  m_LocalScale: {x: 15, y: 0.86709887, z: 0.5}
+  m_LocalPosition: {x: 0.10499668, y: 0.94, z: 7.14}
+  m_LocalScale: {x: 15, y: 1.7921201, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -817,9 +818,10 @@ GameObject:
   - component: {fileID: 1528518071}
   - component: {fileID: 1528518070}
   - component: {fileID: 1528518069}
+  - component: {fileID: 1528518074}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -868,7 +870,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 76a49d2be40355344a8814fefcbeae69, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -910,6 +912,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1528518074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528518068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bdbc46998875414cb03d68af016fc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1807532720
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,7 +940,7 @@ GameObject:
   - component: {fileID: 1807532726}
   m_Layer: 0
   m_Name: Ghost_2
-  m_TagString: Untagged
+  m_TagString: Ghost2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1036,6 +1050,7 @@ MonoBehaviour:
   moveSpeed: 15
   AxisNameHoriz: Player2Horizontal
   AxisNameVert: Player2Vertical
+  punchKey: 32
 --- !u!1 &1889738331
 GameObject:
   m_ObjectHideFlags: 0
@@ -1121,8 +1136,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1889738331}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 7.34, y: 0.56, z: -0.09}
-  m_LocalScale: {x: 15, y: 0.86709887, z: 0.5}
+  m_LocalPosition: {x: 7.34, y: 0.94, z: -0.09}
+  m_LocalScale: {x: 15, y: 1.7921201, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -1212,8 +1227,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2082246230}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.10499668, y: 0.56, z: -7.34}
-  m_LocalScale: {x: 15, y: 0.86709887, z: 0.5}
+  m_LocalPosition: {x: 0.10499668, y: 0.94, z: -7.34}
+  m_LocalScale: {x: 15, y: 1.7921201, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -1233,7 +1248,7 @@ GameObject:
   - component: {fileID: 2083549819}
   m_Layer: 0
   m_Name: Ghost1Anim
-  m_TagString: Untagged
+  m_TagString: Ghost1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1301,7 +1316,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 2052de8160dedd84eb46aa91ea23de1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
