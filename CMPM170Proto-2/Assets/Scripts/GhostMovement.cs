@@ -35,11 +35,11 @@ public class GhostMovement : MonoBehaviour
 
         //Debug.Log(moveHorizontal + " " + moveVertical);
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        
 
         //Debug.Log(movement);
 
-        rigBod.AddForce(movement * (float)moveSpeed);
+        
 
         if (!punchCoolDown)
         {
@@ -50,13 +50,16 @@ public class GhostMovement : MonoBehaviour
                     punchForce++;
                 }
                 moveSpeed = moveSpeed / 1.1;
+                moveHorizontal = -moveHorizontal;
+                moveVertical = -moveVertical;
             }
         }
 
-        if (punchForce > 0)
-        {
-            //Excecute punch and add punch force.
-            if (Input.GetKeyUp(punchKey))
+        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        rigBod.AddForce(movement * (float)moveSpeed);
+
+        //Excecute punch and add punch force.
+        if (Input.GetKeyUp(punchKey))
             {
                // Debug.Log(punchForce);
                 moveMod = punchForce * 25;
@@ -65,7 +68,7 @@ public class GhostMovement : MonoBehaviour
                 punchCoolDown = true;
                 StartCoroutine(Wait());
             }
-        }
+        
 
         IEnumerator Wait()
         {
