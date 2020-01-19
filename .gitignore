@@ -3,13 +3,13 @@ BOOmates/Temp/UnityLockfile
 
 BOOmates/.vs/BOOmates/v15/Server/sqlite3/db.lock
 
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Mm]emoryCaptures/
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -58,3 +58,9 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+BOOmates/Temp/ProcessJobs/2db8e55ec573e3adabe04324d50d2b84.bakert
+*.bakert
+*.dwlt
+*.dwlt
+BOOmates/Library/assetDatabase3
+BOOmates/Library/expandedItems

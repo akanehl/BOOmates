@@ -9,15 +9,16 @@ using UnityEngine;
 public class CameraControl : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float moveSpeed = 20f;
-    private int cameraCondition = 1;
+    public  float   moveSpeed = 20f;
+    private int     cameraCondition = 1;
     private Vector3 FirstRoom;
     private Vector3 SecondRoom;
     private Vector3 ThirdRoom;
     private Vector3 ForthRoom;
-    private bool isMoving = false;
-    public float smoothTime = 0.3F;
+    private bool    isMoving = false;
+    public  float   smoothTime = 0.3F;
     private Vector3 velocity = Vector3.zero;
+    public GameObject player;
     void Start()
     {
         FirstRoom = new Vector3(110f,283f,131f);
@@ -42,6 +43,7 @@ public class CameraControl : MonoBehaviour
             isMoving = true;
             cameraCondition = 3;
         }
+        checkRoom();
         if (isMoving){
         	CameraTransform(cameraCondition);
         }
@@ -62,5 +64,16 @@ public class CameraControl : MonoBehaviour
     	if(transform.position == TargetCamera){
     		isMoving = false;
     	}
+    }
+
+    void checkRoom(){
+         if(player.transform.position.x < -0f && cameraCondition == 1){
+            cameraCondition = 2;
+            isMoving = true;
+        }
+        if(player.transform.position.x > 0f && cameraCondition == 2){
+            cameraCondition = 1;
+            isMoving = true;
+        }
     }
 }
