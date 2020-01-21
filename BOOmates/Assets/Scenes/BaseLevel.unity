@@ -1396,6 +1396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 20
   smoothTime: 0.3
+  player: {fileID: 1807532720}
 --- !u!4 &1046022405 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: b3ef00c430c83934ab093cfcf6a5a104,
