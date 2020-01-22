@@ -10,12 +10,13 @@ public class CameraControl : MonoBehaviour
 {
     // Start is called before the first frame update
     public  float   moveSpeed = 20f;
-    private int     cameraCondition = 1;
+    public int     cameraCondition = 2;
     private Vector3 FirstRoom;
     private Vector3 SecondRoom;
     private Vector3 ThirdRoom;
     private Vector3 ForthRoom;
-    private bool    isMoving = false;
+    public  Vector3 TargetRoom;
+    public bool    isMoving = false;
     public  float   smoothTime = 0.3F;
     private Vector3 velocity = Vector3.zero;
     public GameObject player;
@@ -25,30 +26,12 @@ public class CameraControl : MonoBehaviour
         SecondRoom = new Vector3(13.8f,10f,-7.3f);
         ThirdRoom = new Vector3(-15.5f,10f,-7.3f);
         ForthRoom = new Vector3(-15.5f,10f,-22f);
-        transform.position = FirstRoom;
+        transform.position = SecondRoom;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("1"))
-        {
-        	isMoving = true;
-            cameraCondition = 1;
-        }else if (Input.GetKeyDown("2"))
-        {
-            isMoving = true;
-            cameraCondition = 2;
-        }else if (Input.GetKeyDown("3"))
-        {
-            isMoving = true;
-            cameraCondition = 3;
-        }else if (Input.GetKeyDown("4"))
-        {
-            isMoving = true;
-            cameraCondition = 4;
-        }
-        checkRoom();
         if (isMoving){
         	CameraTransform(cameraCondition);
         }
@@ -79,14 +62,14 @@ public class CameraControl : MonoBehaviour
     	}
     }
 
-    void checkRoom(){
-         if(player.transform.position.x < (transform.position.x - 7) && cameraCondition == 1){
-            cameraCondition = 3;
-            isMoving = true;
-        }
-        if(player.transform.position.x > (transform.position.x + 7) && cameraCondition == 1){
-            cameraCondition = 2;
-            isMoving = true;
-        }
-    }
+    // void checkRoom(){
+    //     if(player.transform.position.x < (transform.position.x - 7) && cameraCondition == 1){
+    //         cameraCondition = 3;
+    //         isMoving = true;
+    //     }
+    //     if(player.transform.position.x > (transform.position.x + 7) && cameraCondition == 1){
+    //         cameraCondition = 2;
+    //         isMoving = true;
+    //     }
+    // }
 }
