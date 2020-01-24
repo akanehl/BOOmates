@@ -1,6 +1,0 @@
-Base path: 'D:/Aaron/Program Files/2019.2.9f1/Editor/Data', plugins path 'D:/Aaron/Program Files/2019.2.9f1/Editor/Data/PlaybackEngines'
-Cmd: initializeCompiler
-Cmd: compileComputeKernel
-  api=4 insize=18299 outsize=8523 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=1454 outsize=1455 ok=1

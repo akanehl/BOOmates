@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{82294EAB-D4BD-3FE3-C3F0-AB81D08BEF22}</ProjectGuid>
+    <ProjectGuid>{96B68053-347C-0A84-19F8-E2EA3D53437C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>NavMeshComponentsExamples</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -44,77 +44,29 @@
     <ImplicitlyExpandNETStandardFacades>false</ImplicitlyExpandNETStandardFacades>
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
-  <ItemGroup>     <Compile Include="Assets\Scripts\Controller.cs" />
-     <Compile Include="Assets\Scripts\GhostMovement.cs" />
-     <Compile Include="Assets\Scripts\HumanBehavior.cs" />
-     <Compile Include="Assets\Scripts\Impact.cs" />
-     <Compile Include="Assets\Scripts\MyHumanController.cs" />
-     <Compile Include="Assets\Scripts\TestControllMovement.cs" />
- <Reference Include="Unity.Timeline.Editor">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.VSCode.Editor">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.RenderPipelines.Core.Editor">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.InputSystem">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
- </Reference>
- <Reference Include="Unity.RenderPipelines.Core.Runtime">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
- </Reference>
- <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.RenderPipelines.Lightweight.Runtime">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.RenderPipelines.Lightweight.Runtime.dll</HintPath>
- </Reference>
- <Reference Include="Unity.RenderPipelines.Lightweight.Editor">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.RenderPipelines.Lightweight.Editor.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.UI">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Timeline">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
- </Reference>
- <Reference Include="Unity.CollabProxy.Editor">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Postprocessing.Editor">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Rider.Editor">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
- </Reference>
- <Reference Include="Unity.2D.Sprite.Editor">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Postprocessing.Runtime">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
+  <ItemGroup>     <Compile Include="Assets\Examples\Scripts\AgentLinkMover.cs" />
+     <Compile Include="Assets\Examples\Scripts\ClickToMove.cs" />
+     <Compile Include="Assets\Examples\Scripts\DestroyOnTrigger.cs" />
+     <Compile Include="Assets\Examples\Scripts\DungeonManager.cs" />
+     <Compile Include="Assets\Examples\Scripts\EnableIffSleeping.cs" />
+     <Compile Include="Assets\Examples\Scripts\FreeCam.cs" />
+     <Compile Include="Assets\Examples\Scripts\LocalNavMeshBuilder.cs" />
+     <Compile Include="Assets\Examples\Scripts\MeshTool.cs" />
+     <Compile Include="Assets\Examples\Scripts\NavMeshPrefabInstance.cs" />
+     <Compile Include="Assets\Examples\Scripts\NavMeshSourceTag.cs" />
+     <Compile Include="Assets\Examples\Scripts\Oscillator.cs" />
+     <Compile Include="Assets\Examples\Scripts\RandomInstancing.cs" />
+     <Compile Include="Assets\Examples\Scripts\RandomWalk.cs" />
+     <Compile Include="Assets\Examples\Scripts\SpawnPrefabOnKeyDown.cs" />
+     <None Include="Assets\Examples\NavMeshComponentsExamples.asmdef" />
+ <Reference Include="UnityEditor.UI">
+ <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.2D.Tilemap.Editor">
  <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
  </Reference>
- <Reference Include="Unity.ShaderGraph.Editor">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
- </Reference>
- <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
- </Reference>
- <Reference Include="Unity.TextMeshPro">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
- </Reference>
- <Reference Include="Unity.Analytics.DataPrivacy">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
- </Reference>
- <Reference Include="UnityEditor.UI">
- <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <Reference Include="UnityEngine.UI">
+ <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>/Applications/2019.2.9f1/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -299,6 +251,21 @@
  <Reference Include="UnityEditor">
  <HintPath>/Applications/2019.2.9f1/Unity.app/Contents/Managed/UnityEditor.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.VR">
+ <HintPath>/Applications/2019.2.9f1/Unity.app/Contents/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>/Applications/2019.2.9f1/Unity.app/Contents/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+ <HintPath>/Applications/2019.2.9f1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.OSXStandalone.Extensions">
+ <HintPath>/Applications/2019.2.9f1/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Advertisements">
+ <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="Unity.Analytics.Tracker">
  <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
  </Reference>
@@ -307,6 +274,9 @@
  </Reference>
  <Reference Include="Unity.Analytics.StandardEvents">
  <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Purchasing">
+ <HintPath>/Users/aniken98/Desktop/BOOmates/BOOmates/Library/PackageCache/com.unity.purchasing@2.0.6/Editor/UnityEditor.Purchasing.dll</HintPath>
  </Reference>
  <Reference Include="netstandard">
  <HintPath>/Applications/2019.2.9f1/Unity.app/Contents/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -655,10 +625,6 @@
  </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="NavMeshComponentsEditor.csproj">
-      <Project>{E50241FB-FFA8-6FED-0706-3CD82BDC5A14}</Project>
-      <Name>NavMeshComponentsEditor</Name>
-    </ProjectReference>
     <ProjectReference Include="NavMeshComponents.csproj">
       <Project>{CEBA1456-2E11-8B79-FD8A-7C5A8899A9DC}</Project>
       <Name>NavMeshComponents</Name>
