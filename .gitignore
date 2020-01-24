@@ -8,3 +8,5 @@ BOOmates/Library/
 BOOmates/Logs/
 
 BOOmates/obj/
+
+BOOmates/*.csproj
