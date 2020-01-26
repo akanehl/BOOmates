@@ -4,8 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ghost1
+  - Ghost
+  - Indicator
+  - Lights
   - Ghost2
+  - EnvironmentLights
   layers:
   - Default
   - TransparentFX

@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Controller.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Controller.inputactions'
 
 using System;
 using System.Collections;
@@ -29,7 +29,7 @@ public class @Controller : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Launch"",
                     ""type"": ""Button"",
-                    ""id"": ""1d422bf1-df02-4e28-ade0-5204369b1383"",
+                    ""id"": ""ff025102-a165-4ca2-9c2b-0c1c970762fe"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -37,8 +37,16 @@ public class @Controller : IInputActionCollection, IDisposable
                 {
                     ""name"": ""Movement"",
                     ""type"": ""Value"",
-                    ""id"": ""ff025102-a165-4ca2-9c2b-0c1c970762fe"",
+                    ""id"": ""1d422bf1-df02-4e28-ade0-5204369b1383"",
                     ""expectedControlType"": ""Stick"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Lights"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2909795-f639-430b-859f-3c5a7a5c490a"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -76,6 +84,17 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""action"": ""Launch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""18d6089c-cc8a-49ce-a001-fa5fe394282f"",
+                    ""path"": ""<DualShockGamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lights"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -87,6 +106,7 @@ public class @Controller : IInputActionCollection, IDisposable
         m_Gameplay_Punch = m_Gameplay.FindAction("Punch", throwIfNotFound: true);
         m_Gameplay_Launch = m_Gameplay.FindAction("Launch", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
+        m_Gameplay_Lights = m_Gameplay.FindAction("Lights", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -139,6 +159,7 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Punch;
     private readonly InputAction m_Gameplay_Launch;
     private readonly InputAction m_Gameplay_Movement;
+    private readonly InputAction m_Gameplay_Lights;
     public struct GameplayActions
     {
         private @Controller m_Wrapper;
@@ -146,6 +167,7 @@ public class @Controller : IInputActionCollection, IDisposable
         public InputAction @Punch => m_Wrapper.m_Gameplay_Punch;
         public InputAction @Launch => m_Wrapper.m_Gameplay_Launch;
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
+        public InputAction @Lights => m_Wrapper.m_Gameplay_Lights;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -164,6 +186,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
+                @Lights.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLights;
+                @Lights.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLights;
+                @Lights.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLights;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -177,6 +202,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Lights.started += instance.OnLights;
+                @Lights.performed += instance.OnLights;
+                @Lights.canceled += instance.OnLights;
             }
         }
     }
@@ -186,5 +214,6 @@ public class @Controller : IInputActionCollection, IDisposable
         void OnPunch(InputAction.CallbackContext context);
         void OnLaunch(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnLights(InputAction.CallbackContext context);
     }
 }

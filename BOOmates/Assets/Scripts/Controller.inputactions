@@ -16,7 +16,7 @@
                 {
                     "name": "Launch",
                     "type": "Button",
-                    "id": "1d422bf1-df02-4e28-ade0-5204369b1383",
+                    "id": "ff025102-a165-4ca2-9c2b-0c1c970762fe",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
@@ -24,8 +24,16 @@
                 {
                     "name": "Movement",
                     "type": "Value",
-                    "id": "ff025102-a165-4ca2-9c2b-0c1c970762fe",
+                    "id": "1d422bf1-df02-4e28-ade0-5204369b1383",
                     "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Lights",
+                    "type": "Button",
+                    "id": "b2909795-f639-430b-859f-3c5a7a5c490a",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
                 }
@@ -61,6 +69,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Launch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "18d6089c-cc8a-49ce-a001-fa5fe394282f",
+                    "path": "<DualShockGamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lights",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
