@@ -41,6 +41,14 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Grab"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c980e87-ce4b-463d-a4d5-400a2e1c1690"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -76,6 +84,17 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                     ""action"": ""MyMovement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ef1d6463-1799-4d88-84c0-99c5c0b8e6cd"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -87,6 +106,7 @@ public class @MyHumanController : IInputActionCollection, IDisposable
         m_GamePlay_TakeBody = m_GamePlay.FindAction("TakeBody", throwIfNotFound: true);
         m_GamePlay_LeaveBody = m_GamePlay.FindAction("LeaveBody", throwIfNotFound: true);
         m_GamePlay_MyMovement = m_GamePlay.FindAction("MyMovement", throwIfNotFound: true);
+        m_GamePlay_Grab = m_GamePlay.FindAction("Grab", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -139,6 +159,7 @@ public class @MyHumanController : IInputActionCollection, IDisposable
     private readonly InputAction m_GamePlay_TakeBody;
     private readonly InputAction m_GamePlay_LeaveBody;
     private readonly InputAction m_GamePlay_MyMovement;
+    private readonly InputAction m_GamePlay_Grab;
     public struct GamePlayActions
     {
         private @MyHumanController m_Wrapper;
@@ -146,6 +167,7 @@ public class @MyHumanController : IInputActionCollection, IDisposable
         public InputAction @TakeBody => m_Wrapper.m_GamePlay_TakeBody;
         public InputAction @LeaveBody => m_Wrapper.m_GamePlay_LeaveBody;
         public InputAction @MyMovement => m_Wrapper.m_GamePlay_MyMovement;
+        public InputAction @Grab => m_Wrapper.m_GamePlay_Grab;
         public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -164,6 +186,9 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                 @MyMovement.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMyMovement;
                 @MyMovement.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMyMovement;
                 @MyMovement.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnMyMovement;
+                @Grab.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnGrab;
+                @Grab.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnGrab;
+                @Grab.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnGrab;
             }
             m_Wrapper.m_GamePlayActionsCallbackInterface = instance;
             if (instance != null)
@@ -177,6 +202,9 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                 @MyMovement.started += instance.OnMyMovement;
                 @MyMovement.performed += instance.OnMyMovement;
                 @MyMovement.canceled += instance.OnMyMovement;
+                @Grab.started += instance.OnGrab;
+                @Grab.performed += instance.OnGrab;
+                @Grab.canceled += instance.OnGrab;
             }
         }
     }
@@ -186,5 +214,6 @@ public class @MyHumanController : IInputActionCollection, IDisposable
         void OnTakeBody(InputAction.CallbackContext context);
         void OnLeaveBody(InputAction.CallbackContext context);
         void OnMyMovement(InputAction.CallbackContext context);
+        void OnGrab(InputAction.CallbackContext context);
     }
 }

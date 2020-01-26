@@ -6,10 +6,16 @@ using UnityEngine.InputSystem;
 public class HumanBehavior : MonoBehaviour
 {
     public enum HumanState {NORMAL, CONTROL}
+
+    public enum selectedItem {GrabObject, CleanObject, None}
+
+    private selectedItem currentItem;
     private HumanState currentState;
 
     [SerializeField]
     private float speed;
+    
+    GameObject grabObj;
 
     public Transform[] moveSpots; 
     private int randomSpot;
@@ -23,11 +29,16 @@ public class HumanBehavior : MonoBehaviour
 
     Vector2 myMove;
 
+    private Transform _selection;
+
     void Awake()
     {
         myControls = new MyHumanController();
         myControls.GamePlay.TakeBody.performed += context => TakeBody();
         myControls.GamePlay.LeaveBody.performed += context => LeaveBody();
+
+        myControls.GamePlay.Grab.performed += context => GrabObject();
+        myControls.GamePlay.Grab.canceled += context => ReleaseObject();
 
         myControls.GamePlay.MyMovement.performed += context => myMove = context.ReadValue<Vector2>();
         myControls.GamePlay.MyMovement.canceled += context => myMove = Vector2.zero;
@@ -39,6 +50,7 @@ public class HumanBehavior : MonoBehaviour
         randomSpot = Random.Range(0, moveSpots.Length);
         currentState = HumanState.NORMAL;
         waitTime = startWaitTime;
+        currentItem = selectedItem.None;
     }
 
     // Update is called once per frame
@@ -51,7 +63,14 @@ public class HumanBehavior : MonoBehaviour
         else
         {
             movement();
+            if(currentItem == selectedItem.GrabObject)
+            {
+                if(_selection != null){
+                    _selection.transform.position = transform.position + transform.forward * 25 + new Vector3(0.0f, 15.0f, 0.0f);
+                }
+            }
         }
+
     }
 
     //Human AI, move around when human isn't control by ghost(player)
@@ -59,7 +78,7 @@ public class HumanBehavior : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, moveSpots[randomSpot].position, 
                                                     speed * Time.deltaTime);
-        transform.rotation = Quaternion.LookRotation(moveSpots[randomSpot].position);
+        transform.LookAt(moveSpots[randomSpot].position);
         if(Vector3.Distance(transform.position, moveSpots[randomSpot].position) < 0.2f)
         {
             if(waitTime <= 0) 
@@ -110,5 +129,34 @@ public class HumanBehavior : MonoBehaviour
     {
         currentState = HumanState.NORMAL;
         Debug.Log("Normal");
+    }
+
+    void GrabObject()
+    {      
+        currentItem = selectedItem.GrabObject;
+        _selection = getItem();
+    }
+
+    void ReleaseObject()
+    {
+        Debug.Log("Release Object");
+        currentItem = selectedItem.None;
+    }
+
+    Transform getItem()
+    {
+        if(currentItem != selectedItem.None)
+        {
+            Ray ray = new Ray(transform.position, transform.forward); 
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit, 50.0f))
+            {
+                Transform selection = hit.transform;
+                if(selection.transform.CompareTag("GrabObject")){
+                    return selection;
+                }
+            }
+        }
+        return null;
     }
 }

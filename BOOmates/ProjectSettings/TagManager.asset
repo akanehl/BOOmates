@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ghost1
   - Ghost2
+  - GrabObject
+  - CleanObject
   layers:
   - Default
   - TransparentFX
@@ -15,8 +17,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - GrabObject
+  - CleanObject
   - 
   - 
   - 
