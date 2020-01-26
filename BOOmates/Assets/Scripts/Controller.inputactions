@@ -1,0 +1,71 @@
+{
+    "name": "Controller",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "ece6465f-075c-48d2-87a6-999c9a9d3f43",
+            "actions": [
+                {
+                    "name": "Punch",
+                    "type": "Button",
+                    "id": "83ed8a74-1c70-4703-8c39-b56ac0296e04",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Launch",
+                    "type": "Button",
+                    "id": "1d422bf1-df02-4e28-ade0-5204369b1383",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Movement",
+                    "type": "Value",
+                    "id": "ff025102-a165-4ca2-9c2b-0c1c970762fe",
+                    "expectedControlType": "Stick",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fd8fa655-ef9b-4f79-91a2-e62999f60602",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Punch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "20404468-e95a-4f6a-9f15-1557af36d40a",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "808c7711-5774-4ccc-95e4-c93384aba095",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Launch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

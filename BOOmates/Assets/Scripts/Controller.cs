@@ -24,13 +24,21 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""id"": ""83ed8a74-1c70-4703-8c39-b56ac0296e04"",
                     ""expectedControlType"": """",
                     ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Launch"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d422bf1-df02-4e28-ade0-5204369b1383"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
                     ""interactions"": """"
                 },
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Button"",
-                    ""id"": ""1d422bf1-df02-4e28-ade0-5204369b1383"",
-                    ""expectedControlType"": """",
+                    ""type"": ""Value"",
+                    ""id"": ""ff025102-a165-4ca2-9c2b-0c1c970762fe"",
+                    ""expectedControlType"": ""Stick"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -57,6 +65,17 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""808c7711-5774-4ccc-95e4-c93384aba095"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Launch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -66,6 +85,7 @@ public class @Controller : IInputActionCollection, IDisposable
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
         m_Gameplay_Punch = m_Gameplay.FindAction("Punch", throwIfNotFound: true);
+        m_Gameplay_Launch = m_Gameplay.FindAction("Launch", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
     }
 
@@ -117,12 +137,14 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
     private readonly InputAction m_Gameplay_Punch;
+    private readonly InputAction m_Gameplay_Launch;
     private readonly InputAction m_Gameplay_Movement;
     public struct GameplayActions
     {
         private @Controller m_Wrapper;
         public GameplayActions(@Controller wrapper) { m_Wrapper = wrapper; }
         public InputAction @Punch => m_Wrapper.m_Gameplay_Punch;
+        public InputAction @Launch => m_Wrapper.m_Gameplay_Launch;
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
@@ -136,6 +158,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Punch.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPunch;
                 @Punch.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPunch;
                 @Punch.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPunch;
+                @Launch.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLaunch;
+                @Launch.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLaunch;
+                @Launch.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLaunch;
                 @Movement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
@@ -146,6 +171,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Punch.started += instance.OnPunch;
                 @Punch.performed += instance.OnPunch;
                 @Punch.canceled += instance.OnPunch;
+                @Launch.started += instance.OnLaunch;
+                @Launch.performed += instance.OnLaunch;
+                @Launch.canceled += instance.OnLaunch;
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
@@ -156,6 +184,7 @@ public class @Controller : IInputActionCollection, IDisposable
     public interface IGameplayActions
     {
         void OnPunch(InputAction.CallbackContext context);
+        void OnLaunch(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
     }
 }
