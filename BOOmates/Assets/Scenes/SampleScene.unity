@@ -2082,12 +2082,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cfad7ed7fc2c5044883a228077ff2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
+  moveSpeed: 15
   cameraCondition: 1
   TargetRoom: {x: 0, y: 0, z: 0}
   RespawnPoint: {x: 0, y: 0, z: 0}
   isMoving: 0
-  smoothTime: 0.2
+  smoothTime: 0.25
   player1: {fileID: 900247624}
   player2: {fileID: 1807532720}
 --- !u!1 &1058436325

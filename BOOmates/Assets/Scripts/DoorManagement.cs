@@ -32,16 +32,28 @@ public class DoorManagement : MonoBehaviour
     		var TargetRoom = parentRoom.transform.Find("cameraPos").gameObject.transform.position;
     		var RespawnPoint = parentRoom.transform.Find("RespawnPoint").gameObject.transform.position;
     		sc.TargetRoom = TargetRoom;
+    		//Debug.Log(TargetRoom);
+    		//Debug.Log(sc.transform.position);
     		// if(sc.isMoving){
     		// 	player1.transform.position = RespawnPoint;
       		//  player2.transform.position = RespawnPoint;
     		// }
-    		if(TargetRoom != sc.transform.position){
+    		if(!Equal(TargetRoom,sc.transform.position)){
     			sc.RespawnPoint = parentRoom.transform.position;
     			sc.isMoving = true;
-    			player1.transform.position = RespawnPoint;
+    			//player1.transform.position = RespawnPoint;
       		    player2.transform.position = RespawnPoint;
     		}
     	}
+    }
+
+    bool Equal(Vector3 A, Vector3 B){
+    	int aX = (int)A.x;
+		int aY = (int)A.y;
+		int aZ = (int)A.z;
+		int bX = (int)B.x;
+		int bY = (int)B.y;
+		int bZ = (int)B.z;
+    	return (aX == bX) && (aY == bY) && (aZ == bZ);
     }
 }

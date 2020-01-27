@@ -22,34 +22,63 @@ public class CameraControl : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     public  GameObject player1;
     public  GameObject player2;
+    private float timer = 1.5f;
     void Start()
     {
-        //FirstRoom = new Vector3(0f,10f,-7.3f);
-        SecondRoom = new Vector3(13.8f,10f,-7.3f);
-        //ThirdRoom = new Vector3(-15.5f,10f,-7.3f);
-        //ForthRoom = new Vector3(-15.5f,10f,-22f);
+        // //FirstRoom = new Vector3(0f,10f,-7.3f);
+        // SecondRoom = new Vector3(13.8f,10f,-7.3f);
+        // //ThirdRoom = new Vector3(-15.5f,10f,-7.3f);
+        // //ForthRoom = new Vector3(-15.5f,10f,-22f);
+
+        //Set a default position for the camera
+        SecondRoom = new Vector3(88f, 244f, -239f);
         transform.position = SecondRoom;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Condition:isMoving
+        //Related to Script: DoorManagement.cs/43
+        //Determing the moving condition of camera
         if (isMoving){
         	CameraTransform(TargetRoom);
         }
-        //Debug.Log(isMoving);
     }
 
     void CameraTransform(Vector3 TargetRoom){
     	transform.position = Vector3.SmoothDamp(transform.position, TargetRoom, ref velocity, smoothTime);
-        playerRespawn();
-    	if(transform.position == TargetRoom){
+        fixPosition(TargetRoom);
+    	if(Equal(transform.position, TargetRoom)){
     		isMoving = false;
+            timer = 1.5f;
+            Debug.Log(isMoving);
     	}
     }
 
     void playerRespawn(){
         // player1.transform.position = RespawnPoint;
         // player2.transform.position = RespawnPoint;
+    }
+    bool Equal(Vector3 A, Vector3 B){
+        int aX = (int)A.x;
+        int aY = (int)A.y;
+        int aZ = (int)A.z;
+        int bX = (int)B.x;
+        int bY = (int)B.y;
+        int bZ = (int)B.z;
+        return (aX == bX) && (aY == bY) && (aZ == bZ);
+    }
+
+    void fixPosition(Vector3 TargetRoom){
+        if(!isMoving){
+            timer = 1.5f;
+        }else{
+            timer -= Time.deltaTime;
+            if(timer <= 0){
+                transform.position = TargetRoom;
+
+            }
+        }
     }
 }
