@@ -1,23 +1,27 @@
-﻿using System.Collections;
+﻿//Add by Guanchen Raymond Liu
+//Version 1.0, Sprint2
+//This script would relate to the cameraControl.cs and help move the camera
+//depending on the character's position;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DoorManagement : MonoBehaviour
 {
-	public GameObject human;
-	private GameObject player1;
-	private GameObject player2;
-	private GameObject mainCamera;
-	public GameObject doorWay;
-	private int cameraCondition;
-	private CameraControl sc;
+	public     GameObject      human;
+	private    GameObject      player1;
+	private    GameObject      player2;
+	private    GameObject      mainCamera;
+	public     GameObject      doorWay;
+	private    int             cameraCondition;
+	private    CameraControl   sc;
     // Start is called before the first frame update
     void Start()
     {
-        mainCamera = GameObject.Find("MainCamera");
-        player1 = GameObject.Find("Ghost_1");
-        player2 = GameObject.Find("Ghost_2");
-        sc = mainCamera.GetComponent<CameraControl>();
+        mainCamera  = GameObject.Find("MainCamera");
+        player1     = GameObject.Find("Ghost_1");
+        player2     = GameObject.Find("Ghost_2");
+        sc          = mainCamera.GetComponent<CameraControl>();
     }
 
     // Update is called once per frame
@@ -25,22 +29,21 @@ public class DoorManagement : MonoBehaviour
     {
         
     }
-
+    //Condition: Game Object collision
+    //This function will activate when a gameobject collide with the doorway
     void OnTriggerEnter(Collider other){
     	if(other.gameObject.name == "Ghost_2"){
-    		var parentRoom = doorWay.transform.parent.gameObject;
-    		var TargetRoom = parentRoom.transform.Find("cameraPos").gameObject.transform.position;
-    		var RespawnPoint = parentRoom.transform.Find("RespawnPoint").gameObject.transform.position;
-    		sc.TargetRoom = TargetRoom;
-    		//Debug.Log(TargetRoom);
-    		//Debug.Log(sc.transform.position);
-    		// if(sc.isMoving){
-    		// 	player1.transform.position = RespawnPoint;
-      		//  player2.transform.position = RespawnPoint;
-    		// }
+    		var parentRoom        = doorWay.transform.parent.gameObject;
+    		var TargetRoom        = parentRoom.transform.Find("cameraPos").gameObject.transform.position;
+            var TargetRotation    = parentRoom.transform.Find("cameraPos").gameObject.transform.rotation;
+    		var RespawnPoint      = parentRoom.transform.Find("RespawnPoint").gameObject.transform.position;
+    		sc.TargetRoom         = TargetRoom;
+            sc.TargetRotation     = TargetRotation;
+    		
+
     		if(!Equal(TargetRoom,sc.transform.position)){
-    			sc.RespawnPoint = parentRoom.transform.position;
-    			sc.isMoving = true;
+    			sc.RespawnPoint            = parentRoom.transform.position;
+    			sc.isMoving                = true;
     			//player1.transform.position = RespawnPoint;
       		    player2.transform.position = RespawnPoint;
     		}
