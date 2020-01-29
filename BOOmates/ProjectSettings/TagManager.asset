@@ -8,6 +8,7 @@ TagManager:
   - Ghost2
   - GrabObject
   - CleanObject
+  - Nathan
   layers:
   - Default
   - TransparentFX
