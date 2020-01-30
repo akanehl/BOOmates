@@ -13,6 +13,7 @@ sysinfo.txt
 # Unity3D generated meta files
 *.pidb.meta
 
+
 ###
 # VS/MD solution and project files
 ###
@@ -41,5 +42,4 @@ ehthumbs.db
 Thumbs.db
 BOOmates/Library/*
 BOOmates/Library/
-
-
+*.log
