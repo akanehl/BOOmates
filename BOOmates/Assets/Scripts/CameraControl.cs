@@ -27,15 +27,11 @@ public class CameraControl : MonoBehaviour
     private float       timer           = 1.5f;
     void Start()
     {
-        // //FirstRoom = new Vector3(0f,10f,-7.3f);
-        // SecondRoom = new Vector3(13.8f,10f,-7.3f);
-        // //ThirdRoom = new Vector3(-15.5f,10f,-7.3f);
-        // //ForthRoom = new Vector3(-15.5f,10f,-22f);
 
         //Set a default position for the camera
         SecondRoom = new Vector3(88f, 244f, -239f);
         transform.position = SecondRoom;
-        //transform.rotation = new Quaternion(55f,0f,0f,1);
+
     }
 
     // Update is called once per frame
@@ -49,6 +45,8 @@ public class CameraControl : MonoBehaviour
         }
     }
 
+    //Condition: Vector3 TargetRoom, Passed by doormanagement.cs
+    //This function will actually moving the camera in to direct position
     void CameraTransform(Vector3 TargetRoom){
     	transform.position = Vector3.SmoothDamp(transform.position, TargetRoom, ref velocity, smoothTime);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, TargetRotation, rotationSpeed * Time.deltaTime);
@@ -59,10 +57,6 @@ public class CameraControl : MonoBehaviour
     	}
     }
 
-    void playerRespawn(){
-        // player1.transform.position = RespawnPoint;
-        // player2.transform.position = RespawnPoint;
-    }
 
     //This function will calculate two
     //Vector3 float number roundly
