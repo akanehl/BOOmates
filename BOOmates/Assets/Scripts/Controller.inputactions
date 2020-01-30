@@ -1,0 +1,90 @@
+{
+    "name": "Controller",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "bcc5bcf8-d018-4f74-b7a5-370f38a2faf7",
+            "actions": [
+                {
+                    "name": "Movement",
+                    "type": "Button",
+                    "id": "f485c9a4-c1bc-4d3d-9686-5ccbd0a8f026",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Punch",
+                    "type": "Button",
+                    "id": "80a530d5-72fe-44ad-beb2-79879e857536",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Lights",
+                    "type": "Button",
+                    "id": "69e24ff0-aecd-44b3-9a4a-d0d7e1af1bf5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Launch",
+                    "type": "Button",
+                    "id": "59b74e7c-b66e-460c-9c1c-c7d4eff14f53",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bad21c3b-a146-46b6-b6ca-ee347f00ff6e",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "27776751-bb54-40f0-844e-c6be7da731c4",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Punch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "447b7fe6-0871-40a9-9f88-0fa42222f10b",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lights",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b41db3aa-5169-4d42-a9d8-92bfc60ae95d",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Launch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
