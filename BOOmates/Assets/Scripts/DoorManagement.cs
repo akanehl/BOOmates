@@ -37,7 +37,7 @@ public class DoorManagement : MonoBehaviour
         //Condition:other.name
         //If the trigger's object is the human, camera
         //will move to the next room.
-    	if(other.gameObject.name == "Nathan"){
+    	if(other.gameObject.name == "Ghost_1"){
     		var parentRoom        = doorWay.transform.parent.gameObject;
     		var TargetRoom        = parentRoom.transform.Find("cameraPos").gameObject.transform.position;
             var TargetRotation    = parentRoom.transform.Find("cameraPos").gameObject.transform.rotation;
@@ -49,7 +49,7 @@ public class DoorManagement : MonoBehaviour
     			sc.RespawnPoint            = parentRoom.transform.position;
     			sc.isMoving                = true;
     			player1.transform.position = RespawnPoint;
-      		    player2.transform.position = RespawnPoint;
+      		    //player2.transform.position = RespawnPoint;
     		}
     	}
         //Condition:other.name

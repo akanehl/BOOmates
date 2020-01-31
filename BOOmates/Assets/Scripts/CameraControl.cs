@@ -22,14 +22,12 @@ public class CameraControl : MonoBehaviour
     public  float       smoothTime      = 0.3F;
     private float       rotationSpeed   = 100f;
     private Vector3     velocity        = Vector3.zero;
-    public  GameObject  player1;
-    public  GameObject  player2;
     private float       timer           = 1.5f;
     void Start()
     {
 
         //Set a default position for the camera
-        SecondRoom = new Vector3(88f, 244f, -239f);
+        SecondRoom = new Vector3(3.1f, 4.8f, 3.6f);
         transform.position = SecondRoom;
 
     }
