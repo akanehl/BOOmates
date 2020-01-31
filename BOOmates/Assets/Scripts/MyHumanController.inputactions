@@ -36,6 +36,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Clean",
+                    "type": "Button",
+                    "id": "06911a8f-032e-4b02-8398-74bed8a52ab1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -80,6 +88,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3d232ac4-0c25-4e33-872e-1fba9805a1b5",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Clean",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
