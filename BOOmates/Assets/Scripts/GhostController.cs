@@ -11,6 +11,8 @@ public class GhostController : MonoBehaviour
     public Rigidbody rigBod;
     public double moveSpeed;
     private double baseSpeed = 400;
+    private bool Ghost1 = false;
+    private bool Ghost2 = false;
 
     public bool powerUp;
     public float punchForce = 0;
@@ -104,6 +106,11 @@ public class GhostController : MonoBehaviour
         //Button is rleased;
         powerUp = false;
     }
+    void Update(){
+        if(!Ghost1 || !Ghost2){
+            AssignObject();
+        }
+    }
     private void OnMovement(InputValue value)
     {
         //update direction of movement
@@ -113,9 +120,30 @@ public class GhostController : MonoBehaviour
     void OnEnable()
     {
         player.Gameplay.Enable();
+        //player.gameObject.name = "Ghost_3";
+        //var parentObject = player.transform.parent.gameObject;
     }
     private void OnDisable()
     {
         player.Gameplay.Disable();
+    }
+
+    //Added by Guanchen Liu
+    //Sprint3
+    //This function will detect the 
+    private void AssignObject(){
+        if(!Ghost1){
+            if(GameObject.Find("Ghost(Clone)") != null){
+                var Ghost_1 = GameObject.Find("Ghost(Clone)");
+                Ghost_1.name = "Ghost_1";
+                Ghost1 = true;
+            }   
+        }else if(!Ghost2){
+                if(GameObject.Find("Ghost(Clone)") != null){
+                    var Ghost_2 = GameObject.Find("Ghost(Clone)");
+                    Ghost_2.name = "Ghost_2";
+                    Ghost2 = true;
+                }   
+        }
     }
 }
