@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class HumanBehavior : MonoBehaviour
 {
     public enum HumanState {NORMAL, CONTROL}
@@ -30,6 +29,8 @@ public class HumanBehavior : MonoBehaviour
     Vector2 myMove;
 
     private Transform _selection;
+
+    public UnityEngine.AI.NavMeshAgent agent;
 
     void Awake()
     {
@@ -107,9 +108,11 @@ public class HumanBehavior : MonoBehaviour
     //Human AI, move around when human isn't control by ghost(player)
     void normalBehavior()
     {
-        transform.position = Vector3.MoveTowards(transform.position, moveSpots[randomSpot].position, 
-                                                    speed * Time.deltaTime);
-        transform.LookAt(moveSpots[randomSpot].position);
+        // transform.position = Vector3.MoveTowards(transform.position, moveSpots[randomSpot].position, 
+        //                                             speed * Time.deltaTime);
+        agent.SetDestination(moveSpots[randomSpot].position);
+        transform.rotation = Quaternion.LookRotation(transform.forward);
+        Debug.Log(randomSpot);
         if(Vector3.Distance(transform.position, moveSpots[randomSpot].position) < 0.2f)
         {
             if(waitTime <= 0) 
