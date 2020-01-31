@@ -49,6 +49,14 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Clean"",
+                    ""type"": ""Button"",
+                    ""id"": ""06911a8f-032e-4b02-8398-74bed8a52ab1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -95,6 +103,17 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                     ""action"": ""Grab"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3d232ac4-0c25-4e33-872e-1fba9805a1b5"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Clean"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -107,6 +126,7 @@ public class @MyHumanController : IInputActionCollection, IDisposable
         m_GamePlay_LeaveBody = m_GamePlay.FindAction("LeaveBody", throwIfNotFound: true);
         m_GamePlay_MyMovement = m_GamePlay.FindAction("MyMovement", throwIfNotFound: true);
         m_GamePlay_Grab = m_GamePlay.FindAction("Grab", throwIfNotFound: true);
+        m_GamePlay_Clean = m_GamePlay.FindAction("Clean", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -160,6 +180,7 @@ public class @MyHumanController : IInputActionCollection, IDisposable
     private readonly InputAction m_GamePlay_LeaveBody;
     private readonly InputAction m_GamePlay_MyMovement;
     private readonly InputAction m_GamePlay_Grab;
+    private readonly InputAction m_GamePlay_Clean;
     public struct GamePlayActions
     {
         private @MyHumanController m_Wrapper;
@@ -168,6 +189,7 @@ public class @MyHumanController : IInputActionCollection, IDisposable
         public InputAction @LeaveBody => m_Wrapper.m_GamePlay_LeaveBody;
         public InputAction @MyMovement => m_Wrapper.m_GamePlay_MyMovement;
         public InputAction @Grab => m_Wrapper.m_GamePlay_Grab;
+        public InputAction @Clean => m_Wrapper.m_GamePlay_Clean;
         public InputActionMap Get() { return m_Wrapper.m_GamePlay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -189,6 +211,9 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                 @Grab.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnGrab;
                 @Grab.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnGrab;
                 @Grab.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnGrab;
+                @Clean.started -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnClean;
+                @Clean.performed -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnClean;
+                @Clean.canceled -= m_Wrapper.m_GamePlayActionsCallbackInterface.OnClean;
             }
             m_Wrapper.m_GamePlayActionsCallbackInterface = instance;
             if (instance != null)
@@ -205,6 +230,9 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                 @Grab.started += instance.OnGrab;
                 @Grab.performed += instance.OnGrab;
                 @Grab.canceled += instance.OnGrab;
+                @Clean.started += instance.OnClean;
+                @Clean.performed += instance.OnClean;
+                @Clean.canceled += instance.OnClean;
             }
         }
     }
@@ -215,5 +243,6 @@ public class @MyHumanController : IInputActionCollection, IDisposable
         void OnLeaveBody(InputAction.CallbackContext context);
         void OnMyMovement(InputAction.CallbackContext context);
         void OnGrab(InputAction.CallbackContext context);
+        void OnClean(InputAction.CallbackContext context);
     }
 }

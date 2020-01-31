@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Ghost1
   - Ghost2
+  - GrabObject
+  - CleanObject
+  - Ghost
+  - Indicator
   layers:
   - Default
   - TransparentFX
@@ -15,7 +19,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - No path
   - 
   - 
   - 

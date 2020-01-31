@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cleanObjects : reactObjects{
-
+public class objects : MonoBehaviour
+{
+    
 }

@@ -40,8 +40,11 @@ public class HumanBehavior : MonoBehaviour
         myControls.GamePlay.Grab.performed += context => GrabObject();
         myControls.GamePlay.Grab.canceled += context => ReleaseObject();
 
+        myControls.GamePlay.Clean.performed += context => CleanObject();
+
         myControls.GamePlay.MyMovement.performed += context => myMove = context.ReadValue<Vector2>();
         myControls.GamePlay.MyMovement.canceled += context => myMove = Vector2.zero;
+        Debug.Log(transform.GetChild(0).GetChild(0).GetChild(0).localScale);
     }
 
     // Start is called before the first frame update
@@ -62,11 +65,39 @@ public class HumanBehavior : MonoBehaviour
         }
         else
         {
-            movement();
+            if(currentItem != selectedItem.CleanObject)
+            {
+                movement();
+            }
             if(currentItem == selectedItem.GrabObject)
             {
-                if(_selection != null){
-                    _selection.transform.position = transform.position + transform.forward * 25 + new Vector3(0.0f, 15.0f, 0.0f);
+                if(_selection != null)
+                {
+                    _selection.transform.position = transform.position + transform.forward * 25 + new Vector3(0.0f, _selection.transform.localScale.y/2, 0.0f);
+                }
+            }
+            else if(currentItem == selectedItem.CleanObject)
+            {
+                if(_selection != null)
+                {
+                    Debug.Log("Start Clean");
+                    transform.GetChild(0).gameObject.SetActive(true);
+                    Transform timeBar = transform.GetChild(0).GetChild(0).GetChild(0);
+                    if(timeBar.localScale.x < 1)
+                    {
+                        Debug.Log("is adding " + timeBar.name);
+                        timeBar.localScale += new Vector3(Time.deltaTime * 0.2f, 0.0f, 0.0f);
+                    }
+                    else
+                    {
+                        _selection.gameObject.SetActive(false);
+                        Vector3 lTemp = timeBar.localScale;
+                        lTemp.x = 0.0f;
+                        timeBar.localScale = lTemp;
+                        transform.GetChild(0).gameObject.SetActive(false);
+                        _selection = null;
+                        currentItem = selectedItem.None;
+                    }
                 }
             }
         }
@@ -134,27 +165,51 @@ public class HumanBehavior : MonoBehaviour
     void GrabObject()
     {      
         currentItem = selectedItem.GrabObject;
-        _selection = getItem();
+        _selection = getItemToGrab();
     }
 
     void ReleaseObject()
     {
         Debug.Log("Release Object");
         currentItem = selectedItem.None;
+        _selection = null;
     }
 
-    Transform getItem()
+    void CleanObject()
     {
-        if(currentItem != selectedItem.None)
+        _selection = getItemToClean();
+        if(_selection != null) {
+            currentItem = selectedItem.CleanObject;
+            Debug.Log("Clean item is" + _selection.gameObject.name);
+            Debug.Log("Clean found");
+        }
+    }
+
+    Transform getItemToGrab()
+    {
+        Ray ray = new Ray(transform.position, transform.forward); 
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, 50.0f))
         {
-            Ray ray = new Ray(transform.position, transform.forward); 
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit, 50.0f))
-            {
-                Transform selection = hit.transform;
-                if(selection.transform.CompareTag("GrabObject")){
-                    return selection;
-                }
+            Transform selection = hit.transform;
+            if(selection.transform.CompareTag("GrabObject")){
+                return selection;
+            }
+        }
+        return null;
+    }
+
+     Transform getItemToClean()
+    {
+        Ray ray = new Ray(transform.position, transform.forward); 
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, 50.0f))
+        {
+            Transform selection = hit.transform;
+            Debug.Log("is finding");
+            if(selection.transform.CompareTag("CleanObject")){
+                Debug.Log("Found selection");
+                return selection;
             }
         }
         return null;
