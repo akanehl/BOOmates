@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class HumanBehavior : MonoBehaviour
 {
-    public enum HumanState {NORMAL, CONTROL}
+    public enum HumanState {NORMAL, CONTROL, SCARE}
 
     public enum selectedItem {GrabObject, CleanObject, None}
 
@@ -31,6 +30,13 @@ public class HumanBehavior : MonoBehaviour
 
     private Transform _selection;
 
+    public UnityEngine.AI.NavMeshAgent agent;
+
+    public float ScarePoint = 0.0f;
+
+    [SerializeField]
+    private float freezeTime = 3.0f;
+
     void Awake()
     {
         myControls = new MyHumanController();
@@ -40,8 +46,11 @@ public class HumanBehavior : MonoBehaviour
         myControls.GamePlay.Grab.performed += context => GrabObject();
         myControls.GamePlay.Grab.canceled += context => ReleaseObject();
 
+        myControls.GamePlay.Clean.performed += context => CleanObject();
+
         myControls.GamePlay.MyMovement.performed += context => myMove = context.ReadValue<Vector2>();
         myControls.GamePlay.MyMovement.canceled += context => myMove = Vector2.zero;
+        Debug.Log(transform.GetChild(0).GetChild(0).localScale);
     }
 
     // Start is called before the first frame update
@@ -56,17 +65,65 @@ public class HumanBehavior : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        SacreMagement();
+        transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         if(currentState == HumanState.NORMAL)
         {
+            agent.isStopped = false;
             normalBehavior();
+        }
+        else if (currentState == HumanState.SCARE)
+        {
+            if(freezeTime > 0)
+            {
+                freezeTime -= Time.deltaTime;
+            }
+            else 
+            {
+                //Reach to scare MAX
+                //Sound: Scare voice
+                freezeTime = 3;
+                currentState = HumanState.NORMAL;
+            }
         }
         else
         {
-            movement();
+            if(currentItem != selectedItem.CleanObject)
+            {
+                agent.isStopped = true;
+                movement();
+            }
             if(currentItem == selectedItem.GrabObject)
             {
-                if(_selection != null){
-                    _selection.transform.position = transform.position + transform.forward * 25 + new Vector3(0.0f, 15.0f, 0.0f);
+                if(_selection != null)
+                {
+                    //Sound: Grab Item Sound
+                    _selection.transform.position = transform.position + transform.forward * 25 + new Vector3(0.0f, _selection.transform.localScale.y/2, 0.0f);
+                }
+            }
+            else if(currentItem == selectedItem.CleanObject)
+            {
+                if(_selection != null)
+                {
+                    //Sound: Clean Sound around 5 seconds
+                    Debug.Log("Start Clean");
+                    transform.GetChild(0).gameObject.SetActive(true);
+                    Transform timeBar = transform.GetChild(0).GetChild(0);
+                    if(timeBar.localScale.x < 1)
+                    {
+                        Debug.Log("is adding " + timeBar.name);
+                        timeBar.localScale += new Vector3(Time.deltaTime * 0.2f, 0.0f, 0.0f);
+                    }
+                    else
+                    {
+                        _selection.gameObject.SetActive(false);
+                        Vector3 lTemp = timeBar.localScale;
+                        lTemp.x = 0.0f;
+                        timeBar.localScale = lTemp;
+                        transform.GetChild(0).gameObject.SetActive(false);
+                        _selection = null;
+                        currentItem = selectedItem.None;
+                    }
                 }
             }
         }
@@ -76,9 +133,13 @@ public class HumanBehavior : MonoBehaviour
     //Human AI, move around when human isn't control by ghost(player)
     void normalBehavior()
     {
-        transform.position = Vector3.MoveTowards(transform.position, moveSpots[randomSpot].position, 
-                                                    speed * Time.deltaTime);
-        transform.LookAt(moveSpots[randomSpot].position);
+        // transform.position = Vector3.MoveTowards(transform.position, moveSpots[randomSpot].position, 
+        //                                             speed * Time.deltaTime);
+
+        //Sound: walking sound
+        agent.SetDestination(moveSpots[randomSpot].position);
+        transform.rotation = Quaternion.LookRotation(transform.forward);
+        Debug.Log(randomSpot);
         if(Vector3.Distance(transform.position, moveSpots[randomSpot].position) < 0.2f)
         {
             if(waitTime <= 0) 
@@ -98,6 +159,7 @@ public class HumanBehavior : MonoBehaviour
     }
     void movement()
     {
+        //Walking Sound
         Vector3 moveVec = new Vector3(-myMove.x, 0.0f ,-myMove.y);
         transform.Translate(moveVec * speed * Time.deltaTime, Space.World);
         if(moveVec != Vector3.zero)
@@ -127,36 +189,66 @@ public class HumanBehavior : MonoBehaviour
     //leave the body/back to AI
     void LeaveBody()
     {
-        currentState = HumanState.NORMAL;
-        Debug.Log("Normal");
+        if(currentState != HumanState.SCARE)
+        {
+            ScarePoint += Random.Range(10, 16);
+        }
     }
 
     void GrabObject()
     {      
         currentItem = selectedItem.GrabObject;
-        _selection = getItem();
+        _selection = getItem("GrabObject");
     }
 
     void ReleaseObject()
     {
+        // if(_selection != null){
+        //     Sound: put down object Sound
+        // }
         Debug.Log("Release Object");
         currentItem = selectedItem.None;
+        _selection = null;
     }
 
-    Transform getItem()
+    void CleanObject()
     {
-        if(currentItem != selectedItem.None)
+        _selection = getItem("CleanObject");
+        if(_selection != null) {
+            currentItem = selectedItem.CleanObject;
+            Debug.Log("Clean item is" + _selection.gameObject.name);
+            Debug.Log("Clean found");
+        }
+    }
+
+    Transform getItem(string tag)
+    {
+        Ray ray = new Ray(transform.position, transform.forward); 
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, 50.0f))
         {
-            Ray ray = new Ray(transform.position, transform.forward); 
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit, 50.0f))
-            {
-                Transform selection = hit.transform;
-                if(selection.transform.CompareTag("GrabObject")){
-                    return selection;
-                }
+            Transform selection = hit.transform;
+            if(selection.transform.CompareTag(tag)){
+                return selection;
             }
         }
         return null;
+    }
+
+    void SacreMagement()
+    {
+        if(ScarePoint >= 100.0f)
+        {
+            currentState = HumanState.SCARE;
+            ScarePoint = 0.0f;
+        }
+        else if(ScarePoint > 0.0f)
+        {
+            ScarePoint -= Time.deltaTime * 5.0f;
+        }
+        else
+        {
+            ScarePoint = 0.0f;
+        }
     }
 }
