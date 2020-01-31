@@ -32,6 +32,7 @@ public class GhostController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        
         //Update Variables
         lightSwitch = lights.locked;
         Debug.Log(lightSwitch);
