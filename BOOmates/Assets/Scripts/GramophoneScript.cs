@@ -58,7 +58,7 @@ public class GramophoneScript : MonoBehaviour
         {
             locked2 = false;
         }
-        ghosts[num].transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
+        ghosts[num].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(true);
     }
     void lockSwitch(int num)
     {
@@ -71,7 +71,7 @@ public class GramophoneScript : MonoBehaviour
             locked2 = true;
         }
 
-        ghosts[num].transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);
+        ghosts[num].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
     }
 
 

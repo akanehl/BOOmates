@@ -57,6 +57,22 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Invis"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e99b3b3-1f27-4490-8114-6624d21c9cc9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Appear"",
+                    ""type"": ""Button"",
+                    ""id"": ""721cb5b7-3f25-49d8-9d88-4f3a3afa3bf8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -96,7 +112,7 @@ public class @Controller : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""18d6089c-cc8a-49ce-a001-fa5fe394282f"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -107,11 +123,33 @@ public class @Controller : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1c419678-18cf-40dd-852d-d5bf2844765e"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Music"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0804857-4988-4285-a9f3-47edee4e0899"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Invis"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""68424d5a-654f-4037-b070-3bae0a9954ad"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Appear"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -127,6 +165,8 @@ public class @Controller : IInputActionCollection, IDisposable
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Lights = m_Gameplay.FindAction("Lights", throwIfNotFound: true);
         m_Gameplay_Music = m_Gameplay.FindAction("Music", throwIfNotFound: true);
+        m_Gameplay_Invis = m_Gameplay.FindAction("Invis", throwIfNotFound: true);
+        m_Gameplay_Appear = m_Gameplay.FindAction("Appear", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -181,6 +221,8 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Lights;
     private readonly InputAction m_Gameplay_Music;
+    private readonly InputAction m_Gameplay_Invis;
+    private readonly InputAction m_Gameplay_Appear;
     public struct GameplayActions
     {
         private @Controller m_Wrapper;
@@ -190,6 +232,8 @@ public class @Controller : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Lights => m_Wrapper.m_Gameplay_Lights;
         public InputAction @Music => m_Wrapper.m_Gameplay_Music;
+        public InputAction @Invis => m_Wrapper.m_Gameplay_Invis;
+        public InputAction @Appear => m_Wrapper.m_Gameplay_Appear;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -214,6 +258,12 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Music.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMusic;
                 @Music.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMusic;
                 @Music.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMusic;
+                @Invis.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInvis;
+                @Invis.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInvis;
+                @Invis.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInvis;
+                @Appear.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAppear;
+                @Appear.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAppear;
+                @Appear.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAppear;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -233,6 +283,12 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Music.started += instance.OnMusic;
                 @Music.performed += instance.OnMusic;
                 @Music.canceled += instance.OnMusic;
+                @Invis.started += instance.OnInvis;
+                @Invis.performed += instance.OnInvis;
+                @Invis.canceled += instance.OnInvis;
+                @Appear.started += instance.OnAppear;
+                @Appear.performed += instance.OnAppear;
+                @Appear.canceled += instance.OnAppear;
             }
         }
     }
@@ -244,5 +300,7 @@ public class @Controller : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLights(InputAction.CallbackContext context);
         void OnMusic(InputAction.CallbackContext context);
+        void OnInvis(InputAction.CallbackContext context);
+        void OnAppear(InputAction.CallbackContext context);
     }
 }

@@ -44,6 +44,22 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Invis",
+                    "type": "Button",
+                    "id": "9e99b3b3-1f27-4490-8114-6624d21c9cc9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Appear",
+                    "type": "Button",
+                    "id": "721cb5b7-3f25-49d8-9d88-4f3a3afa3bf8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -83,7 +99,7 @@
                 {
                     "name": "",
                     "id": "18d6089c-cc8a-49ce-a001-fa5fe394282f",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -94,11 +110,33 @@
                 {
                     "name": "",
                     "id": "1c419678-18cf-40dd-852d-d5bf2844765e",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Music",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a0804857-4988-4285-a9f3-47edee4e0899",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Invis",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "68424d5a-654f-4037-b070-3bae0a9954ad",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Appear",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -29,6 +29,12 @@ public class GhostController : MonoBehaviour
     GameObject worldMusic;
     static bool playing;
 
+    public Material color1;
+    public Material color2;
+    public MeshRenderer mesh;
+    private float invisVal;
+    private bool dissapearing;
+
     private void Awake()
     {
         player = new Controller();
@@ -42,8 +48,22 @@ public class GhostController : MonoBehaviour
         musicPlayer = gramophone.GetComponent<GramophoneScript>();
         playing = false;
 
+        invisVal = 0;
+        dissapearing = false;
+
         playernum = numplayers;
         numplayers++;
+
+        if(playernum == 0)
+        {
+            mesh.material = color1;
+        }
+        if (playernum == 1)
+        {
+            mesh.material = color2;
+        }
+
+
 
     }
 
@@ -64,6 +84,8 @@ public class GhostController : MonoBehaviour
 
         //First, we calculate movement speed+direction
         calculateMovement();
+        //Secondly, calculate invisibility
+        calculateInvisibility();
 
         //Then, Dash Calculations
         doPunch();
@@ -82,6 +104,34 @@ public class GhostController : MonoBehaviour
         }
 
         rigBod.AddForce(movement * (float)moveSpeed);
+    }
+    void calculateInvisibility()
+    {
+        Debug.Log(dissapearing);
+
+        if(dissapearing)
+        {
+            if(invisVal <300)
+            {
+                invisVal++;
+            }
+        }
+        else
+        {
+            if(invisVal>0)
+            {
+                invisVal--;
+            }
+        }
+
+        if(playernum == 0)
+        {
+            color1.SetFloat("Vector1_33017E18", invisVal);
+        }
+        else
+        {
+            color2.SetFloat("Vector1_DB39D30F", invisVal);
+        }
     }
 
     void doPunch()
@@ -156,6 +206,18 @@ public class GhostController : MonoBehaviour
         //update direction of movement
         moveVec = value.Get<Vector2>();
     }
+
+    private void OnInvis()
+    {
+        
+        dissapearing = true;
+    }
+    private void OnAppear()
+    {
+        
+        dissapearing = false;
+    }
+
     void OnEnable()
     {
         player.Gameplay.Enable();
