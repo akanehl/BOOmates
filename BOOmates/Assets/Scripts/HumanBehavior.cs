@@ -50,7 +50,6 @@ public class HumanBehavior : MonoBehaviour
 
         myControls.GamePlay.MyMovement.performed += context => myMove = context.ReadValue<Vector2>();
         myControls.GamePlay.MyMovement.canceled += context => myMove = Vector2.zero;
-        Debug.Log(transform.GetChild(0).GetChild(0).localScale);
     }
 
     // Start is called before the first frame update
@@ -139,8 +138,7 @@ public class HumanBehavior : MonoBehaviour
         //Sound: walking sound
         agent.SetDestination(moveSpots[randomSpot].position);
         transform.rotation = Quaternion.LookRotation(transform.forward);
-        Debug.Log(randomSpot);
-        if(Vector3.Distance(transform.position, moveSpots[randomSpot].position) < 0.2f)
+        if(Vector3.Distance(transform.position, moveSpots[randomSpot].position) < 0.5f)
         {
             if(waitTime <= 0) 
             {
@@ -148,6 +146,7 @@ public class HumanBehavior : MonoBehaviour
                 while (prevRandomSpot == randomSpot)
                 {
                     randomSpot = Random.Range(0, moveSpots.Length);
+                    Debug.Log("change random spot to" + randomSpot);
                 }
                 waitTime = startWaitTime;
             }
