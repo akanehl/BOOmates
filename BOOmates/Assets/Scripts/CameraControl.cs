@@ -27,7 +27,7 @@ public class CameraControl : MonoBehaviour
     {
 
         //Set a default position for the camera
-        SecondRoom = new Vector3(3.1f, 4.8f, 3.6f);
+        SecondRoom = new Vector3(-4.73f, 5.07f, 2.32f);
         transform.position = SecondRoom;
 
     }

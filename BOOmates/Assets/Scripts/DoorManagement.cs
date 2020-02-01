@@ -8,20 +8,23 @@ using UnityEngine;
 
 public class DoorManagement : MonoBehaviour
 {
-	public     GameObject      human;
+
 	private    GameObject      player1;
 	private    GameObject      player2;
 	private    GameObject      mainCamera;
 	public     GameObject      doorWay;
 	private    int             cameraCondition;
 	private    CameraControl   sc;
+    private    GameObject      Nathan;
     // Start is called before the first frame update
     void Start()
     {
         mainCamera  = GameObject.Find("MainCamera");
         player1     = GameObject.Find("Ghost_1");
         player2     = GameObject.Find("Ghost_2");
+        Nathan      = GameObject.Find("Nathan");
         sc          = mainCamera.GetComponent<CameraControl>();
+        Debug.Log(Nathan.transform.position);
         
     }
 
@@ -37,7 +40,8 @@ public class DoorManagement : MonoBehaviour
         //Condition:other.name
         //If the trigger's object is the human, camera
         //will move to the next room.
-    	if(other.gameObject.name == "Ghost_1"){
+    	if(other.gameObject.name == "Nathan"){
+            Debug.Log("Trigger");
     		var parentRoom        = doorWay.transform.parent.gameObject;
     		var TargetRoom        = parentRoom.transform.Find("cameraPos").gameObject.transform.position;
             var TargetRotation    = parentRoom.transform.Find("cameraPos").gameObject.transform.rotation;
