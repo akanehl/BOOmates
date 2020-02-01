@@ -23,12 +23,24 @@ public class GhostController : MonoBehaviour
     LightScript lights;
     GameObject worldLighting;
 
+    public bool gramSwitch = false;
+    GameObject gramophone;
+    GramophoneScript musicPlayer;
+    GameObject worldMusic;
+    static bool playing;
+
     private void Awake()
     {
         player = new Controller();
+
         lighting = GameObject.FindGameObjectWithTag("Lights");
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
         lights = lighting.GetComponent<LightScript>();
+
+        gramophone = GameObject.FindGameObjectWithTag("Gramophone");
+        worldMusic = GameObject.FindGameObjectWithTag("WorldMusic");
+        musicPlayer = gramophone.GetComponent<GramophoneScript>();
+        playing = false;
 
         playernum = numplayers;
         numplayers++;
@@ -41,13 +53,14 @@ public class GhostController : MonoBehaviour
         if (playernum == 0)
         {
             lightSwitch = lights.locked1;
+            gramSwitch = musicPlayer.locked1;
         }
         if (playernum == 1)
         {
             lightSwitch = lights.locked2;
+            gramSwitch = musicPlayer.locked2;
         }
-        
-        Debug.Log(lightSwitch);
+      
 
         //First, we calculate movement speed+direction
         calculateMovement();
@@ -104,6 +117,27 @@ public class GhostController : MonoBehaviour
         if (!lightSwitch)
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
+        }
+    }
+    void OnMusic()
+    {
+        
+        AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
+
+        if (!gramSwitch)
+        {
+            if(playing == false)
+            {
+                spookyClip.Play();
+                playing = true;
+            }
+            else
+            {
+                spookyClip.Pause();
+                playing = false;
+            }
+            
+                
         }
     }
     void OnPunch()

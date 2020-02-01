@@ -162,10 +162,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 683, y: 344}
-  m_MaxSize: {x: 12008, y: 8044}
+  m_MinSize: {x: 683, y: 494}
+  m_MaxSize: {x: 14004, y: 14044}
   vertical: 0
-  controlID: 111
+  controlID: 113
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -187,10 +187,10 @@ MonoBehaviour:
     y: 0
     width: 1502
     height: 947
-  m_MinSize: {x: 406, y: 344}
-  m_MaxSize: {x: 8006, y: 8044}
+  m_MinSize: {x: 406, y: 494}
+  m_MaxSize: {x: 10002, y: 14044}
   vertical: 1
-  controlID: 77
+  controlID: 55
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -240,14 +240,14 @@ MonoBehaviour:
     y: 587
     width: 1502
     height: 360
-  m_MinSize: {x: 102, y: 122}
-  m_MaxSize: {x: 4002, y: 4022}
-  m_ActualView: {fileID: 18}
+  m_MinSize: {x: 232, y: 272}
+  m_MaxSize: {x: 10002, y: 10022}
+  m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
   - {fileID: 18}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -320,7 +320,7 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: -1665
+    x: 255
     y: 73
     width: 1245
     height: 568
@@ -349,9 +349,9 @@ MonoBehaviour:
     m_SearchString: 
   m_ActionsTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 94d4a978
-    m_LastClickedID: 2024395924
-    m_ExpandedIDs: 5a65409073cd9d2a5e1d6752ce0eba7294d4a978
+    m_SelectedIDs: fbd68ed1
+    m_LastClickedID: -779168005
+    m_ExpandedIDs: 5a654090c31b8fae73cd9d2a5e1d6752ce0eba7294d4a978
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -376,7 +376,7 @@ MonoBehaviour:
         selectedIndex: 2
         scroll: {x: 0, y: 0}
       - itemId: 300744546
-        selectedIndex: 1
+        selectedIndex: 0
         scroll: {x: 0, y: 0}
       - itemId: 1275948795
         selectedIndex: 1
@@ -397,6 +397,9 @@ MonoBehaviour:
         selectedIndex: -1
         scroll: {x: 0, y: 0}
       - itemId: -1184024587
+        selectedIndex: -1
+        scroll: {x: 0, y: 0}
+      - itemId: -1184068216
         selectedIndex: -1
         scroll: {x: 0, y: 0}
     m_ManualPathEditMode: 0
@@ -423,9 +426,13 @@ MonoBehaviour:
       \                   \"name\": \"Lights\",\n                    \"type\": \"Button\",\n
       \                   \"id\": \"b2909795-f639-430b-859f-3c5a7a5c490a\",\n                    \"expectedControlType\":
       \"\",\n                    \"processors\": \"\",\n                    \"interactions\":
-      \"\"\n                }\n            ],\n            \"bindings\": [\n                {\n
-      \                   \"name\": \"\",\n                    \"id\": \"fd8fa655-ef9b-4f79-91a2-e62999f60602\",\n
-      \                   \"path\": \"<Gamepad>/buttonWest\",\n                    \"interactions\":
+      \"\"\n                },\n                {\n                    \"name\": \"Music\",\n
+      \                   \"type\": \"Button\",\n                    \"id\": \"f3d45bc6-2b5b-40d2-92c3-76df8b8667d7\",\n
+      \                   \"expectedControlType\": \"\",\n                    \"processors\":
+      \"\",\n                    \"interactions\": \"\"\n                }\n            ],\n
+      \           \"bindings\": [\n                {\n                    \"name\":
+      \"\",\n                    \"id\": \"fd8fa655-ef9b-4f79-91a2-e62999f60602\",\n
+      \                   \"path\": \"<Gamepad>/rightShoulder\",\n                    \"interactions\":
       \"\",\n                    \"processors\": \"\",\n                    \"groups\":
       \"\",\n                    \"action\": \"Punch\",\n                    \"isComposite\":
       false,\n                    \"isPartOfComposite\": false\n                },\n
@@ -436,17 +443,22 @@ MonoBehaviour:
       \"Movement\",\n                    \"isComposite\": false,\n                    \"isPartOfComposite\":
       false\n                },\n                {\n                    \"name\":
       \"\",\n                    \"id\": \"808c7711-5774-4ccc-95e4-c93384aba095\",\n
-      \                   \"path\": \"<Gamepad>/buttonWest\",\n                    \"interactions\":
+      \                   \"path\": \"<Gamepad>/rightShoulder\",\n                    \"interactions\":
       \"Press(behavior=1)\",\n                    \"processors\": \"\",\n                    \"groups\":
       \"\",\n                    \"action\": \"Launch\",\n                    \"isComposite\":
       false,\n                    \"isPartOfComposite\": false\n                },\n
       \               {\n                    \"name\": \"\",\n                    \"id\":
-      \"18d6089c-cc8a-49ce-a001-fa5fe394282f\",\n                    \"path\": \"<DualShockGamepad>/buttonNorth\",\n
+      \"18d6089c-cc8a-49ce-a001-fa5fe394282f\",\n                    \"path\": \"<Gamepad>/buttonNorth\",\n
       \                   \"interactions\": \"\",\n                    \"processors\":
       \"\",\n                    \"groups\": \"\",\n                    \"action\":
       \"Lights\",\n                    \"isComposite\": false,\n                    \"isPartOfComposite\":
-      false\n                }\n            ]\n        }\n    ],\n    \"controlSchemes\":
-      []\n}"
+      false\n                },\n                {\n                    \"name\":
+      \"\",\n                    \"id\": \"1c419678-18cf-40dd-852d-d5bf2844765e\",\n
+      \                   \"path\": \"<Gamepad>/buttonNorth\",\n                    \"interactions\":
+      \"\",\n                    \"processors\": \"\",\n                    \"groups\":
+      \"\",\n                    \"action\": \"Music\",\n                    \"isComposite\":
+      false,\n                    \"isPartOfComposite\": false\n                }\n
+      \           ]\n        }\n    ],\n    \"controlSchemes\": []\n}"
     m_IsDirty: 0
   m_Toolbar:
     m_IsDirty: 0
@@ -572,8 +584,8 @@ MonoBehaviour:
     m_VAllowExceedBaseRangeMin: 1
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
-    m_HSlider: 0
-    m_VSlider: 0
+    m_HSlider: 1
+    m_VSlider: 1
     m_IgnoreScrollWheelUntilClicked: 0
     m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
@@ -586,18 +598,18 @@ MonoBehaviour:
       y: 17
       width: 1245
       height: 551
-    m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 622.5, y: 275.5}
+    m_Scale: {x: 1.092727, y: 1.092727}
+    m_Translation: {x: 618.0027, y: 269.79727}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -622.5
-      y: -275.5
-      width: 1245
-      height: 551
+      x: -565.56006
+      y: -246.90274
+      width: 1139.3514
+      height: 504.24307
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_TargetTexture: {fileID: 0}
@@ -636,9 +648,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 7e3c0000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 66fbffff
+      m_ExpandedIDs: fcdeffff0cdfffff66fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -683,10 +695,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 226
+    x: 255
     y: 73
-    width: 1274
-    height: 654
+    width: 1245
+    height: 568
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: 7f5c4e00fdf007547800e99ae76eac36
@@ -729,13 +741,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.25536194, y: -0.025526345, z: 0.0067379624, w: -0.9665007}
+    m_Target: {x: -0.3242407, y: 0.091185376, z: -0.031423688, w: -0.9410614}
     speed: 2
-    m_Value: {x: -0.25535807, y: -0.02552596, z: 0.0067378604, w: -0.9664861}
+    m_Value: {x: -0.32423574, y: 0.091183975, z: -0.031423204, w: -0.9410469}
   m_Size:
-    m_Target: 549.22894
+    m_Target: 391.50223
     speed: 2
-    m_Value: 549.22894
+    m_Value: 391.50223
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -826,7 +838,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Materials
+    - Assets/Audio
   m_ViewMode: 0
   m_StartGridSize: 48
   m_LastFolders: []
@@ -838,7 +850,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 982a0000
     m_LastClickedID: 10904
-    m_ExpandedIDs: 000000007236000020400000
+    m_ExpandedIDs: 0000000072360000f43e000020400000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -864,23 +876,23 @@ MonoBehaviour:
       m_ResourceFile: 
   m_AssetTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 7e3c0000
-    m_LastClickedID: 15486
-    m_ExpandedIDs: ffffffff0000000072360000f43e000020400000
+    m_SelectedIDs: 
+    m_LastClickedID: 0
+    m_ExpandedIDs: ffffffff000000007236000094440000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: GhostController
-      m_OriginalName: GhostController
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 12996
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 10}
     m_SearchString: 
@@ -891,8 +903,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 7e3c0000
-    m_LastClickedInstanceID: 15486
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:

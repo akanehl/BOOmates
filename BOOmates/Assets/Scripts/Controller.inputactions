@@ -36,13 +36,21 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Music",
+                    "type": "Button",
+                    "id": "f3d45bc6-2b5b-40d2-92c3-76df8b8667d7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
                 {
                     "name": "",
                     "id": "fd8fa655-ef9b-4f79-91a2-e62999f60602",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -64,7 +72,7 @@
                 {
                     "name": "",
                     "id": "808c7711-5774-4ccc-95e4-c93384aba095",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "",
@@ -75,11 +83,22 @@
                 {
                     "name": "",
                     "id": "18d6089c-cc8a-49ce-a001-fa5fe394282f",
-                    "path": "<DualShockGamepad>/buttonNorth",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Lights",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1c419678-18cf-40dd-852d-d5bf2844765e",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Music",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -9,6 +9,8 @@ TagManager:
   - Lights
   - Ghost2
   - EnvironmentLights
+  - Gramophone
+  - WorldMusic
   layers:
   - Default
   - TransparentFX

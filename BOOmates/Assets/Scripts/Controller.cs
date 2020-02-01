@@ -49,13 +49,21 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Music"",
+                    ""type"": ""Button"",
+                    ""id"": ""f3d45bc6-2b5b-40d2-92c3-76df8b8667d7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""fd8fa655-ef9b-4f79-91a2-e62999f60602"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -77,7 +85,7 @@ public class @Controller : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""808c7711-5774-4ccc-95e4-c93384aba095"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": ""Press(behavior=1)"",
                     ""processors"": """",
                     ""groups"": """",
@@ -88,11 +96,22 @@ public class @Controller : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""18d6089c-cc8a-49ce-a001-fa5fe394282f"",
-                    ""path"": ""<DualShockGamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Lights"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c419678-18cf-40dd-852d-d5bf2844765e"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Music"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -107,6 +126,7 @@ public class @Controller : IInputActionCollection, IDisposable
         m_Gameplay_Launch = m_Gameplay.FindAction("Launch", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Lights = m_Gameplay.FindAction("Lights", throwIfNotFound: true);
+        m_Gameplay_Music = m_Gameplay.FindAction("Music", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -160,6 +180,7 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Launch;
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Lights;
+    private readonly InputAction m_Gameplay_Music;
     public struct GameplayActions
     {
         private @Controller m_Wrapper;
@@ -168,6 +189,7 @@ public class @Controller : IInputActionCollection, IDisposable
         public InputAction @Launch => m_Wrapper.m_Gameplay_Launch;
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Lights => m_Wrapper.m_Gameplay_Lights;
+        public InputAction @Music => m_Wrapper.m_Gameplay_Music;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -189,6 +211,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Lights.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLights;
                 @Lights.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLights;
                 @Lights.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLights;
+                @Music.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMusic;
+                @Music.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMusic;
+                @Music.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMusic;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -205,6 +230,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Lights.started += instance.OnLights;
                 @Lights.performed += instance.OnLights;
                 @Lights.canceled += instance.OnLights;
+                @Music.started += instance.OnMusic;
+                @Music.performed += instance.OnMusic;
+                @Music.canceled += instance.OnMusic;
             }
         }
     }
@@ -215,5 +243,6 @@ public class @Controller : IInputActionCollection, IDisposable
         void OnLaunch(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnLights(InputAction.CallbackContext context);
+        void OnMusic(InputAction.CallbackContext context);
     }
 }

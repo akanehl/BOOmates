@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Archived\GhostMovement.cs" />
     <Compile Include="Assets\Scripts\Controller.cs" />
     <Compile Include="Assets\Scripts\GhostController.cs" />
+    <Compile Include="Assets\Scripts\GramophoneScript.cs" />
     <Compile Include="Assets\Scripts\Impact.cs" />
     <Compile Include="Assets\Scripts\LightScript.cs" />
     <Reference Include="Unity.Timeline.Editor">
