@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 
 public class GhostController : MonoBehaviour
 {
+    static int numplayers = 0;
+    int playernum;
     Controller player;
     Vector2 moveVec;
 
@@ -28,12 +30,23 @@ public class GhostController : MonoBehaviour
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
         lights = lighting.GetComponent<LightScript>();
 
+        playernum = numplayers;
+        numplayers++;
+
     }
 
     private void FixedUpdate()
     {
         //Update Variables
-        lightSwitch = lights.locked;
+        if (playernum == 0)
+        {
+            lightSwitch = lights.locked1;
+        }
+        if (playernum == 1)
+        {
+            lightSwitch = lights.locked2;
+        }
+        
         Debug.Log(lightSwitch);
 
         //First, we calculate movement speed+direction
