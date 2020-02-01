@@ -110,7 +110,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!114 &8056095945483128253
 MonoBehaviour:
@@ -130,7 +130,6 @@ MonoBehaviour:
   punchForce: 0
   maxPunchForce: 50
   lightSwitch: 0
-  worldLighting: {fileID: 0}
 --- !u!114 &362732863052953644
 MonoBehaviour:
   m_ObjectHideFlags: 0
