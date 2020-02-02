@@ -159,11 +159,11 @@ public class HumanBehavior : MonoBehaviour
     void movement()
     {
         //Walking Sound
-        Vector3 moveVec = new Vector3(-myMove.x, 0.0f ,-myMove.y);
+        Vector3 moveVec = new Vector3(myMove.x, 0.0f ,myMove.y);
         transform.Translate(moveVec * speed * Time.deltaTime, Space.World);
         if(moveVec != Vector3.zero)
         {
-            transform.rotation = Quaternion.LookRotation(new Vector3(-myMove.x, 0 ,-myMove.y));
+            transform.rotation = Quaternion.LookRotation(new Vector3(myMove.x, 0 ,myMove.y));
         }
     }
 
