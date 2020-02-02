@@ -8,6 +8,11 @@ TagManager:
   - Ghost2
   - Ghost
   - Indicator
+  - Lights
+  - EnvironmentLights
+  - Gramophone
+  - WorldMusic
+  - Painting
   layers:
   - Default
   - TransparentFX
