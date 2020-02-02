@@ -73,12 +73,14 @@ public class GhostController : MonoBehaviour
         if(playernum == 0)
         {
             mesh.material = color1;
+            gameObject.name = "Ghost_1";
             
         }
         if (playernum == 1)
         {
             mesh.material = color2;
-           
+            gameObject.name = "Ghost_2";
+
         }
     }
 
