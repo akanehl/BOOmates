@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Controller.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Aaron/Controller.inputactions'
 
 using System;
 using System.Collections;
@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.Utilities;
 
 public class @Controller : IInputActionCollection, IDisposable
 {
-    private InputActionAsset asset;
+    public InputActionAsset asset { get; }
     public @Controller()
     {
         asset = InputActionAsset.FromJson(@"{

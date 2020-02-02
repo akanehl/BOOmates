@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/MyHumanController.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Anniken/MyHumanController.inputactions'
 
 using System;
 using System.Collections;
