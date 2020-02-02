@@ -46,6 +46,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Hide",
+                    "type": "Button",
+                    "id": "1afbe2fd-e35c-4072-983c-71e3c8ce8db2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Invis",
                     "type": "Button",
                     "id": "9e99b3b3-1f27-4490-8114-6624d21c9cc9",
@@ -137,6 +145,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Appear",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40a509aa-1cf7-4ff8-8f26-406c8839bf0b",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hide",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

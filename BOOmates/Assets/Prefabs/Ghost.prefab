@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3856425769444618420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -69.621994, y: 16.391968, z: -11.631074}
+  m_LocalPosition: {x: -69.621994, y: 16, z: -11.631074}
   m_LocalScale: {x: 16.51329, y: 16.51329, z: 16.51329}
   m_Children:
   - {fileID: 827571113338578449}
@@ -110,7 +110,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 1
 --- !u!114 &8056095945483128253
 MonoBehaviour:
@@ -125,12 +125,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigBod: {fileID: 1331002207697951169}
-  moveSpeed: 400
-  powerUp: 0
-  punchForce: 0
   maxPunchForce: 50
   lightSwitch: 0
-  gramSwitch: 1
+  gramSwitch: 0
+  paintSwitch: 0
   color1: {fileID: 2100000, guid: 500f40aff61ed6546878264973ebe131, type: 2}
   color2: {fileID: 2100000, guid: 7bf719a595bf7c447aa184d54a9d944c, type: 2}
   mesh: {fileID: 2230769052120231491}

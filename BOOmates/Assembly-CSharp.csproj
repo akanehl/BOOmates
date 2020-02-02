@@ -64,11 +64,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Archived\GhostMovement.cs" />
+    <Compile Include="Assets\Scripts\Archived\Impact.cs" />
     <Compile Include="Assets\Scripts\Controller.cs" />
     <Compile Include="Assets\Scripts\GhostController.cs" />
     <Compile Include="Assets\Scripts\GramophoneScript.cs" />
-    <Compile Include="Assets\Scripts\Impact.cs" />
     <Compile Include="Assets\Scripts\LightScript.cs" />
+    <Compile Include="Assets\Scripts\PaintingScript.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Aaron/Desktop/BOOmates/BOOmates/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

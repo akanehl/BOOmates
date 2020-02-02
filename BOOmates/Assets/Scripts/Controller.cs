@@ -59,6 +59,14 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Hide"",
+                    ""type"": ""Button"",
+                    ""id"": ""1afbe2fd-e35c-4072-983c-71e3c8ce8db2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Invis"",
                     ""type"": ""Button"",
                     ""id"": ""9e99b3b3-1f27-4490-8114-6624d21c9cc9"",
@@ -152,6 +160,17 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""action"": ""Appear"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40a509aa-1cf7-4ff8-8f26-406c8839bf0b"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -165,6 +184,7 @@ public class @Controller : IInputActionCollection, IDisposable
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Lights = m_Gameplay.FindAction("Lights", throwIfNotFound: true);
         m_Gameplay_Music = m_Gameplay.FindAction("Music", throwIfNotFound: true);
+        m_Gameplay_Hide = m_Gameplay.FindAction("Hide", throwIfNotFound: true);
         m_Gameplay_Invis = m_Gameplay.FindAction("Invis", throwIfNotFound: true);
         m_Gameplay_Appear = m_Gameplay.FindAction("Appear", throwIfNotFound: true);
     }
@@ -221,6 +241,7 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Lights;
     private readonly InputAction m_Gameplay_Music;
+    private readonly InputAction m_Gameplay_Hide;
     private readonly InputAction m_Gameplay_Invis;
     private readonly InputAction m_Gameplay_Appear;
     public struct GameplayActions
@@ -232,6 +253,7 @@ public class @Controller : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Lights => m_Wrapper.m_Gameplay_Lights;
         public InputAction @Music => m_Wrapper.m_Gameplay_Music;
+        public InputAction @Hide => m_Wrapper.m_Gameplay_Hide;
         public InputAction @Invis => m_Wrapper.m_Gameplay_Invis;
         public InputAction @Appear => m_Wrapper.m_Gameplay_Appear;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
@@ -258,6 +280,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Music.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMusic;
                 @Music.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMusic;
                 @Music.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMusic;
+                @Hide.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHide;
+                @Hide.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHide;
+                @Hide.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHide;
                 @Invis.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInvis;
                 @Invis.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInvis;
                 @Invis.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInvis;
@@ -283,6 +308,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Music.started += instance.OnMusic;
                 @Music.performed += instance.OnMusic;
                 @Music.canceled += instance.OnMusic;
+                @Hide.started += instance.OnHide;
+                @Hide.performed += instance.OnHide;
+                @Hide.canceled += instance.OnHide;
                 @Invis.started += instance.OnInvis;
                 @Invis.performed += instance.OnInvis;
                 @Invis.canceled += instance.OnInvis;
@@ -300,6 +328,7 @@ public class @Controller : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLights(InputAction.CallbackContext context);
         void OnMusic(InputAction.CallbackContext context);
+        void OnHide(InputAction.CallbackContext context);
         void OnInvis(InputAction.CallbackContext context);
         void OnAppear(InputAction.CallbackContext context);
     }
