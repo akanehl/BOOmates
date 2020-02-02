@@ -13,7 +13,7 @@ public class GhostController : MonoBehaviour
     public Rigidbody rigBod;
     private double moveSpeed;
     private double baseSpeed = 400;
-    bool moved = false;
+    //bool moved = false;
 
     //Dash Information
     private bool powerUp;
@@ -73,6 +73,7 @@ public class GhostController : MonoBehaviour
         if(playernum == 0)
         {
             mesh.material = color1;
+            
             
         }
         if (playernum == 1)
