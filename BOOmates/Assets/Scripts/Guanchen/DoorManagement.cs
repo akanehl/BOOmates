@@ -24,7 +24,7 @@ public class DoorManagement : MonoBehaviour
         player2     = GameObject.Find("Ghost_2");
         Nathan      = GameObject.Find("Nathan");
         sc          = mainCamera.GetComponent<CameraControl>();
-        Debug.Log(Nathan.transform.position);
+        //Debug.Log(Nathan.transform.position);
         
     }
 
@@ -53,7 +53,7 @@ public class DoorManagement : MonoBehaviour
     			sc.RespawnPoint            = parentRoom.transform.position;
     			sc.isMoving                = true;
     			player1.transform.position = RespawnPoint;
-      		    //player2.transform.position = RespawnPoint;
+      		    player2.transform.position = RespawnPoint;
     		}
     	}
         //Condition:other.name

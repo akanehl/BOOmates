@@ -14,8 +14,8 @@ public class LightScript : MonoBehaviour
     {
         locked1 = true;
         locked2 = true;
-        distance1 = 51;
-        distance2 = 51;
+        distance1 = 2;
+        distance2 = 2;
         
     }
 
@@ -33,7 +33,7 @@ public class LightScript : MonoBehaviour
 
 
 
-        if (distance1 < 50)
+        if (distance1 < 2)
         {
             unlockSwitch(0);
         }
@@ -43,7 +43,7 @@ public class LightScript : MonoBehaviour
         }
 
 
-        if (distance2 < 50)
+        if (distance2 < 2)
         {
             unlockSwitch(1);
         }
@@ -64,6 +64,7 @@ public class LightScript : MonoBehaviour
         {
             locked2 = false;
         }
+
         ghosts[num].transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
     }
     void lockSwitch(int num)

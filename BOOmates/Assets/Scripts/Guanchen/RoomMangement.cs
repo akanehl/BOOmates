@@ -25,7 +25,7 @@ public class RoomMangement : MonoBehaviour
     {
         //checkMoving();
     }
-     GameObject GetChildWithName(GameObject obj, string name) {
+    GameObject GetChildWithName(GameObject obj, string name) {
      	Transform trans = obj.transform;
      	Transform childTrans = trans. Find(name);
      	if (childTrans != null) {

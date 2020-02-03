@@ -12,7 +12,7 @@ public class GhostController : MonoBehaviour
     Vector2 moveVec;
     public Rigidbody rigBod;
     private double moveSpeed;
-    private double baseSpeed = 400;
+    private double baseSpeed = 4;
     bool moved = false;
 
     //Dash Information
@@ -119,7 +119,9 @@ public class GhostController : MonoBehaviour
         }
         else
         {
+            
             movement = new Vector3(moveVec.x, 0.0f, moveVec.y);
+
         }
 
         rigBod.AddForce(movement * (float)moveSpeed);
@@ -165,16 +167,16 @@ public class GhostController : MonoBehaviour
             if (punchForce < maxPunchForce)
             {
                 punchForce++; //PunchForce charges up over 50 frames
-                if (moveSpeed >= 10)
+                if (moveSpeed > 0)
                 {
-                    moveSpeed -= 10;
+                    moveSpeed--;
                 }
 
             }
         }
         else
         {
-            rigBod.AddForce(moveVec.x * punchForce * 1000, 0.0f, moveVec.y * punchForce * 1000);
+            rigBod.AddForce(moveVec.x * punchForce * 10, 0.0f, moveVec.y * punchForce * 10);
             if (moveSpeed < baseSpeed)
             {
                 moveSpeed += 5;
