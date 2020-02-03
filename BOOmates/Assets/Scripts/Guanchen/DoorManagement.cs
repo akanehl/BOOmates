@@ -20,8 +20,7 @@ public class DoorManagement : MonoBehaviour
     void Start()
     {
         mainCamera  = GameObject.Find("MainCamera");
-        player1     = GameObject.Find("Ghost_1");
-        player2     = GameObject.Find("Ghost_2");
+
         Nathan      = GameObject.Find("Nathan");
         sc          = mainCamera.GetComponent<CameraControl>();
         //Debug.Log(Nathan.transform.position);
@@ -31,7 +30,8 @@ public class DoorManagement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        player1 = GameObject.Find("Ghost_1");
+        player2 = GameObject.Find("Ghost_2");
     }
     //Condition: Game Object collision
     //This function will activate when a gameobject collide with the doorway

@@ -229,10 +229,12 @@ public class GhostController : MonoBehaviour
             }
             else//player is hiding
             {
-                transform.position = painting.transform.GetChild(1).transform.position;
+
+                
                 rigBod.constraints = RigidbodyConstraints.None;
                 rigBod.constraints = RigidbodyConstraints.FreezePositionY;
-                rigBod.AddForce((moveVec.x) * 25000, 0.0f, (moveVec.y) * 25000);
+                transform.position = painting.transform.GetChild(1).transform.position;
+                rigBod.AddForce((moveVec.x) * 500, 0.0f, (moveVec.y) * 500);
                 hiding = false;
             }
             
