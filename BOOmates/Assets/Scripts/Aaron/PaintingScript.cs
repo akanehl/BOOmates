@@ -14,8 +14,8 @@ public class PaintingScript : MonoBehaviour
     {
         locked1 = true;
         locked2 = true;
-        distance1 = 51;
-        distance2 = 51;
+        distance1 = 2;
+        distance2 = 2;
 
     }
 
@@ -23,13 +23,14 @@ public class PaintingScript : MonoBehaviour
     void Update()
     {
         ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+
         distance1 = Vector3.Distance(transform.position, ghosts[0].transform.position);
         
         distance2 = Vector3.Distance(transform.position, ghosts[1].transform.position);
         
 
 
-        if (distance1 < 50)
+        if (distance1 < 2)
         {
             unlockSwitch(0);
         }
@@ -39,7 +40,7 @@ public class PaintingScript : MonoBehaviour
         }
 
 
-        if (distance2 < 50)
+        if (distance2 < 2)
         {
             unlockSwitch(1);
         }
@@ -60,6 +61,7 @@ public class PaintingScript : MonoBehaviour
         {
             locked2 = false;
         }
+
         ghosts[num].transform.GetChild(0).transform.GetChild(2).gameObject.SetActive(true);
     }
     void lockSwitch(int num)
@@ -72,7 +74,7 @@ public class PaintingScript : MonoBehaviour
         {
             locked2 = true;
         }
-
+        
         ghosts[num].transform.GetChild(0).transform.GetChild(2).gameObject.SetActive(false);
     }
 
