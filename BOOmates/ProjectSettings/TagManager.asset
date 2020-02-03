@@ -10,6 +10,8 @@ TagManager:
   - CleanObject
   - Ghost
   - Indicator
+  - Human
+  - PositionedItem
   layers:
   - Default
   - TransparentFX
