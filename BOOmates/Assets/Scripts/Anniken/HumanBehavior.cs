@@ -39,6 +39,10 @@ public class HumanBehavior : MonoBehaviour
 
     public GameObject targetPosition;
 
+    //Add by Guanchen Liu
+    //This condition will show the script is activated or not
+    public bool isActive;
+
     private Transform grabItem;
     void Awake()
     {
@@ -159,7 +163,6 @@ public class HumanBehavior : MonoBehaviour
                 }
             }
         }
-        print(_selection);
 
     }
 
@@ -214,12 +217,15 @@ public class HumanBehavior : MonoBehaviour
     //take the body/take control by player
     void TakeBody()
     {
-        Debug.Log("Control");
-        GameObject[] ghosts = GameObject.FindGameObjectsWithTag("Ghost");
-        for (int i = 0; i< ghosts.Length; i++) {
-            ghosts[i].SetActive(false);
-        }
-        currentState = HumanState.CONTROL;
+        if(!isActive){
+        	GameObject[] ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+        	for (int i = 0; i< ghosts.Length; i++) {
+        		ghosts[i].GetComponent<PlayerInput>().enabled = false;
+        	    ghosts[i].SetActive(false);
+        	}
+        	isActive = true;
+        	currentState = HumanState.CONTROL;
+    	}
         
     }
 
