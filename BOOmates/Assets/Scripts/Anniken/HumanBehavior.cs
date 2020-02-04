@@ -100,7 +100,7 @@ public class HumanBehavior : MonoBehaviour
                 if(_selection != null)
                 {
                     //Sound: Grab Item Sound
-                    _selection.transform.position = transform.position + transform.forward * 25 + new Vector3(0.0f, _selection.transform.localScale.y/2, 0.0f);
+                    _selection.transform.position = transform.position + transform.forward * 1 + new Vector3(0.0f, _selection.transform.localScale.y/2, 0.0f);
                 }
             }
             else if(currentItem == selectedItem.CleanObject)
@@ -129,7 +129,7 @@ public class HumanBehavior : MonoBehaviour
             else{
                 Ray ray = new Ray(transform.position, transform.forward); 
                 RaycastHit hit;
-                if(Physics.Raycast(ray, out hit, 50.0f))
+                if(Physics.Raycast(ray, out hit, 1.0f))
                 {
                     if(!hit.transform.CompareTag("Human")){
                         transform.GetChild(1).gameObject.SetActive(true);
@@ -248,8 +248,8 @@ public class HumanBehavior : MonoBehaviour
         if(grabItem != null)
         {
             Vector2 item = new Vector2(grabItem.position.x, grabItem.position.z);
-            Vector2 target = new Vector2(targetPosition.transform.position.x, targetPosition.transform.position.y);
-            if(checkItemInPos(target, item, 30)){
+            Vector2 target = new Vector2(targetPosition.transform.position.x, targetPosition.transform.position.z);
+            if(checkItemInPos(target, item, 1)){
                 grabItem.position = new Vector3(target.x, grabItem.position.y, target.y);
                 targetPosition.gameObject.SetActive(false);
                 grabItem.tag = "PositionedItem";
