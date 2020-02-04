@@ -215,6 +215,10 @@ public class HumanBehavior : MonoBehaviour
     void TakeBody()
     {
         Debug.Log("Control");
+        GameObject[] ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+        for (int i = 0; i< ghosts.Length; i++) {
+            Destroy(ghosts[i]);
+        }
         currentState = HumanState.CONTROL;
         
     }
