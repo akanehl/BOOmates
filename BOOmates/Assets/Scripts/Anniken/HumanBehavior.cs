@@ -37,11 +37,14 @@ public class HumanBehavior : MonoBehaviour
     [SerializeField]
     private float freezeTime = 3.0f;
 
+    public GameObject targetPosition;
+
+    private Transform grabItem;
     void Awake()
     {
         myControls = new MyHumanController();
-       // myControls.GamePlay.TakeBody.performed += context => TakeBody();
-        //myControls.GamePlay.LeaveBody.performed += context => LeaveBody();
+        myControls.GamePlay.TakeBody.performed += context => TakeBody();
+        myControls.GamePlay.LeaveBody.performed += context => LeaveBody();
 
         myControls.GamePlay.Grab.performed += context => GrabObject();
         myControls.GamePlay.Grab.canceled += context => ReleaseObject();
@@ -105,12 +108,10 @@ public class HumanBehavior : MonoBehaviour
                 if(_selection != null)
                 {
                     //Sound: Clean Sound around 5 seconds
-                    Debug.Log("Start Clean");
                     transform.GetChild(0).gameObject.SetActive(true);
                     Transform timeBar = transform.GetChild(0).GetChild(0);
                     if(timeBar.localScale.x < 1)
                     {
-                        Debug.Log("is adding " + timeBar.name);
                         timeBar.localScale += new Vector3(Time.deltaTime * 0.2f, 0.0f, 0.0f);
                     }
                     else
@@ -125,7 +126,40 @@ public class HumanBehavior : MonoBehaviour
                     }
                 }
             }
+            else{
+                Ray ray = new Ray(transform.position, transform.forward); 
+                RaycastHit hit;
+                if(Physics.Raycast(ray, out hit, 50.0f))
+                {
+                    if(!hit.transform.CompareTag("Human")){
+                        transform.GetChild(1).gameObject.SetActive(true);
+                        if(hit.transform.CompareTag("GrabObject")){
+                            transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
+                            transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                            _selection = hit.transform;
+                        }
+                        else if (hit.transform.CompareTag("CleanObject"))
+                        {                        
+                            transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
+                            transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
+                            _selection = hit.transform;
+                        }
+                        else
+                        {
+                            transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
+                            transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                            _selection = null;
+                        }
+                    }
+                }
+                else
+                {
+                    transform.GetChild(1).gameObject.SetActive(false);
+                    _selection = null;
+                }
+            }
         }
+        print(_selection);
 
     }
 
@@ -195,9 +229,13 @@ public class HumanBehavior : MonoBehaviour
     }
 
     void GrabObject()
-    {      
-        currentItem = selectedItem.GrabObject;
-        _selection = getItem("GrabObject");
+    {
+        if(_selection != null){
+            if(_selection.CompareTag("GrabObject")){      
+                currentItem = selectedItem.GrabObject;
+                grabItem = _selection;
+            }
+        }
     }
 
     void ReleaseObject()
@@ -207,31 +245,24 @@ public class HumanBehavior : MonoBehaviour
         // }
         Debug.Log("Release Object");
         currentItem = selectedItem.None;
-        _selection = null;
+        if(grabItem != null)
+        {
+            Vector2 item = new Vector2(grabItem.position.x, grabItem.position.z);
+            Vector2 target = new Vector2(targetPosition.transform.position.x, targetPosition.transform.position.y);
+            if(checkItemInPos(target, item, 30)){
+                grabItem.position = new Vector3(target.x, grabItem.position.y, target.y);
+                targetPosition.gameObject.SetActive(false);
+                grabItem.tag = "PositionedItem";
+            }
+        }
+        grabItem = null;
     }
 
     void CleanObject()
     {
-        _selection = getItem("CleanObject");
-        if(_selection != null) {
+        if(_selection != null && _selection.CompareTag("CleanObject")) {
             currentItem = selectedItem.CleanObject;
-            Debug.Log("Clean item is" + _selection.gameObject.name);
-            Debug.Log("Clean found");
         }
-    }
-
-    Transform getItem(string tag)
-    {
-        Ray ray = new Ray(transform.position, transform.forward); 
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, 50.0f))
-        {
-            Transform selection = hit.transform;
-            if(selection.transform.CompareTag(tag)){
-                return selection;
-            }
-        }
-        return null;
     }
 
     void SacreMagement()
@@ -249,5 +280,10 @@ public class HumanBehavior : MonoBehaviour
         {
             ScarePoint = 0.0f;
         }
+    }
+
+    bool checkItemInPos(Vector2 target, Vector2 item, float radius)
+    {
+        return Vector2.Distance(target, item) < radius;
     }
 }
