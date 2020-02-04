@@ -33,7 +33,7 @@ public class LightScript : MonoBehaviour
 
 
 
-        if (distance1 < 2)
+        if (distance1 < 1)
         {
             unlockSwitch(0);
         }
@@ -43,7 +43,7 @@ public class LightScript : MonoBehaviour
         }
 
 
-        if (distance2 < 2)
+        if (distance2 < 1)
         {
             unlockSwitch(1);
         }
@@ -67,7 +67,7 @@ public class LightScript : MonoBehaviour
 
         if (ghosts[num].transform.childCount > 0)
         {
-            ghosts[num].transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(false);
+            ghosts[num].transform.GetChild(0).transform.GetChild(0).gameObject.SetActive(true);
         }
     }
     void lockSwitch(int num)
