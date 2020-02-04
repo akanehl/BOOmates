@@ -13,7 +13,7 @@ public class GhostController : MonoBehaviour
     public Rigidbody rigBod;
     private double moveSpeed;
     private double baseSpeed = 4;
-    bool moved = false;
+    
 
     //Dash Information
     private bool powerUp;
@@ -72,12 +72,18 @@ public class GhostController : MonoBehaviour
 
         if(playernum == 0)
         {
+            GameObject temp = GameObject.Find("Ghost_1");
+            transform.position = temp.transform.position;
+            Destroy(temp);
             mesh.material = color1;
             gameObject.name = "Ghost_1";
             
         }
         if (playernum == 1)
         {
+            GameObject temp = GameObject.Find("Ghost_2");
+            transform.position = temp.transform.position;
+            Destroy(temp);
             mesh.material = color2;
             gameObject.name = "Ghost_2";
 

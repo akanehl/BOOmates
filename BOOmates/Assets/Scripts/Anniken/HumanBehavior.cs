@@ -40,8 +40,8 @@ public class HumanBehavior : MonoBehaviour
     void Awake()
     {
         myControls = new MyHumanController();
-       // myControls.GamePlay.TakeBody.performed += context => TakeBody();
-        //myControls.GamePlay.LeaveBody.performed += context => LeaveBody();
+        myControls.GamePlay.TakeBody.performed += context => TakeBody();
+        myControls.GamePlay.LeaveBody.performed += context => LeaveBody();
 
         myControls.GamePlay.Grab.performed += context => GrabObject();
         myControls.GamePlay.Grab.canceled += context => ReleaseObject();
