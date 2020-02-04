@@ -8,6 +8,7 @@ public class PaintingScript : MonoBehaviour
     float distance2;
     public bool locked1;
     public bool locked2;
+    private bool ghostCondition;
     GameObject[] ghosts;
     // Start is called before the first frame update
     void Start()
@@ -24,29 +25,33 @@ public class PaintingScript : MonoBehaviour
     {
         ghosts = GameObject.FindGameObjectsWithTag("Ghost");
 
-        distance1 = Vector3.Distance(transform.position, ghosts[0].transform.position);
-        
-        distance2 = Vector3.Distance(transform.position, ghosts[1].transform.position);
-        
-
-
-        if (distance1 < 2)
-        {
-            unlockSwitch(0);
-        }
-        else
-        {
-            lockSwitch(0);
-        }
-
-
-        if (distance2 < 2)
-        {
-            unlockSwitch(1);
-        }
-        else
-        {
-            lockSwitch(1);
+        //Edited BY Guanchen
+        GhostCondition(ghosts);
+        if(ghostCondition){
+            distance1 = Vector3.Distance(transform.position, ghosts[0].transform.position);
+            
+            distance2 = Vector3.Distance(transform.position, ghosts[1].transform.position);
+            
+    
+    
+            if (distance1 < 1)
+            {
+                unlockSwitch(0);
+            }
+            else
+            {
+                lockSwitch(0);
+            }
+    
+    
+            if (distance2 < 1)
+            {
+                unlockSwitch(1);
+            }
+            else
+            {
+                lockSwitch(1);
+            }
         }
 
     }
@@ -62,7 +67,10 @@ public class PaintingScript : MonoBehaviour
             locked2 = false;
         }
 
-        ghosts[num].transform.GetChild(0).transform.GetChild(2).gameObject.SetActive(true);
+        if (ghosts[num].transform.childCount > 0)
+        {
+            ghosts[num].transform.GetChild(0).transform.GetChild(2).gameObject.SetActive(true);
+        }
     }
     void lockSwitch(int num)
     {
@@ -74,8 +82,20 @@ public class PaintingScript : MonoBehaviour
         {
             locked2 = true;
         }
-        
-        ghosts[num].transform.GetChild(0).transform.GetChild(2).gameObject.SetActive(false);
+
+        if (ghosts[num].transform.childCount > 0)
+        {
+            ghosts[num].transform.GetChild(0).transform.GetChild(2).gameObject.SetActive(false);
+        }
+    }
+
+    //Edited BY Guanchen
+    void GhostCondition(GameObject[] ghosts){
+        if(ghosts.Length != 2){
+            ghostCondition = false;
+        }else{
+            ghostCondition = true;
+        }
     }
 
 

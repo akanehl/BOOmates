@@ -13,7 +13,11 @@ public class GhostController : MonoBehaviour
     public Rigidbody rigBod;
     private double moveSpeed;
     private double baseSpeed = 4;
-    bool moved = false;
+    
+    //Add by Guanchen Liu
+    //Nathan info
+    GameObject Nathan;
+    HumanBehavior humanScript;
 
     //Dash Information
     private bool powerUp;
@@ -68,16 +72,26 @@ public class GhostController : MonoBehaviour
         playernum = numplayers;
         numplayers++;
 
+        //Add by Guanchen Liu
+        //Assign nathan
+        Nathan = GameObject.Find("Nathan");
+        humanScript = Nathan.GetComponent<HumanBehavior>();
        
 
         if(playernum == 0)
         {
+            GameObject temp = GameObject.Find("Ghost_1");
+            transform.position = temp.transform.position;
+            Destroy(temp);
             mesh.material = color1;
             gameObject.name = "Ghost_1";
             
         }
         if (playernum == 1)
         {
+            GameObject temp = GameObject.Find("Ghost_2");
+            transform.position = temp.transform.position;
+            Destroy(temp);
             mesh.material = color2;
             gameObject.name = "Ghost_2";
 
@@ -191,7 +205,8 @@ public class GhostController : MonoBehaviour
 
     void OnLights()
     {
-        if (!lightSwitch)
+        //Edited BY Guanchen
+        if (!lightSwitch && !humanScript.isActive)
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
         }
@@ -201,7 +216,8 @@ public class GhostController : MonoBehaviour
     {
         AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
 
-        if (!gramSwitch)
+        //Edited BY Guanchen
+        if (!gramSwitch && !humanScript.isActive)
         {
             if(playing == false)
             {
@@ -218,7 +234,8 @@ public class GhostController : MonoBehaviour
 
     void OnHide()
     {
-        if(!paintSwitch)
+        //Edited BY Guanchen
+        if(!paintSwitch && !humanScript.isActive)
         {
             //player isnt already hiding
             if (!hiding)
@@ -273,7 +290,10 @@ public class GhostController : MonoBehaviour
 
     void OnEnable()
     {
-        player.Gameplay.Enable();
+        //Edited BY Guanchen
+        if(!humanScript.isActive){
+            player.Gameplay.Enable();
+        }
     }
     private void OnDisable()
     {
