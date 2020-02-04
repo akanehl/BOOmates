@@ -14,6 +14,10 @@ public class GhostController : MonoBehaviour
     private double moveSpeed;
     private double baseSpeed = 4;
     
+    //Add by Guanchen Liu
+    //Nathan info
+    GameObject Nathan;
+    HumanBehavior humanScript;
 
     //Dash Information
     private bool powerUp;
@@ -68,6 +72,10 @@ public class GhostController : MonoBehaviour
         playernum = numplayers;
         numplayers++;
 
+        //Add by Guanchen Liu
+        //Assign nathan
+        Nathan = GameObject.Find("Nathan");
+        humanScript = Nathan.GetComponent<HumanBehavior>();
        
 
         if(playernum == 0)
@@ -197,7 +205,8 @@ public class GhostController : MonoBehaviour
 
     void OnLights()
     {
-        if (!lightSwitch)
+        //Edited BY Guanchen
+        if (!lightSwitch && !humanScript.isActive)
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
         }
@@ -207,7 +216,8 @@ public class GhostController : MonoBehaviour
     {
         AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
 
-        if (!gramSwitch)
+        //Edited BY Guanchen
+        if (!gramSwitch && !humanScript.isActive)
         {
             if(playing == false)
             {
@@ -224,7 +234,8 @@ public class GhostController : MonoBehaviour
 
     void OnHide()
     {
-        if(!paintSwitch)
+        //Edited BY Guanchen
+        if(!paintSwitch && !humanScript.isActive)
         {
             //player isnt already hiding
             if (!hiding)
@@ -279,7 +290,10 @@ public class GhostController : MonoBehaviour
 
     void OnEnable()
     {
-        player.Gameplay.Enable();
+        //Edited BY Guanchen
+        if(!humanScript.isActive){
+            player.Gameplay.Enable();
+        }
     }
     private void OnDisable()
     {
