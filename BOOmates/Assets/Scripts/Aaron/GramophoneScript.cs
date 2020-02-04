@@ -27,7 +27,7 @@ public class GramophoneScript : MonoBehaviour
         distance2 = Vector3.Distance(transform.position, ghosts[1].transform.position);
 
 
-        if (distance1 < 2)
+        if (distance1 < 1)
         {
             unlockSwitch(0);
         }
@@ -37,7 +37,7 @@ public class GramophoneScript : MonoBehaviour
         }
 
 
-        if (distance2 < 2)
+        if (distance2 < 1)
         {
             unlockSwitch(1);
         }
@@ -59,10 +59,9 @@ public class GramophoneScript : MonoBehaviour
             locked2 = false;
         }
 
-        if (ghosts[num].transform.childCount > 0)
-        {
-            ghosts[num].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
-        }
+
+            ghosts[num].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(true);
+        
     }
     void lockSwitch(int num)
     {
@@ -74,9 +73,9 @@ public class GramophoneScript : MonoBehaviour
         {
             locked2 = true;
         }
-        if(ghosts[num].transform.childCount > 0) {
+
             ghosts[num].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
-        }
+        
         
     }
 
