@@ -107,7 +107,7 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3d232ac4-0c25-4e33-872e-1fba9805a1b5"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
