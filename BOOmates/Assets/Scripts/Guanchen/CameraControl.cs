@@ -41,6 +41,10 @@ public class CameraControl : MonoBehaviour
         if (isMoving){
         	CameraTransform(TargetRoom);
         }
+
+        //Temp method
+        //Kill all the clone stuff so game won't break
+        killClone();
     }
 
     //Condition: Vector3 TargetRoom, Passed by doormanagement.cs
@@ -79,5 +83,12 @@ public class CameraControl : MonoBehaviour
 
             }
         }
+    }
+
+    void killClone(){
+        var clone = GameObject.Find("Ghost(Clone)");
+
+        Destroy(clone);
+
     }
 }

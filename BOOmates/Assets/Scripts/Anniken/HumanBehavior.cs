@@ -39,12 +39,16 @@ public class HumanBehavior : MonoBehaviour
 
     public GameObject targetPosition;
 
+    //Add by Guanchen Liu
+    //This condition will show the script is activated or not
+    public bool isActive;
+
     private Transform grabItem;
     void Awake()
     {
         myControls = new MyHumanController();
-       // myControls.GamePlay.TakeBody.performed += context => TakeBody();
-        //myControls.GamePlay.LeaveBody.performed += context => LeaveBody();
+        myControls.GamePlay.TakeBody.performed += context => TakeBody();
+        myControls.GamePlay.LeaveBody.performed += context => LeaveBody();
 
         myControls.GamePlay.Grab.performed += context => GrabObject();
         myControls.GamePlay.Grab.canceled += context => ReleaseObject();
@@ -100,7 +104,7 @@ public class HumanBehavior : MonoBehaviour
                 if(_selection != null)
                 {
                     //Sound: Grab Item Sound
-                    _selection.transform.position = transform.position + transform.forward * 25 + new Vector3(0.0f, _selection.transform.localScale.y/2, 0.0f);
+                    _selection.transform.position = transform.position + transform.forward * 1 + new Vector3(0.0f, _selection.transform.localScale.y/2, 0.0f);
                 }
             }
             else if(currentItem == selectedItem.CleanObject)
@@ -129,7 +133,7 @@ public class HumanBehavior : MonoBehaviour
             else{
                 Ray ray = new Ray(transform.position, transform.forward); 
                 RaycastHit hit;
-                if(Physics.Raycast(ray, out hit, 50.0f))
+                if(Physics.Raycast(ray, out hit, 1.0f))
                 {
                     if(!hit.transform.CompareTag("Human")){
                         transform.GetChild(1).gameObject.SetActive(true);
@@ -159,7 +163,6 @@ public class HumanBehavior : MonoBehaviour
                 }
             }
         }
-        print(_selection);
 
     }
 
@@ -214,8 +217,15 @@ public class HumanBehavior : MonoBehaviour
     //take the body/take control by player
     void TakeBody()
     {
-        Debug.Log("Control");
-        currentState = HumanState.CONTROL;
+        if(!isActive){
+        	GameObject[] ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+        	for (int i = 0; i< ghosts.Length; i++) {
+        		ghosts[i].GetComponent<PlayerInput>().enabled = false;
+        	    ghosts[i].SetActive(false);
+        	}
+        	isActive = true;
+        	currentState = HumanState.CONTROL;
+    	}
         
     }
 
@@ -230,9 +240,11 @@ public class HumanBehavior : MonoBehaviour
 
     void GrabObject()
     {
-        if(_selection.CompareTag("GrabObject")){      
-            currentItem = selectedItem.GrabObject;
-            grabItem = _selection;
+        if(_selection != null){
+            if(_selection.CompareTag("GrabObject")){      
+                currentItem = selectedItem.GrabObject;
+                grabItem = _selection;
+            }
         }
     }
 
@@ -243,12 +255,15 @@ public class HumanBehavior : MonoBehaviour
         // }
         Debug.Log("Release Object");
         currentItem = selectedItem.None;
-        Vector2 item = new Vector2(grabItem.position.x, grabItem.position.z);
-        Vector2 target = new Vector2(targetPosition.transform.position.x, targetPosition.transform.position.y);
-        if(checkItemInPos(target, item, 30)){
-            grabItem.position = new Vector3(target.x, grabItem.position.y, target.y);
-            targetPosition.gameObject.SetActive(false);
-            grabItem.tag = "PositionedItem";
+        if(grabItem != null)
+        {
+            Vector2 item = new Vector2(grabItem.position.x, grabItem.position.z);
+            Vector2 target = new Vector2(targetPosition.transform.position.x, targetPosition.transform.position.z);
+            if(checkItemInPos(target, item, 1)){
+                grabItem.position = new Vector3(target.x, grabItem.position.y, target.y);
+                targetPosition.gameObject.SetActive(false);
+                grabItem.tag = "PositionedItem";
+            }
         }
         grabItem = null;
     }
