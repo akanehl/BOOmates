@@ -63,7 +63,7 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8c2d6810-3e3d-455c-9deb-bcc92d7ba1a4"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -107,7 +107,7 @@ public class @MyHumanController : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""3d232ac4-0c25-4e33-872e-1fba9805a1b5"",
-                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
