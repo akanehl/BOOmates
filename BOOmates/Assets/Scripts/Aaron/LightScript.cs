@@ -58,7 +58,6 @@ public class LightScript : MonoBehaviour
 
     void unlockSwitch(int num)
     {
-        Debug.Log(num);
         if(num ==0)
         {
             locked1 = false;

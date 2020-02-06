@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GhostController : MonoBehaviour
 {
@@ -18,6 +20,9 @@ public class GhostController : MonoBehaviour
     //Nathan info
     GameObject Nathan;
     HumanBehavior humanScript;
+    bool onHuman = false;
+    private float scaryPoint = 100f;
+    GameObject ScareText;
 
     //Dash Information
     private bool powerUp;
@@ -29,6 +34,7 @@ public class GhostController : MonoBehaviour
     GameObject lighting;
     LightScript lights;
     GameObject worldLighting;
+    public bool lightOn = true;
 
     //Gramophone variables
     public bool gramSwitch = false;
@@ -49,6 +55,16 @@ public class GhostController : MonoBehaviour
     public MeshRenderer mesh;
     private float invisVal = 0;
     private bool dissapearing = false;
+
+
+
+    //Add by Guanchen Liu
+    //Combining human script and ghost script together
+    public enum selectedItem {GrabObject, CleanObject, None}
+    public selectedItem currentItem;
+    public Transform _selection;
+    public Transform grabItem;
+    public GameObject targetPosition;
 
     private void Awake()
     {
@@ -76,6 +92,14 @@ public class GhostController : MonoBehaviour
         //Assign nathan
         Nathan = GameObject.Find("Nathan");
         humanScript = Nathan.GetComponent<HumanBehavior>();
+        currentItem = selectedItem.None;
+        targetPosition = GameObject.Find("ParticleSystem");
+        var canvas = GameObject.Find("Canvas").gameObject;
+        ScareText = canvas.transform.Find("ScaryPoint").gameObject;
+
+        player.Gameplay.Grabbing.performed += context => OnGrabbing();
+        player.Gameplay.Grabbing.canceled += context => ReleaseObject();
+        player.Gameplay.Clean.performed += context => CleanObject();
        
 
         if(playernum == 0)
@@ -121,24 +145,42 @@ public class GhostController : MonoBehaviour
         calculateInvisibility();
         //Then, Dash Calculations
         doPunch();
+
+        //Then, calculate the human condition
+        if(onHuman){
+            humanTask();
+            onBody();
+            lightScare();
+        }
     }
 
     void calculateMovement()
     {
         Vector3 movement;
         //Movement modifications for PoweringUp
-        if (powerUp)
-        {
-            movement = new Vector3(-moveVec.x, 0.0f, -moveVec.y);
-        }
-        else
-        {
-            
-            movement = new Vector3(moveVec.x, 0.0f, moveVec.y);
 
-        }
+        //Edited by Guanchen Liu
 
-        rigBod.AddForce(movement * (float)moveSpeed);
+        if(!onHuman){
+            if (powerUp)
+            {
+                movement = new Vector3(-moveVec.x, 0.0f, -moveVec.y);
+            }
+            else
+            {
+                
+                movement = new Vector3(moveVec.x, 0.0f, moveVec.y);
+    
+            }
+            rigBod.AddForce(movement * (float)moveSpeed);
+        }else{
+            movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
+            Nathan.transform.Translate(movement * ((float)baseSpeed/2) * Time.deltaTime, Space.World);
+            if(movement != Vector3.zero)
+            {
+                Nathan.transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
+            }
+        }
     }
 
     void calculateInvisibility()
@@ -206,9 +248,10 @@ public class GhostController : MonoBehaviour
     void OnLights()
     {
         //Edited BY Guanchen
-        if (!lightSwitch && !humanScript.isActive)
+        if (!lightSwitch)
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
+            lightOn = !lightOn;
         }
     }
 
@@ -217,7 +260,7 @@ public class GhostController : MonoBehaviour
         AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
 
         //Edited BY Guanchen
-        if (!gramSwitch && !humanScript.isActive)
+        if (!gramSwitch)
         {
             if(playing == false)
             {
@@ -260,6 +303,18 @@ public class GhostController : MonoBehaviour
         }
     }
 
+    //Add by Guanchen Liu
+    void OnGrabbing(){
+        if(humanScript.isActive){
+            if(_selection != null){
+            if(_selection.CompareTag("GrabObject")){      
+                currentItem = selectedItem.GrabObject;
+                grabItem = _selection;
+            }
+        }
+        }
+    }
+
     void OnPunch()
     {
         //Button is held down
@@ -298,5 +353,199 @@ public class GhostController : MonoBehaviour
     private void OnDisable()
     {
         player.Gameplay.Disable();
+    }
+
+    //Edited By Guanchen Liu
+    //Access by Controller
+    //This function will allow ghost take over the human
+    //when the human is vaccan(?)
+    void OnTaking(){
+        print(this);
+        if(!onHuman && !humanScript.isActive){
+            var controlScript = this.GetComponent<GhostController>();
+            rigBod.detectCollisions = false;
+            var x = Nathan.transform.position.x;
+            var y = this.transform.position.y;
+            var z = Nathan.transform.position.z;
+            this.transform.position = new Vector3(x,y,z);
+            humanScript.isActive = true;
+            scaryPoint = 100f;
+            onHuman = true;
+        }
+    }
+
+    //Edited By Guanchen Liu
+    //Access by Controller
+    //This function will allow ghost eject from the human
+    //if scarypoint equals 0, ghosts will be forced eject
+    void OnLeaving(){
+        if(onHuman && humanScript.isActive){
+            var rb = GetComponent<Rigidbody>();
+            Vector3 randomDirection = new Vector3(Random.Range(-10.0f, 10.0f), 0, Random.Range(-10.0f, 10.0f));
+            rigBod.AddForce(randomDirection * (float)moveSpeed);
+            scaryPoint = 100f;
+            onHuman = false;
+            humanScript.isActive = false;
+            StartCoroutine(ExampleCoroutine());
+        }
+
+    }
+
+    //Add by Guanchen Liu
+    //Access by Controller
+    //Back to title page
+    void OnTitle(){
+        SceneManager.LoadScene (sceneName:"MenuScreen");
+    }
+    //Add by Guanchen Liu
+    //This function will calculate the position of ghost
+    //when ghost is on human
+    void onBody(){
+         if(onHuman){
+            var x = Nathan.transform.position.x;
+            var y = this.transform.position.y;
+            var z = Nathan.transform.position.z;
+            this.transform.position = new Vector3(x,y,z);
+         }
+    }
+
+    //Add by Guanchen Liu
+    //A function to reset ghost's collision when leaving human body
+    IEnumerator ExampleCoroutine(){
+       yield return new WaitForSeconds(1);
+       rigBod.detectCollisions = true;
+    }
+
+    //Add by Guanchen Liu
+    //Origin: Enxuan
+    //This function will go through the human interaction when ghosts
+    //on human.
+    void humanTask(){
+          if(currentItem == selectedItem.GrabObject)
+            {
+                if(_selection != null)
+                {
+                    //Sound: Grab Item Sound
+                    _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, _selection.transform.localScale.y/2, 0.0f);
+                }
+            }
+            else if(currentItem == selectedItem.CleanObject)
+            {
+                if(_selection != null)
+                {
+                    //Sound: Clean Sound around 5 seconds
+                    Nathan.transform.GetChild(0).gameObject.SetActive(true);
+                    Transform timeBar = Nathan.transform.GetChild(0).GetChild(0);
+                    if(timeBar.localScale.x < 1)
+                    {
+                        timeBar.localScale += new Vector3(Time.deltaTime * 0.2f, 0.0f, 0.0f);
+                    }
+                    else
+                    {
+                        _selection.gameObject.SetActive(false);
+                        Vector3 lTemp = timeBar.localScale;
+                        lTemp.x = 0.0f;
+                        timeBar.localScale = lTemp;
+                        Nathan.transform.GetChild(0).gameObject.SetActive(false);
+                        _selection = null;
+                        currentItem = selectedItem.None;
+                    }
+                }
+            }
+            else{
+                Ray ray = new Ray(Nathan.transform.position, Nathan.transform.forward); 
+                RaycastHit hit;
+                if(Physics.Raycast(ray, out hit, 1.0f))
+                {
+                    if(!hit.transform.CompareTag("Human")){
+                        Nathan.transform.GetChild(1).gameObject.SetActive(true);
+                        if(hit.transform.CompareTag("GrabObject")){
+                            Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
+                            Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                            _selection = hit.transform;
+                        }
+                        else if (hit.transform.CompareTag("CleanObject"))
+                        {                        
+                            Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
+                            Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
+                            _selection = hit.transform;
+                        }
+                        else
+                        {
+                            Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
+                            Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                            _selection = null;
+                        }
+                    }
+                }
+                else
+                {
+                    Nathan.transform.GetChild(1).gameObject.SetActive(false);
+                    _selection = null;
+                }
+            }
+    }
+
+    //Add by Guanchen Liu
+    //Origin: Enxuan
+    //Access by Controller
+    //This function will release the object when human is holding something
+    void ReleaseObject()
+    {
+        // if(_selection != null){
+        //     Sound: put down object Sound
+        // }
+        if(onHuman){
+            currentItem = selectedItem.None;
+            if(grabItem != null)
+            {
+                Vector2 item = new Vector2(grabItem.position.x, grabItem.position.z);
+                Vector2 target = new Vector2(targetPosition.transform.position.x, targetPosition.transform.position.z);
+                if(checkItemInPos(target, item, 1)){
+                    grabItem.position = new Vector3(target.x, grabItem.position.y, target.y);
+                    targetPosition.gameObject.SetActive(false);
+                    grabItem.tag = "PositionedItem";
+                }
+            }
+            grabItem = null;
+        }
+    }
+
+    //Add by Guanchen Liu
+    //Origin: Enxuan
+    //Access by Controller
+    //This function will clean the dust when dust is nearby
+    void CleanObject()
+    {
+        if(onHuman){
+            if(_selection != null && _selection.CompareTag("CleanObject")) {
+                currentItem = selectedItem.CleanObject;
+            }
+        }
+    }
+    //Add by Guanchen Liu
+    //Origin: Enxuan
+    //This function will calculate the distance between player and object
+    bool checkItemInPos(Vector2 target, Vector2 item, float radius)
+    {
+        return Vector2.Distance(target, item) < radius;
+    }
+
+    //Add by Guanchen Liu
+    //Test version
+    //This function will decrease the scarypoint of character
+    //when light is off. The ghost will eject out if the scarypoint
+    //reach 0
+    //Bug: The value of scaryPoint and lightOn should be recorded by another script
+    void lightScare(){
+        Text t = ScareText.GetComponent<Text>();
+        if(!lightOn){
+            scaryPoint -= 0.2f;
+            t.text = "ScaryPoint: " + (int)scaryPoint;
+        }
+        if(scaryPoint <= 0){
+            scaryPoint = 100f;
+            OnLeaving();
+        }
     }
 }
