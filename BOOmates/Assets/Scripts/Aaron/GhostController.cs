@@ -34,7 +34,6 @@ public class GhostController : MonoBehaviour
     GameObject lighting;
     LightScript lights;
     GameObject worldLighting;
-    public bool lightOn = true;
 
     //Gramophone variables
     public bool gramSwitch = false;
@@ -251,7 +250,6 @@ public class GhostController : MonoBehaviour
         if (!lightSwitch)
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
-            lightOn = !lightOn;
         }
     }
 
@@ -539,10 +537,10 @@ public class GhostController : MonoBehaviour
     //Bug: The value of scaryPoint and lightOn should be recorded by another script
     void lightScare(){
         Text t = ScareText.GetComponent<Text>();
-        if(!lightOn){
+        if(!worldLighting.active){
             scaryPoint -= 0.2f;
-            t.text = "ScaryPoint: " + (int)scaryPoint;
         }
+        t.text = "ScaryPoint: " + (int)scaryPoint;
         if(scaryPoint <= 0){
             scaryPoint = 100f;
             OnLeaving();
