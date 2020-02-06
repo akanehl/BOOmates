@@ -81,6 +81,46 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Taking"",
+                    ""type"": ""Button"",
+                    ""id"": ""6817fc1b-9269-4f2a-b761-abb17233588f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Leaving"",
+                    ""type"": ""Button"",
+                    ""id"": ""e3f7035f-6a12-4271-9aac-f9ac70e884fc"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Grabbing"",
+                    ""type"": ""Button"",
+                    ""id"": ""21a34b82-ed48-4e09-98bd-179d4f9c4529"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Clean"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c3156e4-524f-47fa-ab94-419ff13bd485"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Title"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d203c19-2494-49b7-8b54-7547cf2eb8fa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -171,6 +211,61 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""action"": ""Hide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ca64396-ce4c-40cf-aa2e-6ce1a6293be3"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Taking"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fc04662-5e9b-4d80-a4a9-9e69d38cc859"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Leaving"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f97185ff-800a-4fc1-b853-038afe6e3562"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grabbing"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""94878086-04a0-4fd8-89c3-6fc89ce0da52"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Clean"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a121b69e-b59e-48d7-9f56-1e4cee62e429"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Title"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -187,6 +282,11 @@ public class @Controller : IInputActionCollection, IDisposable
         m_Gameplay_Hide = m_Gameplay.FindAction("Hide", throwIfNotFound: true);
         m_Gameplay_Invis = m_Gameplay.FindAction("Invis", throwIfNotFound: true);
         m_Gameplay_Appear = m_Gameplay.FindAction("Appear", throwIfNotFound: true);
+        m_Gameplay_Taking = m_Gameplay.FindAction("Taking", throwIfNotFound: true);
+        m_Gameplay_Leaving = m_Gameplay.FindAction("Leaving", throwIfNotFound: true);
+        m_Gameplay_Grabbing = m_Gameplay.FindAction("Grabbing", throwIfNotFound: true);
+        m_Gameplay_Clean = m_Gameplay.FindAction("Clean", throwIfNotFound: true);
+        m_Gameplay_Title = m_Gameplay.FindAction("Title", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -244,6 +344,11 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Hide;
     private readonly InputAction m_Gameplay_Invis;
     private readonly InputAction m_Gameplay_Appear;
+    private readonly InputAction m_Gameplay_Taking;
+    private readonly InputAction m_Gameplay_Leaving;
+    private readonly InputAction m_Gameplay_Grabbing;
+    private readonly InputAction m_Gameplay_Clean;
+    private readonly InputAction m_Gameplay_Title;
     public struct GameplayActions
     {
         private @Controller m_Wrapper;
@@ -256,6 +361,11 @@ public class @Controller : IInputActionCollection, IDisposable
         public InputAction @Hide => m_Wrapper.m_Gameplay_Hide;
         public InputAction @Invis => m_Wrapper.m_Gameplay_Invis;
         public InputAction @Appear => m_Wrapper.m_Gameplay_Appear;
+        public InputAction @Taking => m_Wrapper.m_Gameplay_Taking;
+        public InputAction @Leaving => m_Wrapper.m_Gameplay_Leaving;
+        public InputAction @Grabbing => m_Wrapper.m_Gameplay_Grabbing;
+        public InputAction @Clean => m_Wrapper.m_Gameplay_Clean;
+        public InputAction @Title => m_Wrapper.m_Gameplay_Title;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -289,6 +399,21 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Appear.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAppear;
                 @Appear.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAppear;
                 @Appear.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAppear;
+                @Taking.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTaking;
+                @Taking.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTaking;
+                @Taking.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTaking;
+                @Leaving.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeaving;
+                @Leaving.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeaving;
+                @Leaving.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeaving;
+                @Grabbing.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGrabbing;
+                @Grabbing.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGrabbing;
+                @Grabbing.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnGrabbing;
+                @Clean.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnClean;
+                @Clean.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnClean;
+                @Clean.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnClean;
+                @Title.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTitle;
+                @Title.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTitle;
+                @Title.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnTitle;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -317,6 +442,21 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Appear.started += instance.OnAppear;
                 @Appear.performed += instance.OnAppear;
                 @Appear.canceled += instance.OnAppear;
+                @Taking.started += instance.OnTaking;
+                @Taking.performed += instance.OnTaking;
+                @Taking.canceled += instance.OnTaking;
+                @Leaving.started += instance.OnLeaving;
+                @Leaving.performed += instance.OnLeaving;
+                @Leaving.canceled += instance.OnLeaving;
+                @Grabbing.started += instance.OnGrabbing;
+                @Grabbing.performed += instance.OnGrabbing;
+                @Grabbing.canceled += instance.OnGrabbing;
+                @Clean.started += instance.OnClean;
+                @Clean.performed += instance.OnClean;
+                @Clean.canceled += instance.OnClean;
+                @Title.started += instance.OnTitle;
+                @Title.performed += instance.OnTitle;
+                @Title.canceled += instance.OnTitle;
             }
         }
     }
@@ -331,5 +471,10 @@ public class @Controller : IInputActionCollection, IDisposable
         void OnHide(InputAction.CallbackContext context);
         void OnInvis(InputAction.CallbackContext context);
         void OnAppear(InputAction.CallbackContext context);
+        void OnTaking(InputAction.CallbackContext context);
+        void OnLeaving(InputAction.CallbackContext context);
+        void OnGrabbing(InputAction.CallbackContext context);
+        void OnClean(InputAction.CallbackContext context);
+        void OnTitle(InputAction.CallbackContext context);
     }
 }

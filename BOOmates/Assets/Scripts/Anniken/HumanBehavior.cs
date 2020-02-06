@@ -8,7 +8,7 @@ public class HumanBehavior : MonoBehaviour
 
     public enum selectedItem {GrabObject, CleanObject, None}
 
-    private selectedItem currentItem;
+    public selectedItem currentItem;
     private HumanState currentState;
 
     [SerializeField]
@@ -28,7 +28,7 @@ public class HumanBehavior : MonoBehaviour
 
     Vector2 myMove;
 
-    private Transform _selection;
+    public Transform _selection;
 
     public UnityEngine.AI.NavMeshAgent agent;
 
@@ -43,7 +43,7 @@ public class HumanBehavior : MonoBehaviour
     //This condition will show the script is activated or not
     public bool isActive;
 
-    private Transform grabItem;
+    public Transform grabItem;
     void Awake()
     {
         myControls = new MyHumanController();
@@ -253,7 +253,6 @@ public class HumanBehavior : MonoBehaviour
         // if(_selection != null){
         //     Sound: put down object Sound
         // }
-        Debug.Log("Release Object");
         currentItem = selectedItem.None;
         if(grabItem != null)
         {

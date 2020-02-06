@@ -68,6 +68,46 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Taking",
+                    "type": "Button",
+                    "id": "6817fc1b-9269-4f2a-b761-abb17233588f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Leaving",
+                    "type": "Button",
+                    "id": "e3f7035f-6a12-4271-9aac-f9ac70e884fc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Grabbing",
+                    "type": "Button",
+                    "id": "21a34b82-ed48-4e09-98bd-179d4f9c4529",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Clean",
+                    "type": "Button",
+                    "id": "0c3156e4-524f-47fa-ab94-419ff13bd485",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Title",
+                    "type": "Button",
+                    "id": "6d203c19-2494-49b7-8b54-7547cf2eb8fa",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -156,6 +196,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "Hide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6ca64396-ce4c-40cf-aa2e-6ce1a6293be3",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Taking",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7fc04662-5e9b-4d80-a4a9-9e69d38cc859",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Leaving",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f97185ff-800a-4fc1-b853-038afe6e3562",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grabbing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "94878086-04a0-4fd8-89c3-6fc89ce0da52",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Clean",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a121b69e-b59e-48d7-9f56-1e4cee62e429",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Title",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

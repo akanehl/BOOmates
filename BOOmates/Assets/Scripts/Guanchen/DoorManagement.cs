@@ -23,7 +23,6 @@ public class DoorManagement : MonoBehaviour
 
         Nathan      = GameObject.Find("Nathan");
         sc          = mainCamera.GetComponent<CameraControl>();
-        //Debug.Log(Nathan.transform.position);
         
     }
 
@@ -41,7 +40,6 @@ public class DoorManagement : MonoBehaviour
         //If the trigger's object is the human, camera
         //will move to the next room.
     	if(other.gameObject.name == "Nathan"){
-            Debug.Log("Trigger");
     		var parentRoom        = doorWay.transform.parent.gameObject;
     		var TargetRoom        = parentRoom.transform.Find("cameraPos").gameObject.transform.position;
             var TargetRotation    = parentRoom.transform.Find("cameraPos").gameObject.transform.rotation;
@@ -52,8 +50,8 @@ public class DoorManagement : MonoBehaviour
     		if(!Equal(TargetRoom,sc.transform.position)){
     			sc.RespawnPoint            = parentRoom.transform.position;
     			sc.isMoving                = true;
-    			player1.transform.position = RespawnPoint;
-      		    player2.transform.position = RespawnPoint;
+    			transformPosition(RespawnPoint, player1);
+      		    transformPosition(RespawnPoint, player2);
     		}
     	}
         //Condition:other.name
@@ -63,13 +61,13 @@ public class DoorManagement : MonoBehaviour
 
             var parentRoom        = doorWay.transform.parent.gameObject;
             var RespawnPoint      = parentRoom.transform.Find("RespawnPoint").gameObject.transform.position;
-            player2.transform.position = RespawnPoint;
+            transformPosition(RespawnPoint, player2);
 
             
         }else if(other.gameObject.name == "Ghost_1"){
             var parentRoom        = doorWay.transform.parent.gameObject;
             var RespawnPoint      = parentRoom.transform.Find("RespawnPoint").gameObject.transform.position;
-            player1.transform.position = RespawnPoint;
+            transformPosition(RespawnPoint, player1);
         }
     }
 
@@ -85,5 +83,12 @@ public class DoorManagement : MonoBehaviour
 		int bY = (int)B.y;
 		int bZ = (int)B.z;
     	return (aX == bX) && (aY == bY) && (aZ == bZ);
+    }
+
+    private void transformPosition(Vector3 RespawnPoint, GameObject Player){
+        var x = RespawnPoint.x;
+        var y = player2.transform.position.y;
+        var z = RespawnPoint.z;
+        Player.transform.position = new Vector3(x,y,z);
     }
 }
