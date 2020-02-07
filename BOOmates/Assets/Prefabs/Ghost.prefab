@@ -634,6 +634,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigBod: {fileID: 5076575039254170103}
+  moveSpeed: 0
+  punchForce: 0
   maxPunchForce: 50
   lightSwitch: 0
   gramSwitch: 0
@@ -641,6 +643,10 @@ MonoBehaviour:
   color1: {fileID: 2100000, guid: 500f40aff61ed6546878264973ebe131, type: 2}
   color2: {fileID: 2100000, guid: 7bf719a595bf7c447aa184d54a9d944c, type: 2}
   mesh: {fileID: 4761889804526620620}
+  currentItem: 0
+  _selection: {fileID: 0}
+  grabItem: {fileID: 0}
+  targetPosition: {fileID: 0}
 --- !u!114 &7978378420620450679
 MonoBehaviour:
   m_ObjectHideFlags: 0

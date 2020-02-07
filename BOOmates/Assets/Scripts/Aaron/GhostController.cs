@@ -13,6 +13,7 @@ public class GhostController : MonoBehaviour
     Controller player;
     Vector2 moveVec;
     public Rigidbody rigBod;
+    [SerializeField]
     private double moveSpeed;
     private double baseSpeed = 4;
     
@@ -26,6 +27,8 @@ public class GhostController : MonoBehaviour
 
     //Dash Information
     private bool powerUp;
+
+    [SerializeField]
     private float punchForce = 0;
     public float maxPunchForce;
 
@@ -98,7 +101,6 @@ public class GhostController : MonoBehaviour
 
         player.Gameplay.Grabbing.performed += context => OnGrabbing();
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
-        player.Gameplay.Clean.performed += context => CleanObject();
        
 
         if(playernum == 0)
@@ -123,34 +125,38 @@ public class GhostController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Update Switches
-        if (playernum == 0)
-        {
-            lightSwitch = lights.locked1;
-            gramSwitch = musicPlayer.locked1;
-            paintSwitch = paintScript.locked1;
-        }
-        if (playernum == 1)
-        {
-
-            lightSwitch = lights.locked2;
-            gramSwitch = musicPlayer.locked2;
-            paintSwitch = paintScript.locked2;
-        }
-
-        //First, we calculate movement speed+direction
         calculateMovement();
-        //Secondly, calculate invisibility
-        calculateInvisibility();
-        //Then, Dash Calculations
-        doPunch();
-
-        //Then, calculate the human condition
         if(onHuman){
+            transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
             humanTask();
             onBody();
             lightScare();
         }
+        else{
+            transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+            if (playernum == 0)
+            {
+                lightSwitch = lights.locked1;
+                gramSwitch = musicPlayer.locked1;
+                paintSwitch = paintScript.locked1;
+            }
+            if (playernum == 1)
+            {
+
+                lightSwitch = lights.locked2;
+                gramSwitch = musicPlayer.locked2;
+                paintSwitch = paintScript.locked2;
+            }
+
+            //First, we calculate movement speed+direction
+            //Secondly, calculate invisibility
+            calculateInvisibility();
+            //Then, Dash Calculations
+            doPunch();
+            //Then, calculate the human condition
+        }
+
+
     }
 
     void calculateMovement()
@@ -173,11 +179,14 @@ public class GhostController : MonoBehaviour
             }
             rigBod.AddForce(movement * (float)moveSpeed);
         }else{
-            movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
-            Nathan.transform.Translate(movement * ((float)baseSpeed/2) * Time.deltaTime, Space.World);
-            if(movement != Vector3.zero)
+            if(currentItem != selectedItem.CleanObject)
             {
-                Nathan.transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
+                movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
+                Nathan.transform.Translate(movement * ((float)baseSpeed/2) * Time.deltaTime, Space.World);
+                if(movement != Vector3.zero)
+                {
+                    Nathan.transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
+                }
             }
         }
     }
@@ -303,13 +312,20 @@ public class GhostController : MonoBehaviour
 
     //Add by Guanchen Liu
     void OnGrabbing(){
-        if(humanScript.isActive){
-            if(_selection != null){
-            if(_selection.CompareTag("GrabObject")){      
-                currentItem = selectedItem.GrabObject;
-                grabItem = _selection;
+        if(humanScript.isActive)
+        {
+            if(_selection != null)
+            {
+                if(_selection.CompareTag("GrabObject"))
+                {      
+                    currentItem = selectedItem.GrabObject;
+                    grabItem = _selection;
+                }
+                else if( _selection.CompareTag("CleanObject")) 
+                {
+                    currentItem = selectedItem.CleanObject;
+                }
             }
-        }
         }
     }
 
@@ -494,18 +510,21 @@ public class GhostController : MonoBehaviour
         //     Sound: put down object Sound
         // }
         if(onHuman){
-            currentItem = selectedItem.None;
-            if(grabItem != null)
+            if (currentItem == selectedItem.GrabObject)
             {
-                Vector2 item = new Vector2(grabItem.position.x, grabItem.position.z);
-                Vector2 target = new Vector2(targetPosition.transform.position.x, targetPosition.transform.position.z);
-                if(checkItemInPos(target, item, 1)){
-                    grabItem.position = new Vector3(target.x, grabItem.position.y, target.y);
-                    targetPosition.gameObject.SetActive(false);
-                    grabItem.tag = "PositionedItem";
+                currentItem = selectedItem.None;
+                if(grabItem != null)
+                {
+                    Vector2 item = new Vector2(grabItem.position.x, grabItem.position.z);
+                    Vector2 target = new Vector2(targetPosition.transform.position.x, targetPosition.transform.position.z);
+                    if(checkItemInPos(target, item, 1)){
+                        grabItem.position = new Vector3(target.x, grabItem.position.y, target.y);
+                        targetPosition.gameObject.SetActive(false);
+                        grabItem.tag = "PositionedItem";
+                    }
                 }
+                grabItem = null;
             }
-            grabItem = null;
         }
     }
 
@@ -513,14 +532,7 @@ public class GhostController : MonoBehaviour
     //Origin: Enxuan
     //Access by Controller
     //This function will clean the dust when dust is nearby
-    void CleanObject()
-    {
-        if(onHuman){
-            if(_selection != null && _selection.CompareTag("CleanObject")) {
-                currentItem = selectedItem.CleanObject;
-            }
-        }
-    }
+
     //Add by Guanchen Liu
     //Origin: Enxuan
     //This function will calculate the distance between player and object
