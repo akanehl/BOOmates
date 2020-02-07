@@ -94,14 +94,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Clean",
-                    "type": "Button",
-                    "id": "0c3156e4-524f-47fa-ab94-419ff13bd485",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Title",
                     "type": "Button",
                     "id": "6d203c19-2494-49b7-8b54-7547cf2eb8fa",
@@ -229,17 +221,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Grabbing",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "94878086-04a0-4fd8-89c3-6fc89ce0da52",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Clean",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
