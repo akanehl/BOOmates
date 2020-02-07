@@ -285,7 +285,7 @@ public class GhostController : MonoBehaviour
     void OnHide()
     {
         //Edited BY Guanchen
-        if(!paintSwitch && !humanScript.isActive)
+        if(!paintSwitch && !humanScript.enabled)
         {
             //player isnt already hiding
             if (!hiding)
@@ -312,7 +312,7 @@ public class GhostController : MonoBehaviour
 
     //Add by Guanchen Liu
     void OnGrabbing(){
-        if(humanScript.isActive)
+        if(humanScript.enabled)
         {
             if(_selection != null)
             {
@@ -360,7 +360,7 @@ public class GhostController : MonoBehaviour
     void OnEnable()
     {
         //Edited BY Guanchen
-        if(!humanScript.isActive){
+        if(!humanScript.enabled){
             player.Gameplay.Enable();
         }
     }
@@ -375,16 +375,17 @@ public class GhostController : MonoBehaviour
     //when the human is vaccan(?)
     void OnTaking(){
         print(this);
-        if(!onHuman && !humanScript.isActive){
+        if(!onHuman && humanScript.enabled){
             var controlScript = this.GetComponent<GhostController>();
             rigBod.detectCollisions = false;
             var x = Nathan.transform.position.x;
             var y = this.transform.position.y;
             var z = Nathan.transform.position.z;
             this.transform.position = new Vector3(x,y,z);
-            humanScript.isActive = true;
+            humanScript.enabled = false;
             scaryPoint = 100f;
             onHuman = true;
+            Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
         }
     }
 
@@ -393,13 +394,14 @@ public class GhostController : MonoBehaviour
     //This function will allow ghost eject from the human
     //if scarypoint equals 0, ghosts will be forced eject
     void OnLeaving(){
-        if(onHuman && humanScript.isActive){
+        if(onHuman && !humanScript.enabled){
             var rb = GetComponent<Rigidbody>();
             Vector3 randomDirection = new Vector3(Random.Range(-10.0f, 10.0f), 0, Random.Range(-10.0f, 10.0f));
             rigBod.AddForce(randomDirection * (float)moveSpeed);
             scaryPoint = 100f;
             onHuman = false;
-            humanScript.isActive = false;
+            humanScript.enabled = true;
+            Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = false;
             StartCoroutine(ExampleCoroutine());
         }
 
