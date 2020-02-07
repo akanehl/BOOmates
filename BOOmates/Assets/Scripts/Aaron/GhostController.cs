@@ -538,7 +538,10 @@ public class GhostController : MonoBehaviour
     void lightScare(){
         Text t = ScareText.GetComponent<Text>();
         if(!worldLighting.active){
-            scaryPoint -= 0.2f;
+            scaryPoint -= 0.1f;
+        }
+        if(playing){
+            scaryPoint -= 0.1f;
         }
         t.text = "ScaryPoint: " + (int)scaryPoint;
         if(scaryPoint <= 0){
