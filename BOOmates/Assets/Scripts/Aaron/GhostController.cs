@@ -13,7 +13,6 @@ public class GhostController : MonoBehaviour
     Controller player;
     Vector2 moveVec;
     public Rigidbody rigBod;
-    [SerializeField]
     private double moveSpeed;
     private double baseSpeed = 4;
     
@@ -22,31 +21,29 @@ public class GhostController : MonoBehaviour
     GameObject Nathan;
     HumanBehavior humanScript;
     bool onHuman = false;
-    private float scaryPoint = 100f;
+    private float scarePoint = 0f;
     GameObject ScareText;
 
     //Dash Information
     private bool powerUp;
-
-    [SerializeField]
-    private float punchForce = 0;
-    public float maxPunchForce;
+    private float dashForce = 0;
+    public float maxDashForce;
 
     //Light switch variables
-    public bool lightSwitch = false;
-    GameObject lighting;
-    LightScript lights;
+    private bool lightBool = false;
+    GameObject lightSwitch;
+    LightScript lightScript;
     GameObject worldLighting;
 
     //Gramophone variables
-    public bool gramSwitch = false;
-    static bool playing = false;
+    private bool gramBool = false;
+    static bool musicPlaying = false;
     GameObject gramophone;
-    GramophoneScript musicPlayer;
+    GramophoneScript musicScript;
     GameObject worldMusic;
     
     //Painting variables
-    public bool paintSwitch = false;
+    private bool paintBool = false;
     bool hiding = false;
     GameObject painting;
     PaintingScript paintScript;
@@ -57,8 +54,6 @@ public class GhostController : MonoBehaviour
     public MeshRenderer mesh;
     private float invisVal = 0;
     private bool dissapearing = false;
-
-
 
     //Add by Guanchen Liu
     //Combining human script and ghost script together
@@ -73,14 +68,14 @@ public class GhostController : MonoBehaviour
         player = new Controller();
 
         //Assign light variables to proper objects in scene
-        lighting = GameObject.FindGameObjectWithTag("Lights");
+        lightSwitch = GameObject.FindGameObjectWithTag("Lights");
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
-        lights = lighting.GetComponent<LightScript>();
+        lightScript = lightSwitch.GetComponent<LightScript>();
 
         //Assign gramophone variables to proper objects in scene
         gramophone = GameObject.FindGameObjectWithTag("Gramophone");
         worldMusic = GameObject.FindGameObjectWithTag("WorldMusic");
-        musicPlayer = gramophone.GetComponent<GramophoneScript>();
+        musicScript = gramophone.GetComponent<GramophoneScript>();
 
         //Assign painting variables to proper objects in scene
         painting = GameObject.FindGameObjectWithTag("Painting");
@@ -97,11 +92,10 @@ public class GhostController : MonoBehaviour
         currentItem = selectedItem.None;
         targetPosition = GameObject.Find("ParticleSystem");
         var canvas = GameObject.Find("Canvas").gameObject;
-        ScareText = canvas.transform.Find("ScaryPoint").gameObject;
+        ScareText = canvas.transform.Find("ScarePoints").gameObject;
 
         player.Gameplay.Grabbing.performed += context => OnGrabbing();
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
-       
 
         if(playernum == 0)
         {
@@ -125,38 +119,40 @@ public class GhostController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //First, we calculate movement speed+direction
         calculateMovement();
-        if(onHuman){
-            transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+        //Secondly, calculate invisibility
+        calculateInvisibility();
+        //Then, Dash Calculations
+        doDash();
+        //Update the ScarePoint Value, due to conditions
+        scareManager();
+
+        //Then, calculate the human condition tasks
+        if (onHuman)
+        {
+
             humanTask();
             onBody();
-            lightScare();
+
         }
-        else{
-            transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
+        //NEEDS TO BE UPDATED TO WORK WITH MULTIPLE ITEMS
+        else
+        {
             if (playernum == 0)
             {
-                lightSwitch = lights.locked1;
-                gramSwitch = musicPlayer.locked1;
-                paintSwitch = paintScript.locked1;
+                lightBool = lightScript.locked1;
+                gramBool = musicScript.locked1;
+                paintBool = paintScript.locked1;
             }
             if (playernum == 1)
             {
 
-                lightSwitch = lights.locked2;
-                gramSwitch = musicPlayer.locked2;
-                paintSwitch = paintScript.locked2;
+                lightBool = lightScript.locked2;
+                gramBool = musicScript.locked2;
+                paintBool = paintScript.locked2;
             }
-
-            //First, we calculate movement speed+direction
-            //Secondly, calculate invisibility
-            calculateInvisibility();
-            //Then, Dash Calculations
-            doPunch();
-            //Then, calculate the human condition
         }
-
-
     }
 
     void calculateMovement()
@@ -222,15 +218,15 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    void doPunch()
+    void doDash()
     {
-        //Player is holding down punch button
+        //Player is holding down dash button
         if (powerUp)
         {
             //Movement modifications here
-            if (punchForce < maxPunchForce)
+            if (dashForce < maxDashForce)
             {
-                punchForce++; //PunchForce charges up over 50 frames
+                dashForce++; //DashForce charges up over 50 frames
                 if (moveSpeed > 0)
                 {
                     moveSpeed--;
@@ -240,23 +236,49 @@ public class GhostController : MonoBehaviour
         }
         else
         {
-            rigBod.AddForce(moveVec.x * punchForce * 10, 0.0f, moveVec.y * punchForce * 10);
+            rigBod.AddForce(moveVec.x * dashForce * 10, 0.0f, moveVec.y * dashForce * 10);
             if (moveSpeed < baseSpeed)
             {
                 moveSpeed += 5;
             }
 
-            punchForce = 0;
+            dashForce = 0;
         }
     }
 
+    //Add by Guanchen Liu
+    //Test version
+    //This function will decrease the scarePoint of character
+    //when light is off. The ghost will eject out if the scarePoint
+    //reach 0
+    //Bug: The value of scarePoint and lightOn should be recorded by another script
+    void scareManager()
+    {
+        Text t = ScareText.GetComponent<Text>();
+        if (!worldLighting.activeSelf)
+        {
+            scarePoint += 0.05f;
+        }
+        if (musicPlaying)
+        {
+            scarePoint += 0.05f;
+        }
 
-    /* CONTROLLER INPUT METHODS*/
+        if(scarePoint >0)
+        {
+            scarePoint = scarePoint -= 0.01f;
+        }
+        t.text = "ScarePoints: " + (int)scarePoint;
+    }
+
+    /*--------------------------------------------------------------------------------------------------------------------*/
+    /* ------------------------------------GHOST INTERACTION METHODS------------------------------------------------------*/
+    /*--------------------------------------------------------------------------------------------------------------------*/
 
     void OnLights()
     {
         //Edited BY Guanchen
-        if (!lightSwitch)
+        if (!lightBool)
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
         }
@@ -267,17 +289,17 @@ public class GhostController : MonoBehaviour
         AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
 
         //Edited BY Guanchen
-        if (!gramSwitch)
+        if (!gramBool)
         {
-            if(playing == false)
+            if(musicPlaying == false)
             {
                 spookyClip.Play();
-                playing = true;
+                musicPlaying = true;
             }
             else
             {
                 spookyClip.Pause();
-                playing = false;
+                musicPlaying = false;
             }       
         }
     }
@@ -285,8 +307,9 @@ public class GhostController : MonoBehaviour
     void OnHide()
     {
         //Edited BY Guanchen
-        if(!paintSwitch && !humanScript.enabled)
+        if (!paintBool)
         {
+
             //player isnt already hiding
             if (!hiding)
             {
@@ -294,21 +317,57 @@ public class GhostController : MonoBehaviour
                 rigBod.constraints = RigidbodyConstraints.FreezePosition;
                 hiding = true;
             }
-            else//player is hiding
+            else
             {
-
-                
                 rigBod.constraints = RigidbodyConstraints.None;
                 rigBod.constraints = RigidbodyConstraints.FreezePositionY;
                 transform.position = painting.transform.GetChild(1).transform.position;
                 rigBod.AddForce((moveVec.x) * 500, 0.0f, (moveVec.y) * 500);
                 hiding = false;
+
+                //human scare point logic
             }
-            
-
-
         }
     }
+
+    void OnDash()
+    {
+        //Button is held down
+        powerUp = true;
+    }
+
+    void OnLaunch()
+    {
+        //Button is rleased;
+        powerUp = false;
+    }
+    private void OnMovement(InputValue value)
+    {
+        //update direction of movement
+        moveVec = value.Get<Vector2>();
+    }
+    private void OnInvis()
+    {
+        dissapearing = true;
+    }
+
+    private void OnAppear()
+    {
+        dissapearing = false;
+    }
+
+    void OnEnable()
+    {
+        player.Gameplay.Enable();
+    }
+    private void OnDisable()
+    {
+        player.Gameplay.Disable();
+    }
+
+    /*--------------------------------------------------------------------------------------------------------------------*/
+    /* ------------------------------------HUMAN INTERACTION METHODS------------------------------------------------------*/
+    /*--------------------------------------------------------------------------------------------------------------------*/
 
     //Add by Guanchen Liu
     void OnGrabbing(){
@@ -329,52 +388,12 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    void OnPunch()
-    {
-        //Button is held down
-        powerUp = true;
-    }
-
-    void OnLaunch()
-    {
-        //Button is rleased;
-        powerUp = false;
-    }
-
-    private void OnMovement(InputValue value)
-    {
-        //update direction of movement
-        moveVec = value.Get<Vector2>();
-    }
-
-    private void OnInvis()
-    {
-        dissapearing = true;
-    }
-
-    private void OnAppear()
-    {
-        dissapearing = false;
-    }
-
-    void OnEnable()
-    {
-        //Edited BY Guanchen
-        if(!humanScript.enabled){
-            player.Gameplay.Enable();
-        }
-    }
-    private void OnDisable()
-    {
-        player.Gameplay.Disable();
-    }
-
     //Edited By Guanchen Liu
     //Access by Controller
     //This function will allow ghost take over the human
     //when the human is vaccan(?)
     void OnTaking(){
-        print(this);
+
         if(!onHuman && humanScript.enabled){
             var controlScript = this.GetComponent<GhostController>();
             rigBod.detectCollisions = false;
@@ -382,8 +401,9 @@ public class GhostController : MonoBehaviour
             var y = this.transform.position.y;
             var z = Nathan.transform.position.z;
             this.transform.position = new Vector3(x,y,z);
+            transform.GetChild(0).gameObject.SetActive(false);
             humanScript.enabled = false;
-            scaryPoint = 100f;
+            
             onHuman = true;
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
         }
@@ -392,15 +412,16 @@ public class GhostController : MonoBehaviour
     //Edited By Guanchen Liu
     //Access by Controller
     //This function will allow ghost eject from the human
-    //if scarypoint equals 0, ghosts will be forced eject
+    //if scarePoint equals 0, ghosts will be forced eject
     void OnLeaving(){
         if(onHuman && !humanScript.enabled){
             var rb = GetComponent<Rigidbody>();
             Vector3 randomDirection = new Vector3(Random.Range(-10.0f, 10.0f), 0, Random.Range(-10.0f, 10.0f));
             rigBod.AddForce(randomDirection * (float)moveSpeed);
-            scaryPoint = 100f;
+            
             onHuman = false;
             humanScript.enabled = true;
+            transform.GetChild(0).gameObject.SetActive(true);
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = false;
             StartCoroutine(ExampleCoroutine());
         }
@@ -411,8 +432,12 @@ public class GhostController : MonoBehaviour
     //Access by Controller
     //Back to title page
     void OnTitle(){
+        Destroy(GameObject.Find("Ghost_1"));
+        Destroy(GameObject.Find("Ghost_2"));
+        numplayers = 0;
         SceneManager.LoadScene (sceneName:"MenuScreen");
     }
+
     //Add by Guanchen Liu
     //This function will calculate the position of ghost
     //when ghost is on human
@@ -543,24 +568,4 @@ public class GhostController : MonoBehaviour
         return Vector2.Distance(target, item) < radius;
     }
 
-    //Add by Guanchen Liu
-    //Test version
-    //This function will decrease the scarypoint of character
-    //when light is off. The ghost will eject out if the scarypoint
-    //reach 0
-    //Bug: The value of scaryPoint and lightOn should be recorded by another script
-    void lightScare(){
-        Text t = ScareText.GetComponent<Text>();
-        if(!worldLighting.active){
-            scaryPoint -= 0.1f;
-        }
-        if(playing){
-            scaryPoint -= 0.1f;
-        }
-        t.text = "ScaryPoint: " + (int)scaryPoint;
-        if(scaryPoint <= 0){
-            scaryPoint = 100f;
-            OnLeaving();
-        }
-    }
 }

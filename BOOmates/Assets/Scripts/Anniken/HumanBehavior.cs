@@ -41,7 +41,7 @@ public class HumanBehavior : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        SacreMagement();
+        ScareMagement();
         transform.GetChild(0).rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         if(currentState == HumanState.NORMAL)
         {
@@ -79,7 +79,7 @@ public class HumanBehavior : MonoBehaviour
         }
     }
 
-    void SacreMagement()
+    void ScareMagement()
     {
         if(ScarePoint >= 100.0f)
         {
