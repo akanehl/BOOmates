@@ -255,13 +255,16 @@ public class GhostController : MonoBehaviour
     void scareManager()
     {
         Text t = ScareText.GetComponent<Text>();
-        if (!worldLighting.activeSelf)
+        if(scarePoint < 100)
         {
-            scarePoint += 0.05f;
-        }
-        if (musicPlaying)
-        {
-            scarePoint += 0.05f;
+            if (!worldLighting.activeSelf)
+            {
+                scarePoint += 0.05f;
+            }
+            if (musicPlaying)
+            {
+                scarePoint += 0.05f;
+            }
         }
 
         if(scarePoint >0)
@@ -324,6 +327,11 @@ public class GhostController : MonoBehaviour
                 transform.position = painting.transform.GetChild(1).transform.position;
                 rigBod.AddForce((moveVec.x) * 500, 0.0f, (moveVec.y) * 500);
                 hiding = false;
+                Debug.Log(Vector3.Distance(transform.position, Nathan.transform.position));
+                if(Vector3.Distance(transform.position, Nathan.transform.position) < 5)
+                {
+                    scarePoint += 75f;
+                }
 
                 //human scare point logic
             }
