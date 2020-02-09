@@ -175,9 +175,14 @@ public class GhostController : MonoBehaviour
             {
                 
                 movement = new Vector3(moveVec.x, 0.0f, moveVec.y);
+                if(movement != Vector3.zero)
+                {
+                    transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
+                }
     
             }
             rigBod.AddForce(movement * (float)moveSpeed);
+
         }else{
             if(currentItem != selectedItem.CleanObject)
             {
