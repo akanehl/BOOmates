@@ -384,7 +384,8 @@ public class GhostController : MonoBehaviour
 
     //Add by Guanchen Liu
     void OnGrabbing(){
-        if(humanScript.enabled)
+        Debug.Log("pressed");
+        if(!humanScript.enabled)
         {
             if(_selection != null)
             {
@@ -480,7 +481,7 @@ public class GhostController : MonoBehaviour
                 if(_selection != null)
                 {
                     //Sound: Grab Item Sound
-                    _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, _selection.transform.localScale.y/2, 0.0f);
+                    _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, -Nathan.transform.position.y, 0.0f);
                 }
             }
             else if(currentItem == selectedItem.CleanObject)
