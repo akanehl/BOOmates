@@ -12,6 +12,8 @@
 sysinfo.txt
 # Unity3D generated meta files
 *.pidb.meta
+BOOMates/ProjectSettings/EditorBuildSettings.asset
+
 
 ###
 # VS/MD solution and project files

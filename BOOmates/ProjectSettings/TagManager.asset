@@ -4,8 +4,16 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ghost1
-  - Ghost2
+  - Ghost
+  - Painting
+  - Lights
+  - EnvironmentLights
+  - WorldMusic
+  - Gramophone
+  - CleanObject
+  - GrabObject
+  - Human
+  - PositionedItem
   layers:
   - Default
   - TransparentFX
@@ -15,7 +23,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Human
   - 
   - 
   - 
