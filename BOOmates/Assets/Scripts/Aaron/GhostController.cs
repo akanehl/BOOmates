@@ -22,7 +22,9 @@ public class GhostController : MonoBehaviour
     HumanBehavior humanScript;
     bool onHuman = false;
     private float scarePoint = 0f;
+    private float swipeTime = 15f;
     GameObject ScareText;
+    GameObject TimeText;
 
     //Dash Information
     private bool powerUp;
@@ -63,6 +65,10 @@ public class GhostController : MonoBehaviour
     public Transform grabItem;
     public GameObject targetPosition;
 
+    //Add by Guanchen Liu
+    //Find other gameobject
+    private GameObject OtherGhost;
+
     private void Awake()
     {
         player = new Controller();
@@ -93,6 +99,7 @@ public class GhostController : MonoBehaviour
         targetPosition = GameObject.Find("ParticleSystem");
         var canvas = GameObject.Find("Canvas").gameObject;
         ScareText = canvas.transform.Find("ScarePoints").gameObject;
+        TimeText = canvas.transform.Find("TimeText").gameObject;
 
         player.Gameplay.Grabbing.performed += context => OnGrabbing();
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
@@ -115,10 +122,13 @@ public class GhostController : MonoBehaviour
             gameObject.name = "Ghost_2";
 
         }
+
+        var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
     }
 
     private void FixedUpdate()
     {
+        findOther();
         //First, we calculate movement speed+direction
         calculateMovement();
         //Secondly, calculate invisibility
@@ -134,6 +144,8 @@ public class GhostController : MonoBehaviour
 
             humanTask();
             onBody();
+
+            timeSwiping();
 
         }
         //NEEDS TO BE UPDATED TO WORK WITH MULTIPLE ITEMS
@@ -581,4 +593,32 @@ public class GhostController : MonoBehaviour
         return Vector2.Distance(target, item) < radius;
     }
 
+    //Add by Guanchen Liu
+    //Origin: Guanchen
+    //This function will swipe the possessions of the ghost after a specific time
+    void timeSwiping(){
+        Text t = TimeText.GetComponent<Text>();
+
+        if(onHuman){
+            swipeTime -= 0.02f;
+        }
+        if(swipeTime <= 0f){
+            //onHuman = false;
+            OnLeaving();
+            var otherScript = OtherGhost.GetComponent<GhostController>();
+            otherScript.OnTaking();
+            swipeTime = 15f;
+        }
+
+        t.text = "Times: " + (int)swipeTime;
+    }
+
+    void findOther(){
+        var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
+        foreach (GameObject ghost in allGhost){
+             if(ghost != this.gameObject){
+                OtherGhost = ghost;
+             }
+        }
+    }
 }
