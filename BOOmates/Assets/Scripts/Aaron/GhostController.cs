@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.AI;
 public class GhostController : MonoBehaviour
 {
     //General Player Info
@@ -61,8 +61,8 @@ public class GhostController : MonoBehaviour
     //Combining human script and ghost script together
     public enum selectedItem {GrabObject, CleanObject, None}
     public selectedItem currentItem;
-    public Transform _selection;
-    public Transform grabItem;
+    private Transform _selection;
+    private Transform grabItem;
     public GameObject targetPosition;
 
     //Add by Guanchen Liu
@@ -124,6 +124,7 @@ public class GhostController : MonoBehaviour
         }
 
         var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
+        targetPosition = GameObject.Find("tv_target_pos");
     }
 
     private void FixedUpdate()
@@ -145,7 +146,7 @@ public class GhostController : MonoBehaviour
             humanTask();
             onBody();
 
-            timeSwiping();
+            // timeSwiping();
 
         }
         //NEEDS TO BE UPDATED TO WORK WITH MULTIPLE ITEMS
@@ -306,21 +307,23 @@ public class GhostController : MonoBehaviour
 
     void OnMusic()
     {
-        AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
 
         //Edited BY Guanchen
-        if (!gramBool)
-        {
-            if(musicPlaying == false)
+        if (!onHuman) {
+            AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
+            if (!gramBool)
             {
-                spookyClip.Play();
-                musicPlaying = true;
+                if(musicPlaying == false)
+                {
+                    spookyClip.Play();
+                    musicPlaying = true;
+                }
+                else
+                {
+                    spookyClip.Pause();
+                    musicPlaying = false;
+                }       
             }
-            else
-            {
-                spookyClip.Pause();
-                musicPlaying = false;
-            }       
         }
     }
 
@@ -494,6 +497,7 @@ public class GhostController : MonoBehaviour
                 {
                     //Sound: Grab Item Sound
                     _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, -Nathan.transform.position.y, 0.0f);
+                    _selection.transform.rotation = Quaternion.LookRotation(Nathan.transform.forward);
                 }
             }
             else if(currentItem == selectedItem.CleanObject)
@@ -573,6 +577,7 @@ public class GhostController : MonoBehaviour
                     if(checkItemInPos(target, item, 1)){
                         grabItem.position = new Vector3(target.x, grabItem.position.y, target.y);
                         targetPosition.gameObject.SetActive(false);
+                        grabItem.rotation = Quaternion.Euler(new Vector3(0.0f, 180.0f, 0.0f));
                         grabItem.tag = "PositionedItem";
                     }
                 }
