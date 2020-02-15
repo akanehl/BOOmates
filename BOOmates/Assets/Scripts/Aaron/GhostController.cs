@@ -139,6 +139,15 @@ public class GhostController : MonoBehaviour
         //Update the ScarePoint Value, due to conditions
         scareManager();
 
+        if (playernum == 0)
+        {
+            painting = paintScript.closest1;
+        }
+        if (playernum == 1)
+        {
+            painting = paintScript.closest2;
+        }
+
         //Then, calculate the human condition tasks
         if (onHuman)
         {
@@ -248,6 +257,7 @@ public class GhostController : MonoBehaviour
                 if (moveSpeed > 0)
                 {
                     moveSpeed--;
+                    Debug.Log(moveSpeed);
                 }
 
             }
@@ -272,7 +282,13 @@ public class GhostController : MonoBehaviour
     //Bug: The value of scarePoint and lightOn should be recorded by another script
     void scareManager()
     {
+        
         Text t = ScareText.GetComponent<Text>();
+        if(scarePoint > 100)
+        {
+            scarePoint = 100;
+        }
+
         if(scarePoint < 100)
         {
             if (!worldLighting.activeSelf)
@@ -289,6 +305,7 @@ public class GhostController : MonoBehaviour
         {
             scarePoint = scarePoint -= 0.01f;
         }
+
         t.text = "ScarePoints: " + (int)scarePoint;
     }
 
@@ -307,7 +324,6 @@ public class GhostController : MonoBehaviour
 
     void OnMusic()
     {
-
         //Edited BY Guanchen
         if (!onHuman) {
             AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
@@ -350,7 +366,8 @@ public class GhostController : MonoBehaviour
                 Debug.Log(Vector3.Distance(transform.position, Nathan.transform.position));
                 if(Vector3.Distance(transform.position, Nathan.transform.position) < 5)
                 {
-                    scarePoint += 75f;
+                    Debug.Log("Paint scare");
+                    scarePoint = scarePoint + 75.0f;
                 }
 
                 //human scare point logic
@@ -358,7 +375,7 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    void OnDash()
+    void OnPunch()
     {
         //Button is held down
         powerUp = true;
