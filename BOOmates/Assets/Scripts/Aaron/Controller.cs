@@ -19,7 +19,7 @@ public class @Controller : IInputActionCollection, IDisposable
             ""id"": ""ece6465f-075c-48d2-87a6-999c9a9d3f43"",
             ""actions"": [
                 {
-                    ""name"": ""Punch"",
+                    ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""83ed8a74-1c70-4703-8c39-b56ac0296e04"",
                     ""expectedControlType"": """",
@@ -123,7 +123,7 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Punch"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -255,7 +255,7 @@ public class @Controller : IInputActionCollection, IDisposable
 }");
         // Gameplay
         m_Gameplay = asset.FindActionMap("Gameplay", throwIfNotFound: true);
-        m_Gameplay_Punch = m_Gameplay.FindAction("Punch", throwIfNotFound: true);
+        m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
         m_Gameplay_Launch = m_Gameplay.FindAction("Launch", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Lights = m_Gameplay.FindAction("Lights", throwIfNotFound: true);
@@ -316,7 +316,7 @@ public class @Controller : IInputActionCollection, IDisposable
     // Gameplay
     private readonly InputActionMap m_Gameplay;
     private IGameplayActions m_GameplayActionsCallbackInterface;
-    private readonly InputAction m_Gameplay_Punch;
+    private readonly InputAction m_Gameplay_Dash;
     private readonly InputAction m_Gameplay_Launch;
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Lights;
@@ -332,7 +332,7 @@ public class @Controller : IInputActionCollection, IDisposable
     {
         private @Controller m_Wrapper;
         public GameplayActions(@Controller wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Punch => m_Wrapper.m_Gameplay_Punch;
+        public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
         public InputAction @Launch => m_Wrapper.m_Gameplay_Launch;
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Lights => m_Wrapper.m_Gameplay_Lights;
@@ -353,9 +353,9 @@ public class @Controller : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_GameplayActionsCallbackInterface != null)
             {
-                @Punch.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPunch;
-                @Punch.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPunch;
-                @Punch.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPunch;
+                @Dash.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnDash;
                 @Launch.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLaunch;
                 @Launch.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLaunch;
                 @Launch.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLaunch;
@@ -393,9 +393,9 @@ public class @Controller : IInputActionCollection, IDisposable
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Punch.started += instance.OnPunch;
-                @Punch.performed += instance.OnPunch;
-                @Punch.canceled += instance.OnPunch;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
                 @Launch.started += instance.OnLaunch;
                 @Launch.performed += instance.OnLaunch;
                 @Launch.canceled += instance.OnLaunch;
@@ -435,7 +435,7 @@ public class @Controller : IInputActionCollection, IDisposable
     public GameplayActions @Gameplay => new GameplayActions(this);
     public interface IGameplayActions
     {
-        void OnPunch(InputAction.CallbackContext context);
+        void OnDash(InputAction.CallbackContext context);
         void OnLaunch(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnLights(InputAction.CallbackContext context);
