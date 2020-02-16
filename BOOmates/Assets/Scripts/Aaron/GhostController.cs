@@ -27,7 +27,7 @@ public class GhostController : MonoBehaviour
 
     //Dash Information
     private bool powerUp;
-    private float dashForce = 0;
+    private float dashForce = 0f;
     public float maxDashForce;
 
     //Light switch variables
@@ -374,7 +374,7 @@ public class GhostController : MonoBehaviour
     void OnPunch()
     {
         //Button is held down
-        powerUp = true;
+        //powerUp = true;
     }
 
     void OnLaunch()
@@ -638,6 +638,13 @@ public class GhostController : MonoBehaviour
              if(ghost != this.gameObject){
                 OtherGhost = ghost;
              }
+        }
+    }
+
+    void OnCollisionEnter(Collision other){
+         var otherScript = OtherGhost.GetComponent<GhostController>();
+        if(other.gameObject.tag == "Human" && !onHuman && !otherScript.onHuman){
+            OnTaking();
         }
     }
 }

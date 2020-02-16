@@ -6,7 +6,7 @@
             "id": "ece6465f-075c-48d2-87a6-999c9a9d3f43",
             "actions": [
                 {
-                    "name": "Punch",
+                    "name": "Dash",
                     "type": "Button",
                     "id": "83ed8a74-1c70-4703-8c39-b56ac0296e04",
                     "expectedControlType": "",
@@ -110,7 +110,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Punch",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
