@@ -23,8 +23,7 @@ public class GhostController : MonoBehaviour
     bool onHuman = false;
     private float scarePoint = 0f;
     private float swipeTime = 15f;
-    GameObject ScareText;
-    GameObject TimeText;
+
 
     //Dash Information
     private bool powerUp;
@@ -97,9 +96,6 @@ public class GhostController : MonoBehaviour
         humanScript = Nathan.GetComponent<HumanBehavior>();
         currentItem = selectedItem.None;
         targetPosition = GameObject.Find("ParticleSystem");
-        var canvas = GameObject.Find("Canvas").gameObject;
-        ScareText = canvas.transform.Find("ScarePoints").gameObject;
-        TimeText = canvas.transform.Find("TimeText").gameObject;
 
         player.Gameplay.Grabbing.performed += context => OnGrabbing();
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
@@ -275,6 +271,7 @@ public class GhostController : MonoBehaviour
     }
 
     //Add by Guanchen Liu
+    //Edited by: Jordan Timm (UI modification)
     //Test version
     //This function will decrease the scarePoint of character
     //when light is off. The ghost will eject out if the scarePoint
@@ -283,7 +280,6 @@ public class GhostController : MonoBehaviour
     void scareManager()
     {
         
-        Text t = ScareText.GetComponent<Text>();
         if(scarePoint > 100)
         {
             scarePoint = 100;
@@ -306,7 +302,7 @@ public class GhostController : MonoBehaviour
             scarePoint = scarePoint -= 0.01f;
         }
 
-        t.text = "ScarePoints: " + (int)scarePoint;
+        UIManager.instance.UpdateScarePoints((int)scarePoint);
     }
 
     /*--------------------------------------------------------------------------------------------------------------------*/
@@ -617,10 +613,10 @@ public class GhostController : MonoBehaviour
     }
 
     //Add by Guanchen Liu
+    //Edited by: Jordan Timm (UI modification)
     //Origin: Guanchen
     //This function will swipe the possessions of the ghost after a specific time
     void timeSwiping(){
-        Text t = TimeText.GetComponent<Text>();
 
         if(onHuman){
             swipeTime -= 0.02f;
@@ -633,7 +629,7 @@ public class GhostController : MonoBehaviour
             swipeTime = 15f;
         }
 
-        t.text = "Times: " + (int)swipeTime;
+       UIManager.instance.UpdateTimer((int)swipeTime);
     }
 
     void findOther(){
