@@ -133,7 +133,7 @@ public class GhostController : MonoBehaviour
         //Then, Dash Calculations
         doDash();
         //Update the ScarePoint Value, due to conditions
-        scareManager();
+        //scareManager();
 
         if (playernum == 0)
         {
@@ -150,7 +150,7 @@ public class GhostController : MonoBehaviour
 
             humanTask();
             onBody();
-
+            scareManager();
             // timeSwiping();
 
         }
@@ -282,7 +282,10 @@ public class GhostController : MonoBehaviour
         
         if(scarePoint > 100)
         {
-            scarePoint = 100;
+            scarePoint = 0;
+            OnLeaving();
+            var otherScript = OtherGhost.GetComponent<GhostController>();
+            otherScript.OnTaking();
         }
 
         if(scarePoint < 100)
@@ -413,7 +416,7 @@ public class GhostController : MonoBehaviour
     //Add by Guanchen Liu
     void OnGrabbing(){
         Debug.Log("pressed");
-        if(!humanScript.enabled)
+        if(!humanScript.enabled )
         {
             if(_selection != null)
             {
@@ -642,7 +645,7 @@ public class GhostController : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision other){
-         var otherScript = OtherGhost.GetComponent<GhostController>();
+        var otherScript = OtherGhost.GetComponent<GhostController>();
         if(other.gameObject.tag == "Human" && !onHuman && !otherScript.onHuman){
             OnTaking();
         }

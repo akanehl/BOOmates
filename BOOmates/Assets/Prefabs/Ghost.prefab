@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 300996935558054268}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.6, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 4446691945852333576}
   - {fileID: 5628779879780456989}
@@ -45,7 +45,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 300996935558054268}
-  m_Mesh: {fileID: 3772797090071207700, guid: 83a6d81a2f11f404e9ce4e6e22f540f6, type: 3}
+  m_Mesh: {fileID: 3772797090071207700, guid: 34a2e7ab675514d0fbba9f23eba21a0c, type: 3}
 --- !u!23 &6302662942456082220
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -107,7 +107,7 @@ Animator:
   m_GameObject: {fileID: 300996935558054268}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 76a5388113e08bc4dbeaff4faec87d96, type: 2}
+  m_Controller: {fileID: 9100000, guid: 77ba4bc10263f4cbd80619850cc886d1, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -553,7 +553,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9036390579222707113}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 3772797090071207700, guid: faa4d12661ae84a9bb41891ebf06e9a0, type: 3}
 --- !u!23 &3871207624665711812
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -636,7 +636,7 @@ MonoBehaviour:
   rigBod: {fileID: 5985760098002004247}
   maxDashForce: 50
   color1: {fileID: 2100000, guid: dc4b1ae2f066f47279a773f079efe879, type: 2}
-  color2: {fileID: 2100000, guid: dc4b1ae2f066f47279a773f079efe879, type: 2}
+  color2: {fileID: 2100000, guid: 4a45d188cc1ab4109b65da6e6c0ccbf4, type: 2}
   mesh: {fileID: 6302662942456082220}
   currentItem: 2
   targetPosition: {fileID: 0}
