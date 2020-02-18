@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class LookAtCamera : MonoBehaviour
 {
+    [SerializeField] private GameObject emoteBubble;
 
-    Camera mainCam;
+    private Camera mainCam;
 
     // On start up finds camera and then turns off image. Passes ref to UIManager
     void Start()
     {
+
         mainCam = FindObjectOfType<Camera>();
-        UIManager.instance.SetEmoteBubble(this.gameObject);
-        gameObject.SetActive(false);
+        if (emoteBubble != null)
+        {
+            UIManager.instance.SetEmoteBubble(emoteBubble);
+        }
+        emoteBubble.SetActive(false);
     }
 
     // Update makes sure that when this is active the icon will always be visiable to the camera if it moves.

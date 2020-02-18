@@ -39,8 +39,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        //Starts a 3 min timer if we go that route.
-        //StartCoroutine(StartTimer());
+        StartCoroutine(StartTimer());
     }
 
     private void Update()
@@ -94,7 +93,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScarePoints(int scareValue)
     {
-        scarePoints.text = "Scarepoints"+ scareValue.ToString();
+        scarePoints.text = "Scarepoints: "+ scareValue.ToString();
     }
 
     private void SetChores()
