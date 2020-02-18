@@ -97,7 +97,6 @@ public class GhostController : MonoBehaviour
         currentItem = selectedItem.None;
         targetPosition = GameObject.Find("ParticleSystem");
 
-        player.Gameplay.Grabbing.performed += context => OnGrabbing();
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
 
         if(playernum == 0)
@@ -324,7 +323,7 @@ public class GhostController : MonoBehaviour
     void OnMusic()
     {
         //Edited BY Guanchen
-        if (!onHuman) {
+    
             AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
             if (!gramBool)
             {
@@ -339,7 +338,7 @@ public class GhostController : MonoBehaviour
                     musicPlaying = false;
                 }       
             }
-        }
+        
     }
 
     void OnHide()
@@ -365,10 +364,10 @@ public class GhostController : MonoBehaviour
                 Debug.Log(Vector3.Distance(transform.position, Nathan.transform.position));
                 if(Vector3.Distance(transform.position, Nathan.transform.position) < 5)
                 {
-                    Debug.Log("Paint scare");
-                    scarePoint = scarePoint + 75.0f;
+                    var otherScript = OtherGhost.GetComponent<GhostController>();
+                    otherScript.scarePoint += 75.0f;
                 }
-
+                Debug.Log(scarePoint);
                 //human scare point logic
             }
         }
@@ -416,7 +415,7 @@ public class GhostController : MonoBehaviour
     //Add by Guanchen Liu
     void OnGrabbing(){
         Debug.Log("pressed");
-        if(!humanScript.enabled )
+        if(!humanScript.enabled)
         {
             if(_selection != null)
             {
