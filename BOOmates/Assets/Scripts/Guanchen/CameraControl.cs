@@ -17,7 +17,7 @@ public class CameraControl : MonoBehaviour
     //private Vector3 ForthRoom;
     public  Quaternion  TargetRotation;
     public  Vector3     TargetRoom;
-    public  Vector3     RespawnPoint;
+    //public  Vector3     RespawnPoint;
     public  bool        isMoving        = false;
     public  float       smoothTime      = 0.3F;
     private float       rotationSpeed   = 100f;
@@ -27,7 +27,7 @@ public class CameraControl : MonoBehaviour
     {
 
         //Set a default position for the camera
-        SecondRoom = new Vector3(-4.73f, 5.07f, 2.32f);
+        SecondRoom = new Vector3(-0.89f, 5.86f, -5.73f);
         transform.position = SecondRoom;
 
     }

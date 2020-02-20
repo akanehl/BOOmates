@@ -67,6 +67,8 @@ public class GhostController : MonoBehaviour
     //Add by Guanchen Liu
     //Find other gameobject
     private GameObject OtherGhost;
+    private GameObject mainCamera;
+    private    CameraControl   sc;
 
     private void Awake()
     {
@@ -96,6 +98,8 @@ public class GhostController : MonoBehaviour
         humanScript = Nathan.GetComponent<HumanBehavior>();
         currentItem = selectedItem.None;
         targetPosition = GameObject.Find("ParticleSystem");
+        mainCamera  = GameObject.Find("MainCamera");
+        sc          = mainCamera.GetComponent<CameraControl>();
 
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
 
@@ -463,6 +467,8 @@ public class GhostController : MonoBehaviour
             Vector3 randomDirection = new Vector3(Random.Range(-10.0f, 10.0f), 0, Random.Range(-10.0f, 10.0f));
             rigBod.AddForce(randomDirection * (float)moveSpeed);
             
+            //sc.TargetRoom = Nathan.transform.GetChild(3).transform.position;
+            //sc.isMoving = true;
             onHuman = false;
             humanScript.enabled = true;
             transform.GetChild(0).gameObject.SetActive(true);
