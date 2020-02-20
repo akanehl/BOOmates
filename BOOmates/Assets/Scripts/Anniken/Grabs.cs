@@ -6,10 +6,10 @@ public class Grabs : Chores
 {
     [SerializeField]
     protected GameObject targetPosition;
-
-    public override bool complete()
+    
+    void Start()
     {
-        return base.complete();
+        targetPosition.SetActive(false);
     }
 
     public override void placed()
@@ -35,5 +35,17 @@ public class Grabs : Chores
     {
         Debug.LogError("Object type is not Clean");
         return;
+    }
+
+    public override void activeChore()
+    {
+        targetPosition.SetActive(true);
+        _active = true;
+    }
+
+    public override void deactiveChore()
+    {
+        targetPosition.SetActive(false);
+        _active = false;
     }
 }

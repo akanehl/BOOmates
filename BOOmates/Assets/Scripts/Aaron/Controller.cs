@@ -113,6 +113,22 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Stick"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""NextChore"",
+                    ""type"": ""Button"",
+                    ""id"": ""400b8309-aaed-47c1-a189-16efdb4d6038"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""PrevChore"",
+                    ""type"": ""Button"",
+                    ""id"": ""ea8e7198-dee1-4adc-9593-a11867c3812e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -245,6 +261,28 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""521b19cf-6960-4d00-9815-c0fa0d5983c3"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextChore"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eafd3385-25cf-4445-8c00-6ed59c1926d6"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PrevChore"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -739,6 +777,8 @@ public class @Controller : IInputActionCollection, IDisposable
         m_Gameplay_Grabbing = m_Gameplay.FindAction("Grabbing", throwIfNotFound: true);
         m_Gameplay_Title = m_Gameplay.FindAction("Title", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
+        m_Gameplay_NextChore = m_Gameplay.FindAction("NextChore", throwIfNotFound: true);
+        m_Gameplay_PrevChore = m_Gameplay.FindAction("PrevChore", throwIfNotFound: true);
         // Gameplay1
         m_Gameplay1 = asset.FindActionMap("Gameplay1", throwIfNotFound: true);
         m_Gameplay1_Dash = m_Gameplay1.FindAction("Dash", throwIfNotFound: true);
@@ -828,6 +868,8 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Grabbing;
     private readonly InputAction m_Gameplay_Title;
     private readonly InputAction m_Gameplay_Movement;
+    private readonly InputAction m_Gameplay_NextChore;
+    private readonly InputAction m_Gameplay_PrevChore;
     public struct GameplayActions
     {
         private @Controller m_Wrapper;
@@ -844,6 +886,8 @@ public class @Controller : IInputActionCollection, IDisposable
         public InputAction @Grabbing => m_Wrapper.m_Gameplay_Grabbing;
         public InputAction @Title => m_Wrapper.m_Gameplay_Title;
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
+        public InputAction @NextChore => m_Wrapper.m_Gameplay_NextChore;
+        public InputAction @PrevChore => m_Wrapper.m_Gameplay_PrevChore;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -889,6 +933,12 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
+                @NextChore.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNextChore;
+                @NextChore.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNextChore;
+                @NextChore.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNextChore;
+                @PrevChore.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPrevChore;
+                @PrevChore.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPrevChore;
+                @PrevChore.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPrevChore;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -929,6 +979,12 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @NextChore.started += instance.OnNextChore;
+                @NextChore.performed += instance.OnNextChore;
+                @NextChore.canceled += instance.OnNextChore;
+                @PrevChore.started += instance.OnPrevChore;
+                @PrevChore.performed += instance.OnPrevChore;
+                @PrevChore.canceled += instance.OnPrevChore;
             }
         }
     }
@@ -1189,6 +1245,8 @@ public class @Controller : IInputActionCollection, IDisposable
         void OnGrabbing(InputAction.CallbackContext context);
         void OnTitle(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnNextChore(InputAction.CallbackContext context);
+        void OnPrevChore(InputAction.CallbackContext context);
     }
     public interface IGameplay1Actions
     {

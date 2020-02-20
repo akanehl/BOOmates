@@ -12,19 +12,34 @@ public class Chores: MonoBehaviour
     protected string discription;
     protected bool _complete = false;
 
-    public virtual bool complete() {
+    protected bool _active = false;
+
+    public bool complete() {
         return _complete;
+    }
+
+    public bool isActive()
+    {
+        return _active;
+    }
+
+    public virtual void activeChore()
+    {
+        Debug.LogError("Neither Grabs or Clean to active");
+    }
+
+    public virtual void deactiveChore()
+    {
+        Debug.LogError("Neither Grabs or Clean to deactive");
     }
 
     public virtual void finishClean()
     {
         Debug.LogError("Object type is not Clean");
-        return;
     }
 
     public virtual void placed() {
         Debug.LogError("Object type is not Grab");
-        return;
     }
 }
 

@@ -100,6 +100,22 @@
                     "expectedControlType": "Stick",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "NextChore",
+                    "type": "Button",
+                    "id": "400b8309-aaed-47c1-a189-16efdb4d6038",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PrevChore",
+                    "type": "Button",
+                    "id": "ea8e7198-dee1-4adc-9593-a11867c3812e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -232,6 +248,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "521b19cf-6960-4d00-9815-c0fa0d5983c3",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextChore",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eafd3385-25cf-4445-8c00-6ed59c1926d6",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrevChore",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

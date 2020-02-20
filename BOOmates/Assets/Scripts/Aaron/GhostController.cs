@@ -70,6 +70,8 @@ public class GhostController : MonoBehaviour
 
     private Chores currentChore;
 
+    private ChoreManger choreManger;
+
     private void Awake()
     {
         player = new Controller();
@@ -122,6 +124,8 @@ public class GhostController : MonoBehaviour
         }
 
         var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
+
+        choreManger = GameObject.Find("ChoreManger").GetComponent<ChoreManger>();
     }
 
     private void FixedUpdate()
@@ -149,11 +153,11 @@ public class GhostController : MonoBehaviour
         {
             if (playernum == 0)
             {
-                currentChore = GameObject.Find("ChoreManger").GetComponent<ChoreManger>().player1Chore;
+                currentChore = choreManger.player1Chore;
             }
             else
             {
-                currentChore = GameObject.Find("ChoreManger").GetComponent<ChoreManger>().player2Chore;
+                currentChore = choreManger.player2Chore;
             }
         }
 
@@ -432,7 +436,7 @@ public class GhostController : MonoBehaviour
         if(!humanScript.enabled)
         {
             Debug.Log("pressed");
-            if(_selection != null)
+            if(_selection != null && _selection.GetComponent<Chores>().isActive())
             {
                 if(_selection.CompareTag("GrabObject") && currentChore is Grabs)
                 {      
@@ -517,6 +521,16 @@ public class GhostController : MonoBehaviour
     IEnumerator ExampleCoroutine(){
        yield return new WaitForSeconds(1);
        rigBod.detectCollisions = true;
+    }
+
+    void OnNextChore()
+    {
+        currentChore = choreManger.nextChore(playernum);
+    }
+
+    void OnPrevChore()
+    {
+        currentChore = choreManger.prevChore(playernum);
     }
 
     //Add by Guanchen Liu

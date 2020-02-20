@@ -5,10 +5,6 @@ using UnityEngine;
 public class Cleans : Chores
 {
 
-    public override bool complete()
-    {
-        return base.complete();
-    }
 
     public override void finishClean()
     {
@@ -17,5 +13,15 @@ public class Cleans : Chores
 
     public override void placed() {
         base.placed();
+    }
+
+    public override void activeChore()
+    {
+        _active = true;
+    }
+
+    public override void deactiveChore()
+    {
+        _active = false;
     }
 }
