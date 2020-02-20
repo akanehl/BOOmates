@@ -108,9 +108,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""674c255a-13a7-4e4b-a7ec-3b0cee575929"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Stick"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
