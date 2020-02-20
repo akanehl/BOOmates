@@ -555,6 +555,7 @@ public class GhostController : MonoBehaviour
                         _selection = null;
                         currentItem = selectedItem.None;
                         currentChore.finishClean();
+                        currentChore = null;
                     }
                 }
             }
