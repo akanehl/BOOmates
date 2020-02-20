@@ -81,6 +81,10 @@ public class ChoreManger : MonoBehaviour
             player1Chore.deactiveChore();
             if(chores.Count > 0){
                 player1ChoreNum++;
+                if(player1ChoreNum == player2ChoreNum)
+                {
+                    player1ChoreNum++;
+                }
                 if(player1ChoreNum >= chores.Count)
                 {
                     player1ChoreNum = 0;
@@ -95,6 +99,10 @@ public class ChoreManger : MonoBehaviour
             player2Chore.deactiveChore();
             if(chores.Count > 0){
                 player2ChoreNum++;
+                if(player1ChoreNum == player2ChoreNum)
+                {
+                    player1ChoreNum++;
+                }
                 if(player2ChoreNum >= chores.Count)
                 {
                     player2ChoreNum = 0;
@@ -114,6 +122,10 @@ public class ChoreManger : MonoBehaviour
             player1Chore.deactiveChore();
             if(chores.Count > 0){
                 player1ChoreNum--;
+                if(player1ChoreNum == player2ChoreNum)
+                {
+                    player1ChoreNum--;
+                }
                 if(player1ChoreNum <= -1)
                 {
                     player1ChoreNum = chores.Count - 1;
@@ -128,6 +140,10 @@ public class ChoreManger : MonoBehaviour
             player2Chore.deactiveChore();
             if(chores.Count > 0){
                 player2ChoreNum--;
+                if(player2ChoreNum == player1ChoreNum)
+                {
+                    player1ChoreNum--;
+                }
                 if(player2ChoreNum <= -1)
                 {
                     player2ChoreNum = chores.Count -1;
