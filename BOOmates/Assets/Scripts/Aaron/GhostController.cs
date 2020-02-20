@@ -67,6 +67,8 @@ public class GhostController : MonoBehaviour
     //Add by Guanchen Liu
     //Find other gameobject
     private GameObject OtherGhost;
+    private GameObject mainCamera;
+    private    CameraControl   sc;
 
     private void Awake()
     {
@@ -96,8 +98,9 @@ public class GhostController : MonoBehaviour
         humanScript = Nathan.GetComponent<HumanBehavior>();
         currentItem = selectedItem.None;
         targetPosition = GameObject.Find("ParticleSystem");
+        mainCamera  = GameObject.Find("MainCamera");
+        sc          = mainCamera.GetComponent<CameraControl>();
 
-        player.Gameplay.Grabbing.performed += context => OnGrabbing();
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
 
         if(playernum == 0)
@@ -324,7 +327,7 @@ public class GhostController : MonoBehaviour
     void OnMusic()
     {
         //Edited BY Guanchen
-        if (!onHuman) {
+    
             AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
             if (!gramBool)
             {
@@ -339,7 +342,7 @@ public class GhostController : MonoBehaviour
                     musicPlaying = false;
                 }       
             }
-        }
+        
     }
 
     void OnHide()
@@ -365,10 +368,10 @@ public class GhostController : MonoBehaviour
                 Debug.Log(Vector3.Distance(transform.position, Nathan.transform.position));
                 if(Vector3.Distance(transform.position, Nathan.transform.position) < 5)
                 {
-                    Debug.Log("Paint scare");
-                    scarePoint = scarePoint + 75.0f;
+                    var otherScript = OtherGhost.GetComponent<GhostController>();
+                    otherScript.scarePoint += 75.0f;
                 }
-
+                Debug.Log(scarePoint);
                 //human scare point logic
             }
         }
@@ -416,7 +419,7 @@ public class GhostController : MonoBehaviour
     //Add by Guanchen Liu
     void OnGrabbing(){
         Debug.Log("pressed");
-        if(!humanScript.enabled )
+        if(!humanScript.enabled)
         {
             if(_selection != null)
             {
@@ -464,6 +467,8 @@ public class GhostController : MonoBehaviour
             Vector3 randomDirection = new Vector3(Random.Range(-10.0f, 10.0f), 0, Random.Range(-10.0f, 10.0f));
             rigBod.AddForce(randomDirection * (float)moveSpeed);
             
+            //sc.TargetRoom = Nathan.transform.GetChild(3).transform.position;
+            //sc.isMoving = true;
             onHuman = false;
             humanScript.enabled = true;
             transform.GetChild(0).gameObject.SetActive(true);
