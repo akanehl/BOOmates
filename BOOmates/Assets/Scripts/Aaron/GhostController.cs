@@ -9,7 +9,7 @@ public class GhostController : MonoBehaviour
 {
     //General Player Info
     static int numplayers = 0;
-    int playernum;
+    public int playernum;
     Controller player;
     Vector2 moveVec;
     public Rigidbody rigBod;
@@ -147,7 +147,14 @@ public class GhostController : MonoBehaviour
 
         if(currentChore == null)
         {
-            currentChore = GameObject.Find("ChoreManger").GetComponent<ChoreManger>().player1Chore;
+            if (playernum == 0)
+            {
+                currentChore = GameObject.Find("ChoreManger").GetComponent<ChoreManger>().player1Chore;
+            }
+            else
+            {
+                currentChore = GameObject.Find("ChoreManger").GetComponent<ChoreManger>().player2Chore;
+            }
         }
 
         //Then, calculate the human condition tasks
@@ -427,12 +434,12 @@ public class GhostController : MonoBehaviour
             Debug.Log("pressed");
             if(_selection != null)
             {
-                if(_selection.CompareTag("GrabObject"))
+                if(_selection.CompareTag("GrabObject") && currentChore is Grabs)
                 {      
                     currentItem = selectedItem.GrabObject;
                     grabItem = _selection;
                 }
-                else if( _selection.CompareTag("CleanObject")) 
+                else if( _selection.CompareTag("CleanObject") && currentChore is Cleans) 
                 {
                     currentItem = selectedItem.CleanObject;
                 }
