@@ -15,6 +15,7 @@ TagManager:
   - Human
   - PositionedItem
   - Prop
+  - BackUpLights
   layers:
   - Default
   - TransparentFX

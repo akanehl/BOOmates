@@ -35,6 +35,7 @@ public class GhostController : MonoBehaviour
     GameObject lightSwitch;
     LightScript lightScript;
     GameObject worldLighting;
+    GameObject backUpLighting;
 
     //Gramophone variables
     private bool gramBool = false;
@@ -86,6 +87,7 @@ public class GhostController : MonoBehaviour
         //Assign light variables to proper objects in scene
         lightSwitch = GameObject.FindGameObjectWithTag("Lights");
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
+        backUpLighting = GameObject.FindGameObjectWithTag("BackUpLights");
         lightScript = lightSwitch.GetComponent<LightScript>();
 
         //Assign gramophone variables to proper objects in scene
@@ -130,13 +132,16 @@ public class GhostController : MonoBehaviour
             Destroy(temp);
             mesh.material = color2;
             gameObject.name = "Ghost_2";
+            backUpLighting.gameObject.SetActive(false);
 
         }
 
         var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
+        
 
         //choreManger = GameObject.Find("ChoreManger").GetComponent<ChoreManger>();
     }
+
 
     private void FixedUpdate()
     {
@@ -351,6 +356,7 @@ public class GhostController : MonoBehaviour
         if (!lightBool)
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
+            backUpLighting.SetActive(!(backUpLighting.activeSelf));
         }
     }
 
@@ -396,10 +402,11 @@ public class GhostController : MonoBehaviour
                 transform.position = painting.transform.GetChild(1).transform.position;
                 rigBod.AddForce((moveVec.x) * 500, 0.0f, (moveVec.y) * 500);
                 hiding = false;
-                if(Vector3.Distance(transform.position, Nathan.transform.position) < 5)
+                if (Vector3.Distance(transform.position, Nathan.transform.position) < 5)
                 {
+
                     var otherScript = OtherGhost.GetComponent<GhostController>();
-                    otherScript.scarePoint += 75.0f;
+                    otherScript.scarePoint += 75;
                 }
                 //human scare point logic
             }
@@ -408,7 +415,7 @@ public class GhostController : MonoBehaviour
 
     void OnEnter()
     {
-        Debug.Log(propBool);
+       
         //Ghost enters a prop
 
         //If the ghost is in a prop
@@ -728,10 +735,10 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision other){
-        var otherScript = OtherGhost.GetComponent<GhostController>();
-        if(other.gameObject.tag == "Human" && !onHuman && !otherScript.onHuman){
-            OnTaking();
-        }
-    }
+    //void OnCollisionEnter(Collision other){
+      //  var otherScript = OtherGhost.GetComponent<GhostController>();
+       // if(other.gameObject.tag == "Human" && !onHuman && !otherScript.onHuman){
+      //      OnTaking();
+     //   }
+   // }
 }

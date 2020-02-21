@@ -40,12 +40,12 @@ public class ChoreManger : MonoBehaviour
     {
         if(player1Score >= 3)
         {
-            //player 1 wins
+            GameObject.Find("UI").gameObject.transform.GetChild(0).gameObject.SetActive(true);
         }
 
         if(player2Score >= 3)
         {
-            //player 2 wins
+            GameObject.Find("UI").gameObject.transform.GetChild(0).gameObject.SetActive(true);
         }
 
         if(chores.Count > 0){
