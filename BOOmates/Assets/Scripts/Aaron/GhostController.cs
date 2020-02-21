@@ -135,7 +135,7 @@ public class GhostController : MonoBehaviour
 
         var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
 
-        choreManger = GameObject.Find("ChoreManger").GetComponent<ChoreManger>();
+        //choreManger = GameObject.Find("ChoreManger").GetComponent<ChoreManger>();
     }
 
     private void FixedUpdate()
@@ -166,11 +166,11 @@ public class GhostController : MonoBehaviour
             if (playernum == 0)
             {
 
-                currentChore = choreManger.player1Chore;
+                //currentChore = choreManger.player1Chore;
             }
             else
             {
-                currentChore = choreManger.player2Chore;
+                //currentChore = choreManger.player2Chore;
             }
         }
 
@@ -190,7 +190,6 @@ public class GhostController : MonoBehaviour
             if (playernum == 0)
             {
                 lightBool = lightScript.locked1;
-                Debug.Log(lightBool);
                 gramBool = musicScript.locked1;
                 paintBool = paintScript.locked1;
                 propBool = propScript.locked1;
@@ -424,7 +423,7 @@ public class GhostController : MonoBehaviour
             }
             else
             {
-                Debug.Log("here");
+                
                 prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce , 0.0f, moveVec.y * pushForce);
                 gameObject.transform.position = prop.transform.position;
             }
