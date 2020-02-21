@@ -15,13 +15,15 @@ public class Cleans : Chores
         base.placed();
     }
 
-    public override void activeChore()
+    public override void activeChore(int ghostid)
     {
+        base.activeChore(ghostid);
         _active = true;
     }
 
-    public override void deactiveChore()
+    public override void deactiveChore(int ghostid)
     {
+        base.deactiveChore(ghostid);
         _active = false;
     }
 }
