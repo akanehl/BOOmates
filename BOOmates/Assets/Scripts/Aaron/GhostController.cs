@@ -49,6 +49,13 @@ public class GhostController : MonoBehaviour
     GameObject painting;
     PaintingScript paintScript;
 
+    //Prop Variables
+    public float pushForce;
+    private bool propBool = false;
+    bool inProp;
+    GameObject prop;
+    PropScript propScript;
+
     //Material/Invisibility controls
     public Material color1;
     public Material color2;
@@ -87,6 +94,9 @@ public class GhostController : MonoBehaviour
         //Assign painting variables to proper objects in scene
         painting = GameObject.FindGameObjectWithTag("Painting");
         paintScript = painting.GetComponent<PaintingScript>();
+
+        prop = GameObject.FindGameObjectWithTag("Prop");
+        propScript = prop.GetComponent<PropScript>();
 
         //Assign player numbers and colors
         playernum = numplayers;
@@ -139,21 +149,23 @@ public class GhostController : MonoBehaviour
         if (playernum == 0)
         {
             painting = paintScript.closest1;
+            prop = propScript.closest1;
         }
         if (playernum == 1)
         {
             painting = paintScript.closest2;
+            prop = propScript.closest2;
         }
 
         if(currentChore == null)
         {
             if (playernum == 0)
             {
-                currentChore = GameObject.Find("ChoreManger").GetComponent<ChoreManger>().player1Chore;
+                //currentChore = GameObject.Find("ChoreManger").GetComponent<ChoreManger>().player1Chore;
             }
             else
             {
-                currentChore = GameObject.Find("ChoreManger").GetComponent<ChoreManger>().player2Chore;
+                //currentChore = GameObject.Find("ChoreManger").GetComponent<ChoreManger>().player2Chore;
             }
         }
 
@@ -167,14 +179,17 @@ public class GhostController : MonoBehaviour
             // timeSwiping();
 
         }
-        //NEEDS TO BE UPDATED TO WORK WITH MULTIPLE ITEMS
+    
         else
         {
             if (playernum == 0)
             {
                 lightBool = lightScript.locked1;
+                Debug.Log(lightBool);
                 gramBool = musicScript.locked1;
                 paintBool = paintScript.locked1;
+                propBool = propScript.locked1;
+                
             }
             if (playernum == 1)
             {
@@ -182,6 +197,7 @@ public class GhostController : MonoBehaviour
                 lightBool = lightScript.locked2;
                 gramBool = musicScript.locked2;
                 paintBool = paintScript.locked2;
+                propBool = propScript.locked2;
             }
         }
     }
@@ -327,6 +343,7 @@ public class GhostController : MonoBehaviour
 
     void OnLights()
     {
+        Debug.Log(gramBool);
         //Edited BY Guanchen
         if (!lightBool)
         {
@@ -337,6 +354,7 @@ public class GhostController : MonoBehaviour
     void OnMusic()
     {
         //Edited BY Guanchen
+        Debug.Log(gramBool);
     
             AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
             if (!gramBool)
@@ -387,10 +405,30 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    void OnPunch()
+    private void OnEnter()
     {
-        //Button is held down
-        //powerUp = true;
+        //Ghost enters a prop
+        if(!propBool)
+        {
+            if (!inProp)
+            {
+                inProp = true;
+                gameObject.transform.position = prop.transform.position;
+                gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                
+            }
+            else
+            {
+                Debug.Log("here");
+                prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce , 0.0f, moveVec.y * pushForce);
+                gameObject.transform.position = prop.transform.position;
+            }
+        }
+    }
+
+    void OnDash()
+    {
+        powerUp = true;
     }
 
     void OnLaunch()
