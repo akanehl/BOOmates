@@ -9,7 +9,7 @@ public class GhostController : MonoBehaviour
 {
     //General Player Info
     static int numplayers = 0;
-    int playernum;
+    public int playernum;
     Controller player;
     Vector2 moveVec;
     public Rigidbody rigBod;
@@ -69,14 +69,19 @@ public class GhostController : MonoBehaviour
     public selectedItem currentItem;
     private Transform _selection;
     private Transform grabItem;
-    public GameObject targetPosition;
-
     //Add by Guanchen Liu
     //Find other gameobject
     private GameObject OtherGhost;
     private GameObject mainCamera;
-    private    CameraControl   sc;
+    
     private GameObject UI;
+
+    private CameraControl sc;
+
+    private Chores currentChore;
+
+    private ChoreManger choreManger;
+
 
     private void Awake()
     {
@@ -111,7 +116,6 @@ public class GhostController : MonoBehaviour
         Nathan = GameObject.Find("Nathan");
         humanScript = Nathan.GetComponent<HumanBehavior>();
         currentItem = selectedItem.None;
-        targetPosition = GameObject.Find("ParticleSystem");
         mainCamera  = GameObject.Find("MainCamera");
         sc          = mainCamera.GetComponent<CameraControl>();
         UI = GameObject.Find("UI");
@@ -141,7 +145,8 @@ public class GhostController : MonoBehaviour
         }
 
         var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
-        targetPosition = GameObject.Find("tv_target_pos");
+
+        choreManger = GameObject.Find("ChoreManger").GetComponent<ChoreManger>();
     }
 
     private void FixedUpdate()
@@ -164,6 +169,18 @@ public class GhostController : MonoBehaviour
         if (playernum == 1)
         {
             painting = paintScript.closest2;
+        }
+
+        if(currentChore == null)
+        {
+            if (playernum == 0)
+            {
+                currentChore = choreManger.player1Chore;
+            }
+            else
+            {
+                currentChore = choreManger.player2Chore;
+            }
         }
 
         //Then, calculate the human condition tasks
@@ -418,6 +435,7 @@ public class GhostController : MonoBehaviour
     {
         //update direction of movement
         moveVec = value.Get<Vector2>();
+        Debug.Log("is taking value");
     }
     private void OnInvis()
     {
@@ -444,17 +462,17 @@ public class GhostController : MonoBehaviour
 
     //Add by Guanchen Liu
     void OnGrabbing(){
-        Debug.Log("pressed");
         if(!humanScript.enabled)
         {
-            if(_selection != null)
+            Debug.Log("pressed");
+            if(_selection != null && currentChore.gameObject == _selection.gameObject)
             {
-                if(_selection.CompareTag("GrabObject"))
+                if(_selection.CompareTag("GrabObject") && currentChore is Grabs)
                 {      
                     currentItem = selectedItem.GrabObject;
                     grabItem = _selection;
                 }
-                else if( _selection.CompareTag("CleanObject")) 
+                else if( _selection.CompareTag("CleanObject") && currentChore is Cleans) 
                 {
                     currentItem = selectedItem.CleanObject;
                 }
@@ -468,6 +486,7 @@ public class GhostController : MonoBehaviour
     //when the human is vaccan(?)
     void OnTaking(){
 
+        Debug.Log("pressed in taking");
         if(!onHuman && humanScript.enabled){
             var controlScript = this.GetComponent<GhostController>();
             rigBod.detectCollisions = false;
@@ -533,12 +552,22 @@ public class GhostController : MonoBehaviour
        rigBod.detectCollisions = true;
     }
 
+    void OnNextChore()
+    {
+        currentChore = choreManger.nextChore(playernum);
+    }
+
+    void OnPrevChore()
+    {
+        currentChore = choreManger.prevChore(playernum);
+    }
+
     //Add by Guanchen Liu
     //Origin: Enxuan
     //This function will go through the human interaction when ghosts
     //on human.
     void humanTask(){
-          if(currentItem == selectedItem.GrabObject)
+          if(currentItem == selectedItem.GrabObject && currentChore is Grabs)
             {
                 if(_selection != null)
                 {
@@ -547,12 +576,13 @@ public class GhostController : MonoBehaviour
                     _selection.transform.rotation = Quaternion.LookRotation(Nathan.transform.forward);
                 }
             }
-            else if(currentItem == selectedItem.CleanObject)
+            else if(currentItem == selectedItem.CleanObject && currentChore is Cleans)
             {
                 if(_selection != null)
                 {
                     //Sound: Clean Sound around 5 seconds
                     Nathan.transform.GetChild(0).gameObject.SetActive(true);
+                    Nathan.transform.GetChild(0).transform.rotation = Quaternion.Euler(new Vector3 (0.0f, 0.0f, 0.0f));
                     Transform timeBar = Nathan.transform.GetChild(0).GetChild(0);
                     if(timeBar.localScale.x < 1)
                     {
@@ -567,6 +597,8 @@ public class GhostController : MonoBehaviour
                         Nathan.transform.GetChild(0).gameObject.SetActive(false);
                         _selection = null;
                         currentItem = selectedItem.None;
+                        currentChore.finishClean();
+                        currentChore = null;
                     }
                 }
             }
@@ -617,15 +649,12 @@ public class GhostController : MonoBehaviour
             if (currentItem == selectedItem.GrabObject)
             {
                 currentItem = selectedItem.None;
-                if(grabItem != null)
+                if(grabItem.gameObject == currentChore.gameObject)
                 {
-                    Vector2 item = new Vector2(grabItem.position.x, grabItem.position.z);
-                    Vector2 target = new Vector2(targetPosition.transform.position.x, targetPosition.transform.position.z);
-                    if(checkItemInPos(target, item, 1)){
-                        grabItem.position = new Vector3(target.x, grabItem.position.y, target.y);
-                        targetPosition.gameObject.SetActive(false);
-                        grabItem.rotation = Quaternion.Euler(new Vector3(0.0f, 180.0f, 0.0f));
-                        grabItem.tag = "PositionedItem";
+                    currentChore.placed();
+                    if(currentChore.complete())
+                    {
+                        currentChore = null;
                     }
                 }
                 grabItem = null;
