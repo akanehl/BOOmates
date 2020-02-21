@@ -37,14 +37,16 @@ public class Grabs : Chores
         return;
     }
 
-    public override void activeChore()
+    public override void activeChore(int ghostid)
     {
+        base.activeChore(ghostid);
         targetPosition.SetActive(true);
         _active = true;
     }
 
-    public override void deactiveChore()
+    public override void deactiveChore(int ghostid)
     {
+        base.deactiveChore(ghostid);
         targetPosition.SetActive(false);
         _active = false;
     }

@@ -497,6 +497,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   discription: move tv
+  defalutMaterial: {fileID: 670224309865224971, guid: d622418446fccf049914f350b9085b9e,
+    type: 3}
+  ghost1Material: {fileID: 2100000, guid: f8c60310d89854301bc4e704504aa687, type: 2}
+  ghost2Material: {fileID: 2100000, guid: 4de0d12f0285b496983863b04d941346, type: 2}
   targetPosition: {fileID: 1467769773}
 --- !u!1 &217131282
 GameObject:
@@ -1433,6 +1437,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   discription: 
+  defalutMaterial: {fileID: 670224309865224971, guid: e200cbf559fcccb41a51421ee6c4e6a1,
+    type: 3}
+  ghost1Material: {fileID: 2100000, guid: f8c60310d89854301bc4e704504aa687, type: 2}
+  ghost2Material: {fileID: 2100000, guid: 4de0d12f0285b496983863b04d941346, type: 2}
   targetPosition: {fileID: 1256695693}
 --- !u!65 &531863352
 BoxCollider:
@@ -12824,6 +12832,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   discription: 
+  defalutMaterial: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  ghost1Material: {fileID: 2100000, guid: f8c60310d89854301bc4e704504aa687, type: 2}
+  ghost2Material: {fileID: 2100000, guid: 4de0d12f0285b496983863b04d941346, type: 2}
 --- !u!1 &1651271701
 GameObject:
   m_ObjectHideFlags: 0

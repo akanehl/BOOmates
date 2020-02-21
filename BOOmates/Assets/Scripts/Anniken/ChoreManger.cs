@@ -34,7 +34,7 @@ public class ChoreManger : MonoBehaviour
         //     player2ChoreNum = Random.Range(0, chores.Count);
         // }
         player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-        player2Chore.activeChore();
+        player2Chore.activeChore(1);
 
     }
 
@@ -56,7 +56,7 @@ public class ChoreManger : MonoBehaviour
                 {
                     player1Score++;
                     Debug.Log("the chore1 is complete");
-                    player1Chore.deactiveChore();
+                    player1Chore.deactiveChore(0);
                     if(player2ChoreNum > player1ChoreNum)
                         player2ChoreNum--;
                     chores.Remove(player1Chore.gameObject);
@@ -66,7 +66,7 @@ public class ChoreManger : MonoBehaviour
                             player1ChoreNum = Random.Range(0, chores.Count);               
                         }
                         player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
-                        player1Chore.activeChore();
+                        player1Chore.activeChore(0);
                     }
                 }
             } 
@@ -76,7 +76,7 @@ public class ChoreManger : MonoBehaviour
                 {
                     player2Score++;
                     Debug.Log("the chore2 is complete");
-                    player2Chore.deactiveChore();
+                    player2Chore.deactiveChore(1);
                     if(player1ChoreNum > player2ChoreNum)
                         player1ChoreNum--;
                     chores.Remove(player2Chore.gameObject);
@@ -86,7 +86,7 @@ public class ChoreManger : MonoBehaviour
                             player2ChoreNum = Random.Range(0, chores.Count);               
                         }
                         player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-                        player2Chore.activeChore();
+                        player2Chore.activeChore(1);
                     }
                 }
             }
@@ -97,7 +97,7 @@ public class ChoreManger : MonoBehaviour
     {
         if (player == 0)
         {
-            player1Chore.deactiveChore();
+            player1Chore.deactiveChore(0);
             if(chores.Count > 0){
                 player1ChoreNum++;
                 if(player1ChoreNum == player2ChoreNum)
@@ -113,13 +113,13 @@ public class ChoreManger : MonoBehaviour
                     }
                 }
                 player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
-                player1Chore.activeChore();
+                player1Chore.activeChore(0);
                 return player1Chore;
             }
         }
         else
         {
-            player2Chore.deactiveChore();
+            player2Chore.deactiveChore(1);
             if(chores.Count > 0){
                 player2ChoreNum++;
                 if(player2ChoreNum == player1ChoreNum)
@@ -135,7 +135,7 @@ public class ChoreManger : MonoBehaviour
                     }
                 }
                 player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-                player2Chore.activeChore();
+                player2Chore.activeChore(1);
             }
             return player2Chore;
         }
@@ -146,7 +146,7 @@ public class ChoreManger : MonoBehaviour
     {
         if (player == 0)
         {
-            player1Chore.deactiveChore();
+            player1Chore.deactiveChore(0);
             if(chores.Count > 0){
                 player1ChoreNum--;
                 if(player1ChoreNum == player2ChoreNum)
@@ -162,13 +162,13 @@ public class ChoreManger : MonoBehaviour
                     }
                 }
                 player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
-                player1Chore.activeChore();
+                player1Chore.activeChore(0);
                 return player1Chore;
             }
         }
         else
         {
-            player2Chore.deactiveChore();
+            player2Chore.deactiveChore(1);
             if(chores.Count > 0){
                 player2ChoreNum--;
                 if(player2ChoreNum == player1ChoreNum)
@@ -184,7 +184,7 @@ public class ChoreManger : MonoBehaviour
                     }
                 }
                 player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-                player2Chore.activeChore();
+                player2Chore.activeChore(1);
             }
             return player2Chore;
         }
