@@ -38,12 +38,12 @@ public class ChoreManger : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(player1Score >= 5)
+        if(player1Score >= 3)
         {
             //player 1 wins
         }
 
-        if(player2Score >= 5)
+        if(player2Score >= 3)
         {
             //player 2 wins
         }
@@ -188,4 +188,5 @@ public class ChoreManger : MonoBehaviour
         }
         return null;
     }
+
 }

@@ -68,6 +68,12 @@ public class Chores: MonoBehaviour
     public virtual void placed() {
         Debug.LogError("Object type is not Grab");
     }
+
+    public virtual GameObject getTargetPosition()
+    {
+        Debug.LogError("not grabbing");
+        return null;
+    }
 }
 
 
