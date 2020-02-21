@@ -58,6 +58,13 @@ public class GhostController : MonoBehaviour
     private bool paintEnable;
     Image paintImage;
 
+    // //Prop Variables
+    // public float pushForce;
+    // private bool propBool = false;
+    // bool inProp;
+    // GameObject prop;
+    // PropScript propScript;
+
     //Material/Invisibility controls
     public Material color1;
     public Material color2;
@@ -109,6 +116,9 @@ public class GhostController : MonoBehaviour
         paintScript = painting.GetComponent<PaintingScript>();
         paintCooldown = 15f;
         paintEnable = true;
+
+        // prop = GameObject.FindGameObjectWithTag("Prop");
+        // propScript = prop.GetComponent<PropScript>();
 
         //Assign player numbers and colors
         playernum = numplayers;
@@ -171,16 +181,19 @@ public class GhostController : MonoBehaviour
         if (playernum == 0)
         {
             painting = paintScript.closest1;
+            // prop = propScript.closest1;
         }
         if (playernum == 1)
         {
             painting = paintScript.closest2;
+            // prop = propScript.closest2;
         }
 
         if(currentChore == null)
         {
             if (playernum == 0)
             {
+
                 currentChore = choreManger.player1Chore;
             }
             else
@@ -295,7 +308,6 @@ public class GhostController : MonoBehaviour
                 if (moveSpeed > 0)
                 {
                     moveSpeed--;
-                    Debug.Log(moveSpeed);
                 }
 
             }
@@ -356,6 +368,7 @@ public class GhostController : MonoBehaviour
 
     void OnLights()
     {
+        // Debug.Log(gramBool);
         //Edited BY Guanchen
         if (!lightBool && lightEnable)
         {
@@ -370,6 +383,7 @@ public class GhostController : MonoBehaviour
     void OnMusic()
     {
         //Edited BY Guanchen
+     
     
             AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
             if (!gramBool && musicEnable)
@@ -411,7 +425,6 @@ public class GhostController : MonoBehaviour
                 transform.position = painting.transform.GetChild(1).transform.position;
                 rigBod.AddForce((moveVec.x) * 500, 0.0f, (moveVec.y) * 500);
                 hiding = false;
-                Debug.Log(Vector3.Distance(transform.position, Nathan.transform.position));
                 if(Vector3.Distance(transform.position, Nathan.transform.position) < 5)
                 {
                     var otherScript = OtherGhost.GetComponent<GhostController>();
@@ -425,10 +438,30 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    void OnPunch()
+    // private void OnEnter()
+    // {
+    //     //Ghost enters a prop
+    //     if(!propBool)
+    //     {
+    //         if (!inProp)
+    //         {
+    //             inProp = true;
+    //             gameObject.transform.position = prop.transform.position;
+    //             gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                
+    //         }
+    //         else
+    //         {
+                
+    //             prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce , 0.0f, moveVec.y * pushForce);
+    //             gameObject.transform.position = prop.transform.position;
+    //         }
+    //     }
+    // }
+
+    void OnDash()
     {
-        //Button is held down
-        //powerUp = true;
+        powerUp = true;
     }
 
     void OnLaunch()
@@ -473,9 +506,10 @@ public class GhostController : MonoBehaviour
             if(_selection != null && currentChore.gameObject == _selection.gameObject)
             {
                 if(_selection.CompareTag("GrabObject") && currentChore is Grabs)
-                {      
+                {
                     currentItem = selectedItem.GrabObject;
                     grabItem = _selection;
+                    currentChore.getTargetPosition().SetActive(true);
                 }
                 else if( _selection.CompareTag("CleanObject") && currentChore is Cleans) 
                 {
@@ -619,12 +653,12 @@ public class GhostController : MonoBehaviour
                 {
                     if(!hit.transform.CompareTag("Human")){
                         Nathan.transform.GetChild(1).gameObject.SetActive(true);
-                        if(hit.transform.CompareTag("GrabObject")){
+                        if(hit.transform.CompareTag("GrabObject") && hit.transform.gameObject == currentChore.gameObject){
                             Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
                             Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
                             _selection = hit.transform;
                         }
-                        else if (hit.transform.CompareTag("CleanObject"))
+                        else if (hit.transform.CompareTag("CleanObject")&& hit.transform.gameObject == currentChore.gameObject)
                         {                        
                             Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
                             Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
@@ -660,6 +694,7 @@ public class GhostController : MonoBehaviour
             if (currentItem == selectedItem.GrabObject)
             {
                 currentItem = selectedItem.None;
+                currentChore.getTargetPosition().SetActive(false);
                 if(grabItem.gameObject == currentChore.gameObject)
                 {
                     currentChore.placed();

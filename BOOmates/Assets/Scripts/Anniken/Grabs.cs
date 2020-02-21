@@ -40,7 +40,6 @@ public class Grabs : Chores
     public override void activeChore(int ghostid)
     {
         base.activeChore(ghostid);
-        targetPosition.SetActive(true);
         _active = true;
     }
 
@@ -49,5 +48,10 @@ public class Grabs : Chores
         base.deactiveChore(ghostid);
         targetPosition.SetActive(false);
         _active = false;
+    }
+
+    public override GameObject getTargetPosition()
+    {
+        return targetPosition;
     }
 }

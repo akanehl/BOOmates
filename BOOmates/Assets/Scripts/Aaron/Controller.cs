@@ -115,9 +115,17 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""163f6f63-add6-4d08-bae4-7aac2dab25dd"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""NextChore"",
                     ""type"": ""Button"",
-                    ""id"": ""400b8309-aaed-47c1-a189-16efdb4d6038"",
+                    ""id"": ""cf1b6374-ceea-495b-9742-db84c753166c"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -125,7 +133,7 @@ public class @Controller : IInputActionCollection, IDisposable
                 {
                     ""name"": ""PrevChore"",
                     ""type"": ""Button"",
-                    ""id"": ""ea8e7198-dee1-4adc-9593-a11867c3812e"",
+                    ""id"": ""322cfa78-b770-406c-b7d3-18bd72b5a88e"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -266,7 +274,18 @@ public class @Controller : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""521b19cf-6960-4d00-9815-c0fa0d5983c3"",
+                    ""id"": ""5c1ae9e4-f38b-4ef8-963f-f82fbefbf873"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1b909c3-b954-423c-8d2f-afcf31f1b1a5"",
                     ""path"": ""<Gamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -277,7 +296,7 @@ public class @Controller : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""eafd3385-25cf-4445-8c00-6ed59c1926d6"",
+                    ""id"": ""f1d0968f-b7f3-4759-b5ea-725104796b9d"",
                     ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -777,6 +796,7 @@ public class @Controller : IInputActionCollection, IDisposable
         m_Gameplay_Grabbing = m_Gameplay.FindAction("Grabbing", throwIfNotFound: true);
         m_Gameplay_Title = m_Gameplay.FindAction("Title", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
+        m_Gameplay_Enter = m_Gameplay.FindAction("Enter", throwIfNotFound: true);
         m_Gameplay_NextChore = m_Gameplay.FindAction("NextChore", throwIfNotFound: true);
         m_Gameplay_PrevChore = m_Gameplay.FindAction("PrevChore", throwIfNotFound: true);
         // Gameplay1
@@ -868,6 +888,7 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Grabbing;
     private readonly InputAction m_Gameplay_Title;
     private readonly InputAction m_Gameplay_Movement;
+    private readonly InputAction m_Gameplay_Enter;
     private readonly InputAction m_Gameplay_NextChore;
     private readonly InputAction m_Gameplay_PrevChore;
     public struct GameplayActions
@@ -886,6 +907,7 @@ public class @Controller : IInputActionCollection, IDisposable
         public InputAction @Grabbing => m_Wrapper.m_Gameplay_Grabbing;
         public InputAction @Title => m_Wrapper.m_Gameplay_Title;
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
+        public InputAction @Enter => m_Wrapper.m_Gameplay_Enter;
         public InputAction @NextChore => m_Wrapper.m_Gameplay_NextChore;
         public InputAction @PrevChore => m_Wrapper.m_Gameplay_PrevChore;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
@@ -933,6 +955,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnMovement;
+                @Enter.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
+                @Enter.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
+                @Enter.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
                 @NextChore.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNextChore;
                 @NextChore.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNextChore;
                 @NextChore.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnNextChore;
@@ -979,6 +1004,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Enter.started += instance.OnEnter;
+                @Enter.performed += instance.OnEnter;
+                @Enter.canceled += instance.OnEnter;
                 @NextChore.started += instance.OnNextChore;
                 @NextChore.performed += instance.OnNextChore;
                 @NextChore.canceled += instance.OnNextChore;
@@ -1245,6 +1273,7 @@ public class @Controller : IInputActionCollection, IDisposable
         void OnGrabbing(InputAction.CallbackContext context);
         void OnTitle(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
+        void OnEnter(InputAction.CallbackContext context);
         void OnNextChore(InputAction.CallbackContext context);
         void OnPrevChore(InputAction.CallbackContext context);
     }
