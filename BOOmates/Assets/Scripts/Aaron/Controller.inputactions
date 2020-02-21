@@ -100,6 +100,24 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+
+                },
+                {
+                    "name": "NextChore",
+                    "type": "Button",
+                    "id": "cf1b6374-ceea-495b-9742-db84c753166c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PrevChore",
+                    "type": "Button",
+                    "id": "322cfa78-b770-406c-b7d3-18bd72b5a88e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+
                 }
             ],
             "bindings": [
@@ -226,12 +244,23 @@
                 },
                 {
                     "name": "",
-                    "id": "7697da83-bd61-4c19-91c4-1d9a1a2af8e7",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "f1b909c3-b954-423c-8d2f-afcf31f1b1a5",
+                    "path": "<Gamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Leave",
+                    "action": "NextChore",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f1d0968f-b7f3-4759-b5ea-725104796b9d",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrevChore",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
