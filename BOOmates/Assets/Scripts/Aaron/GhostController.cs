@@ -148,7 +148,7 @@ public class GhostController : MonoBehaviour
         //Then, Dash Calculations
         doDash();
         //Update the ScarePoint Value, due to conditions
-        //scareManager();
+        scareManager();
 
         if (playernum == 0)
         {
@@ -286,7 +286,6 @@ public class GhostController : MonoBehaviour
                 if (moveSpeed > 0)
                 {
                     moveSpeed--;
-                    Debug.Log(moveSpeed);
                 }
 
             }
@@ -358,7 +357,7 @@ public class GhostController : MonoBehaviour
     void OnMusic()
     {
         //Edited BY Guanchen
-        Debug.Log(gramBool);
+     
     
             AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
             if (!gramBool)
@@ -397,13 +396,11 @@ public class GhostController : MonoBehaviour
                 transform.position = painting.transform.GetChild(1).transform.position;
                 rigBod.AddForce((moveVec.x) * 500, 0.0f, (moveVec.y) * 500);
                 hiding = false;
-                Debug.Log(Vector3.Distance(transform.position, Nathan.transform.position));
                 if(Vector3.Distance(transform.position, Nathan.transform.position) < 5)
                 {
                     var otherScript = OtherGhost.GetComponent<GhostController>();
                     otherScript.scarePoint += 75.0f;
                 }
-                Debug.Log(scarePoint);
                 //human scare point logic
             }
         }
@@ -444,7 +441,6 @@ public class GhostController : MonoBehaviour
     {
         //update direction of movement
         moveVec = value.Get<Vector2>();
-        Debug.Log("is taking value");
     }
     private void OnInvis()
     {
