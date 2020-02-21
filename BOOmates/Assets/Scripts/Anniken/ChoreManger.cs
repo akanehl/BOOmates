@@ -25,12 +25,14 @@ public class ChoreManger : MonoBehaviour
         player1Score = 0;
         player2Score = 0;
         player1ChoreNum = Random.Range(0, chores.Count);
+        Debug.Log(player1ChoreNum);
+        Debug.Log(chores.Count);
         player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
         player1Chore.activeChore();
-        while (player1ChoreNum == player2ChoreNum)
-        {
-            player2ChoreNum = Random.Range(0, chores.Count);
-        }
+        // while (player1ChoreNum == player2ChoreNum)
+        // {
+        //     player2ChoreNum = Random.Range(0, chores.Count);
+        // }
         player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
         player2Chore.activeChore();
 

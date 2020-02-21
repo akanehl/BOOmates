@@ -47,6 +47,7 @@ public class GhostController : MonoBehaviour
     GameObject worldMusic;
     private float musicCooldown;
     private bool musicEnable = true;
+    Image musicImage;
     
     //Painting variables
     private bool paintBool = false;
@@ -55,6 +56,7 @@ public class GhostController : MonoBehaviour
     PaintingScript paintScript;
     private float paintCooldown;
     private bool paintEnable;
+    Image paintImage;
 
     //Material/Invisibility controls
     public Material color1;
@@ -73,7 +75,7 @@ public class GhostController : MonoBehaviour
     //Find other gameobject
     private GameObject OtherGhost;
     private GameObject mainCamera;
-    
+
     private GameObject UI;
 
     private CameraControl sc;
@@ -121,6 +123,8 @@ public class GhostController : MonoBehaviour
         UI = GameObject.Find("UI");
         var UICoolDown = UI.transform.GetChild(4).gameObject;
         lightImage = UICoolDown.transform.GetChild(0).GetComponent<Image>();
+        musicImage = UICoolDown.transform.GetChild(1).GetComponent<Image>();
+        paintImage = UICoolDown.transform.GetChild(2).GetComponent<Image>();
 
 
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
@@ -194,21 +198,19 @@ public class GhostController : MonoBehaviour
 
         }
         //NEEDS TO BE UPDATED TO WORK WITH MULTIPLE ITEMS
-        else
+        if (playernum == 0)
         {
-            if (playernum == 0)
-            {
-                lightBool = lightScript.locked1;
-                gramBool = musicScript.locked1;
-                paintBool = paintScript.locked1;
-            }
-            if (playernum == 1)
-            {
+            lightBool = lightScript.locked1;
+            gramBool = musicScript.locked1;
+            paintBool = paintScript.locked1;
+            Debug.Log(lightScript.locked1);
+        }
+        if (playernum == 1)
+        {
 
-                lightBool = lightScript.locked2;
-                gramBool = musicScript.locked2;
-                paintBool = paintScript.locked2;
-            }
+            lightBool = lightScript.locked2;
+            gramBool = musicScript.locked2;
+            paintBool = paintScript.locked2;
         }
     }
 
@@ -380,7 +382,8 @@ public class GhostController : MonoBehaviour
                 {
                     spookyClip.Pause();
                     musicPlaying = false;
-                    musicEnable = false;
+                    musicEnable  = false;
+                    musicImage.fillAmount = 0;
 
                 }       
             }
@@ -414,6 +417,7 @@ public class GhostController : MonoBehaviour
                     otherScript.scarePoint += 75.0f;
                 }
                 paintEnable = false;
+                paintImage.fillAmount = 0;
                 Debug.Log(scarePoint);
                 //human scare point logic
             }
@@ -435,7 +439,7 @@ public class GhostController : MonoBehaviour
     {
         //update direction of movement
         moveVec = value.Get<Vector2>();
-        Debug.Log("is taking value");
+        //Debug.Log("is taking value");
     }
     private void OnInvis()
     {
@@ -713,6 +717,7 @@ public class GhostController : MonoBehaviour
 
     void CoolDownManager(){
         if(!paintEnable){
+            paintImage.fillAmount += 1 / lightCooldown * Time.deltaTime;
             paintCooldown -= 0.02f;
             if(paintCooldown <= 0){
                 paintEnable = true;
@@ -728,6 +733,7 @@ public class GhostController : MonoBehaviour
             }
         }
         if(!musicEnable){
+            musicImage.fillAmount += 1 / lightCooldown * Time.deltaTime;
             musicCooldown -= 0.02f;
             if(musicCooldown <= 0){
                 musicEnable = true;
