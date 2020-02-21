@@ -75,6 +75,7 @@ public class GhostController : MonoBehaviour
     //Find other gameobject
     private GameObject OtherGhost;
     private GameObject mainCamera;
+    private bool freezeHuman;
 
     private GameObject UI;
 
@@ -520,6 +521,7 @@ public class GhostController : MonoBehaviour
             //sc.isMoving = true;
             onHuman = false;
             humanScript.enabled = true;
+            freezeHuman = true;
             transform.GetChild(0).gameObject.SetActive(true);
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = false;
             StartCoroutine(ExampleCoroutine());
@@ -554,6 +556,7 @@ public class GhostController : MonoBehaviour
     IEnumerator ExampleCoroutine(){
        yield return new WaitForSeconds(1);
        rigBod.detectCollisions = true;
+       freezeHuman = false;
     }
 
     void OnNextChore()
@@ -573,6 +576,7 @@ public class GhostController : MonoBehaviour
     //This function will go through the human interaction when ghosts
     //on human.
     void humanTask(){
+        if(!freezeHuman){
           if(currentItem == selectedItem.GrabObject && currentChore is Grabs)
             {
                 if(_selection != null)
@@ -640,6 +644,7 @@ public class GhostController : MonoBehaviour
                     _selection = null;
                 }
             }
+        }
     }
 
     //Add by Guanchen Liu
