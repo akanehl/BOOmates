@@ -121,7 +121,8 @@ public class GhostController : MonoBehaviour
         mainCamera  = GameObject.Find("MainCamera");
         sc          = mainCamera.GetComponent<CameraControl>();
         UI = GameObject.Find("UI");
-        var UICoolDown = UI.transform.GetChild(4).gameObject;
+        var UICoolDown = UI.transform.Find("CoolDown").gameObject;
+        
         lightImage = UICoolDown.transform.GetChild(0).GetComponent<Image>();
         musicImage = UICoolDown.transform.GetChild(1).GetComponent<Image>();
         paintImage = UICoolDown.transform.GetChild(2).GetComponent<Image>();
@@ -199,11 +200,10 @@ public class GhostController : MonoBehaviour
         }
         //NEEDS TO BE UPDATED TO WORK WITH MULTIPLE ITEMS
         if (playernum == 0)
-        {
+        { 
             lightBool = lightScript.locked1;
             gramBool = musicScript.locked1;
             paintBool = paintScript.locked1;
-            Debug.Log(lightScript.locked1);
         }
         if (playernum == 1)
         {
