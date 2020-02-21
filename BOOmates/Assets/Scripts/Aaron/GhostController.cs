@@ -148,7 +148,7 @@ public class GhostController : MonoBehaviour
         //Then, Dash Calculations
         doDash();
         //Update the ScarePoint Value, due to conditions
-        //scareManager();
+        scareManager();
 
         if (playernum == 0)
         {
@@ -286,7 +286,6 @@ public class GhostController : MonoBehaviour
                 if (moveSpeed > 0)
                 {
                     moveSpeed--;
-                    Debug.Log(moveSpeed);
                 }
 
             }
@@ -347,7 +346,7 @@ public class GhostController : MonoBehaviour
 
     void OnLights()
     {
-        Debug.Log(gramBool);
+      
         //Edited BY Guanchen
         if (!lightBool)
         {
@@ -358,7 +357,7 @@ public class GhostController : MonoBehaviour
     void OnMusic()
     {
         //Edited BY Guanchen
-        Debug.Log(gramBool);
+     
     
             AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
             if (!gramBool)
@@ -397,36 +396,49 @@ public class GhostController : MonoBehaviour
                 transform.position = painting.transform.GetChild(1).transform.position;
                 rigBod.AddForce((moveVec.x) * 500, 0.0f, (moveVec.y) * 500);
                 hiding = false;
-                Debug.Log(Vector3.Distance(transform.position, Nathan.transform.position));
                 if(Vector3.Distance(transform.position, Nathan.transform.position) < 5)
                 {
                     var otherScript = OtherGhost.GetComponent<GhostController>();
                     otherScript.scarePoint += 75.0f;
                 }
-                Debug.Log(scarePoint);
                 //human scare point logic
             }
         }
     }
 
-    private void OnEnter()
+    void OnEnter()
     {
+        Debug.Log(propBool);
         //Ghost enters a prop
-        if(!propBool)
+
+        //If the ghost is in a prop
+        if (inProp)
+        {
+            prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce, 0.0f, moveVec.y * pushForce);
+            Debug.Log("setting pos");
+            gameObject.transform.position = prop.transform.position;
+        }
+
+        //the ghost is not in a prop, and close enough to active
+        if (!propBool)
         {
             if (!inProp)
             {
                 inProp = true;
                 gameObject.transform.position = prop.transform.position;
                 gameObject.transform.GetChild(0).gameObject.SetActive(false);
-                
+
             }
-            else
-            {
-                
-                prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce , 0.0f, moveVec.y * pushForce);
-                gameObject.transform.position = prop.transform.position;
-            }
+        }
+
+    }
+
+    void OnLeave()
+    {
+        if (inProp)
+        {
+            inProp = false;
+            gameObject.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 
@@ -444,7 +456,6 @@ public class GhostController : MonoBehaviour
     {
         //update direction of movement
         moveVec = value.Get<Vector2>();
-        Debug.Log("is taking value");
     }
     private void OnInvis()
     {

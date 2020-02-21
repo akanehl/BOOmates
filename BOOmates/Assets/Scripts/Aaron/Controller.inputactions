@@ -108,6 +108,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Leave",
+                    "type": "Button",
+                    "id": "b867e56c-a3ae-4bd6-a2c0-f90dc9422fd2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -251,6 +259,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Enter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7697da83-bd61-4c19-91c4-1d9a1a2af8e7",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Leave",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

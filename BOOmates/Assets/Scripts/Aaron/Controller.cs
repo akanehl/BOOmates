@@ -121,6 +121,14 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Leave"",
+                    ""type"": ""Button"",
+                    ""id"": ""b867e56c-a3ae-4bd6-a2c0-f90dc9422fd2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -264,6 +272,17 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7697da83-bd61-4c19-91c4-1d9a1a2af8e7"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Leave"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -759,6 +778,7 @@ public class @Controller : IInputActionCollection, IDisposable
         m_Gameplay_Title = m_Gameplay.FindAction("Title", throwIfNotFound: true);
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Enter = m_Gameplay.FindAction("Enter", throwIfNotFound: true);
+        m_Gameplay_Leave = m_Gameplay.FindAction("Leave", throwIfNotFound: true);
         // Gameplay1
         m_Gameplay1 = asset.FindActionMap("Gameplay1", throwIfNotFound: true);
         m_Gameplay1_Dash = m_Gameplay1.FindAction("Dash", throwIfNotFound: true);
@@ -849,6 +869,7 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Title;
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Enter;
+    private readonly InputAction m_Gameplay_Leave;
     public struct GameplayActions
     {
         private @Controller m_Wrapper;
@@ -866,6 +887,7 @@ public class @Controller : IInputActionCollection, IDisposable
         public InputAction @Title => m_Wrapper.m_Gameplay_Title;
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Enter => m_Wrapper.m_Gameplay_Enter;
+        public InputAction @Leave => m_Wrapper.m_Gameplay_Leave;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -914,6 +936,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Enter.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
                 @Enter.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
                 @Enter.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
+                @Leave.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeave;
+                @Leave.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeave;
+                @Leave.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeave;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -957,6 +982,9 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Enter.started += instance.OnEnter;
                 @Enter.performed += instance.OnEnter;
                 @Enter.canceled += instance.OnEnter;
+                @Leave.started += instance.OnLeave;
+                @Leave.performed += instance.OnLeave;
+                @Leave.canceled += instance.OnLeave;
             }
         }
     }
@@ -1218,6 +1246,7 @@ public class @Controller : IInputActionCollection, IDisposable
         void OnTitle(InputAction.CallbackContext context);
         void OnMovement(InputAction.CallbackContext context);
         void OnEnter(InputAction.CallbackContext context);
+        void OnLeave(InputAction.CallbackContext context);
     }
     public interface IGameplay1Actions
     {
