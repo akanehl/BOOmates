@@ -475,7 +475,7 @@ public class GhostController : MonoBehaviour
         if(!humanScript.enabled)
         {
             Debug.Log("pressed");
-            if(_selection != null && _selection.GetComponent<Chores>().isActive())
+            if(_selection != null && currentChore.gameObject == _selection.gameObject)
             {
                 if(_selection.CompareTag("GrabObject") && currentChore is Grabs)
                 {      
@@ -565,11 +565,13 @@ public class GhostController : MonoBehaviour
     void OnNextChore()
     {
         currentChore = choreManger.nextChore(playernum);
+        UIManager.instance.UpdateChore(currentChore);
     }
 
     void OnPrevChore()
     {
         currentChore = choreManger.prevChore(playernum);
+        UIManager.instance.UpdateChore(currentChore);
     }
 
     //Add by Guanchen Liu

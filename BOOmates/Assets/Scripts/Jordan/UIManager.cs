@@ -16,13 +16,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scarePoints;
 
     [SerializeField] private Image crystalBallIcon;
-    [SerializeField] private Image completedChores;
 
     [SerializeField] private Sprite[] playerEmotes;
 
     //Assigned when player loads in.
     private Image playerEmoteBubble;
 
+
+    //Flags
+    private bool isChoreChanging = false;
+    private bool isImageFading = false;
+    private int emoteIndex = -1;
 
     //Create a singleton pattern for the UI Manager
     private void Awake()
@@ -47,30 +51,17 @@ public class UIManager : MonoBehaviour
         //Debug Keys
         if(Input.GetKeyDown(KeyCode.P))
         {
-            //Activates Bubble
-            if(!playerEmoteBubble.gameObject.activeSelf)
-            {
-                playerEmoteBubble.gameObject.SetActive(true);
-            }
-            else
-            {
-                playerEmoteBubble.gameObject.SetActive(false);
-            }
         }
 
-        //Changes Bubble color
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.O))
         {
-            UpdateNathanEmoteColor(Color.green);
         }
-        else if (Input.GetKeyDown(KeyCode.Y))
+
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            UpdateNathanEmoteColor(Color.yellow);
         }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            UpdateNathanEmoteColor(Color.red);
-        }
+
+
     }
 
     //Requires time in int where 1 is 1 sec and 60 is a minute etc.
@@ -93,25 +84,55 @@ public class UIManager : MonoBehaviour
 
     public void UpdateScarePoints(int scareValue)
     {
-        scarePoints.text = "Scarepoints: "+ scareValue.ToString();
+        if (scareValue > 50 && scareValue <= 75 && emoteIndex != 0)
+        {
+            emoteIndex = 0;
+            UpdateNathanEmoteSprite(0);
+        }
+        else if (scareValue > 75 && scareValue <= 96 && emoteIndex != 1)
+        {
+            emoteIndex = 1;
+            UpdateNathanEmoteSprite(1);
+        }
+        else if (scareValue > 97 && emoteIndex != 2)
+        {
+            emoteIndex = 2;
+            UpdateNathanEmoteSprite(2);
+        }
+        else if(scareValue < 50)
+        {
+            emoteIndex = -1;
+        }
+
+        scarePoints.text = "Scare Points: " + scareValue.ToString();
     }
 
-    private void SetChores()
+    //Performs Chore swap upon call
+    public void UpdateChore(Chores currentChore)
     {
-         
+        if (isChoreChanging == false) //Prevents button mashing breaking the transition
+        {
+            isChoreChanging = true;
+            StartCoroutine(FadeCrystalBallIcon(currentChore.getChoreIcon()));
+        }
     }
+
     public void SetEmoteBubble(GameObject bubble)
     {
         playerEmoteBubble = bubble.GetComponent<Image>();
     }
 
-    public void UpdateNathanEmoteColor(Color c)
-    {
-        playerEmoteBubble.color = c;
-    }
     public void UpdateNathanEmoteSprite(int scareLevel)
     {
-        playerEmoteBubble.sprite = playerEmotes[scareLevel];
+       
+        if (isImageFading == false)
+        {
+            playerEmoteBubble.sprite = playerEmotes[scareLevel];
+            playerEmoteBubble.gameObject.SetActive(true);
+            isImageFading = true;
+            StartCoroutine(FadeImage(playerEmoteBubble));
+        }
+
     }
     private IEnumerator StartTimer()
     {
@@ -125,4 +146,27 @@ public class UIManager : MonoBehaviour
             UpdateTimer(currentTime);
         }
     }
+
+    //Fades out previous chore and swaps the chore, fades back in with the new chore.
+    private IEnumerator FadeCrystalBallIcon(Sprite icon)
+    {
+        crystalBallIcon.CrossFadeAlpha(0, 1f, false);
+        yield return new WaitForSeconds(1f);
+
+        crystalBallIcon.sprite = icon;
+
+        crystalBallIcon.CrossFadeAlpha(1, 1f, false);
+        yield return new WaitForSeconds(1f);
+        isChoreChanging = false;
+    }
+
+    private IEnumerator FadeImage(Image target)
+    {
+        yield return new WaitForSeconds(1f);
+        target.CrossFadeAlpha(0, 0.5f, false);
+        yield return new WaitForSeconds(2f);
+        isImageFading = false;
+        playerEmoteBubble.gameObject.SetActive(false);
+    }
+
 }
