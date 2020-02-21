@@ -27,11 +27,13 @@ public class ChoreManger : MonoBehaviour
         player1ChoreNum = Random.Range(0, chores.Count);
         player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
         player1Chore.activeChore(0);
-        while (player1ChoreNum == player2ChoreNum)
+        player2ChoreNum = Random.Range(0, chores.Count);
+        player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
+        while (player1Chore.getID() == player2Chore.getID())
         {
             player2ChoreNum = Random.Range(0, chores.Count);
+            player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
         }
-        player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
         player2Chore.activeChore(1);
 
     }
@@ -59,11 +61,13 @@ public class ChoreManger : MonoBehaviour
                         player2ChoreNum--;
                     chores.Remove(player1Chore.gameObject);
                     if(chores.Count > 0){
-                        while(player1ChoreNum == player2ChoreNum)
+                        player1ChoreNum = Random.Range(0, chores.Count);               
+                        player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
+                        while(player1Chore.getID() == player2Chore.getID())
                         {
                             player1ChoreNum = Random.Range(0, chores.Count);               
+                            player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
                         }
-                        player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
                         player1Chore.activeChore(0);
                     }
                 }
@@ -79,11 +83,13 @@ public class ChoreManger : MonoBehaviour
                         player1ChoreNum--;
                     chores.Remove(player2Chore.gameObject);
                     if(chores.Count > 0){
-                        while(player1ChoreNum == player2ChoreNum)
+                        player2ChoreNum = Random.Range(0, chores.Count);               
+                        player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
+                        while(player1Chore.getID() == player2Chore.getID())
                         {
                             player2ChoreNum = Random.Range(0, chores.Count);               
+                            player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
                         }
-                        player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
                         player2Chore.activeChore(1);
                     }
                 }

@@ -49,12 +49,12 @@ public class GhostController : MonoBehaviour
     GameObject painting;
     PaintingScript paintScript;
 
-    //Prop Variables
-    public float pushForce;
-    private bool propBool = false;
-    bool inProp;
-    GameObject prop;
-    PropScript propScript;
+    // //Prop Variables
+    // public float pushForce;
+    // private bool propBool = false;
+    // bool inProp;
+    // GameObject prop;
+    // PropScript propScript;
 
     //Material/Invisibility controls
     public Material color1;
@@ -97,8 +97,8 @@ public class GhostController : MonoBehaviour
         painting = GameObject.FindGameObjectWithTag("Painting");
         paintScript = painting.GetComponent<PaintingScript>();
 
-        prop = GameObject.FindGameObjectWithTag("Prop");
-        propScript = prop.GetComponent<PropScript>();
+        // prop = GameObject.FindGameObjectWithTag("Prop");
+        // propScript = prop.GetComponent<PropScript>();
 
         //Assign player numbers and colors
         playernum = numplayers;
@@ -135,7 +135,7 @@ public class GhostController : MonoBehaviour
 
         var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
 
-        //choreManger = GameObject.Find("ChoreManger").GetComponent<ChoreManger>();
+        choreManger = GameObject.Find("ChoreManger").GetComponent<ChoreManger>();
     }
 
     private void FixedUpdate()
@@ -153,12 +153,12 @@ public class GhostController : MonoBehaviour
         if (playernum == 0)
         {
             painting = paintScript.closest1;
-            prop = propScript.closest1;
+            // prop = propScript.closest1;
         }
         if (playernum == 1)
         {
             painting = paintScript.closest2;
-            prop = propScript.closest2;
+            // prop = propScript.closest2;
         }
 
         if(currentChore == null)
@@ -166,11 +166,11 @@ public class GhostController : MonoBehaviour
             if (playernum == 0)
             {
 
-                //currentChore = choreManger.player1Chore;
+                currentChore = choreManger.player1Chore;
             }
             else
             {
-                //currentChore = choreManger.player2Chore;
+                currentChore = choreManger.player2Chore;
             }
         }
 
@@ -192,7 +192,7 @@ public class GhostController : MonoBehaviour
                 lightBool = lightScript.locked1;
                 gramBool = musicScript.locked1;
                 paintBool = paintScript.locked1;
-                propBool = propScript.locked1;
+                // propBool = propScript.locked1;
                 
             }
             if (playernum == 1)
@@ -201,7 +201,7 @@ public class GhostController : MonoBehaviour
                 lightBool = lightScript.locked2;
                 gramBool = musicScript.locked2;
                 paintBool = paintScript.locked2;
-                propBool = propScript.locked2;
+                // propBool = propScript.locked2;
             }
         }
     }
@@ -347,7 +347,7 @@ public class GhostController : MonoBehaviour
 
     void OnLights()
     {
-        Debug.Log(gramBool);
+        // Debug.Log(gramBool);
         //Edited BY Guanchen
         if (!lightBool)
         {
@@ -409,26 +409,26 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    private void OnEnter()
-    {
-        //Ghost enters a prop
-        if(!propBool)
-        {
-            if (!inProp)
-            {
-                inProp = true;
-                gameObject.transform.position = prop.transform.position;
-                gameObject.transform.GetChild(0).gameObject.SetActive(false);
+    // private void OnEnter()
+    // {
+    //     //Ghost enters a prop
+    //     if(!propBool)
+    //     {
+    //         if (!inProp)
+    //         {
+    //             inProp = true;
+    //             gameObject.transform.position = prop.transform.position;
+    //             gameObject.transform.GetChild(0).gameObject.SetActive(false);
                 
-            }
-            else
-            {
+    //         }
+    //         else
+    //         {
                 
-                prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce , 0.0f, moveVec.y * pushForce);
-                gameObject.transform.position = prop.transform.position;
-            }
-        }
-    }
+    //             prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce , 0.0f, moveVec.y * pushForce);
+    //             gameObject.transform.position = prop.transform.position;
+    //         }
+    //     }
+    // }
 
     void OnDash()
     {
