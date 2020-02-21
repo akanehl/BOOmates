@@ -526,11 +526,13 @@ public class GhostController : MonoBehaviour
     void OnNextChore()
     {
         currentChore = choreManger.nextChore(playernum);
+        UIManager.instance.UpdateChore(currentChore);
     }
 
     void OnPrevChore()
     {
         currentChore = choreManger.prevChore(playernum);
+        UIManager.instance.UpdateChore(currentChore);
     }
 
     //Add by Guanchen Liu

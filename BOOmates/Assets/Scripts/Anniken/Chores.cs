@@ -8,6 +8,8 @@ public class Chores: MonoBehaviour
     [SerializeField]
     protected int id;
     [SerializeField]
+    protected Sprite choreIcon;
+    [SerializeField]
     [TextArea(3,10)]
     protected string discription;
     protected bool _complete = false;
@@ -19,6 +21,16 @@ public class Chores: MonoBehaviour
     protected Material ghost1Material;
     [SerializeField]
     protected Material ghost2Material;
+
+    public int getID()
+    {
+        return id;
+    }
+
+    public Sprite getChoreIcon()
+    {
+        return choreIcon;
+    }
 
     public bool complete() {
         return _complete;
