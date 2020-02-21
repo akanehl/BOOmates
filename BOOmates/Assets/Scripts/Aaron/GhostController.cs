@@ -35,6 +35,9 @@ public class GhostController : MonoBehaviour
     GameObject lightSwitch;
     LightScript lightScript;
     GameObject worldLighting;
+    private float lightCooldown;
+    private bool lightEnable = true;
+    Image lightImage;
 
     //Gramophone variables
     private bool gramBool = false;
@@ -42,12 +45,16 @@ public class GhostController : MonoBehaviour
     GameObject gramophone;
     GramophoneScript musicScript;
     GameObject worldMusic;
+    private float musicCooldown;
+    private bool musicEnable = true;
     
     //Painting variables
     private bool paintBool = false;
     bool hiding = false;
     GameObject painting;
     PaintingScript paintScript;
+    private float paintCooldown;
+    private bool paintEnable;
 
     //Material/Invisibility controls
     public Material color1;
@@ -69,6 +76,7 @@ public class GhostController : MonoBehaviour
     private GameObject OtherGhost;
     private GameObject mainCamera;
     private    CameraControl   sc;
+    private GameObject UI;
 
     private void Awake()
     {
@@ -78,15 +86,21 @@ public class GhostController : MonoBehaviour
         lightSwitch = GameObject.FindGameObjectWithTag("Lights");
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
         lightScript = lightSwitch.GetComponent<LightScript>();
-
+        lightCooldown = 10f;
+        lightEnable = true;
+    
         //Assign gramophone variables to proper objects in scene
         gramophone = GameObject.FindGameObjectWithTag("Gramophone");
         worldMusic = GameObject.FindGameObjectWithTag("WorldMusic");
         musicScript = gramophone.GetComponent<GramophoneScript>();
+        musicCooldown = 10f;
+        musicEnable = true;
 
         //Assign painting variables to proper objects in scene
         painting = GameObject.FindGameObjectWithTag("Painting");
         paintScript = painting.GetComponent<PaintingScript>();
+        paintCooldown = 15f;
+        paintEnable = true;
 
         //Assign player numbers and colors
         playernum = numplayers;
@@ -100,6 +114,10 @@ public class GhostController : MonoBehaviour
         targetPosition = GameObject.Find("ParticleSystem");
         mainCamera  = GameObject.Find("MainCamera");
         sc          = mainCamera.GetComponent<CameraControl>();
+        UI = GameObject.Find("UI");
+        var UICoolDown = UI.transform.GetChild(4).gameObject;
+        lightImage = UICoolDown.transform.GetChild(0).GetComponent<Image>();
+
 
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
 
@@ -137,6 +155,7 @@ public class GhostController : MonoBehaviour
         doDash();
         //Update the ScarePoint Value, due to conditions
         //scareManager();
+        CoolDownManager();
 
         if (playernum == 0)
         {
@@ -318,8 +337,12 @@ public class GhostController : MonoBehaviour
     void OnLights()
     {
         //Edited BY Guanchen
-        if (!lightBool)
+        if (!lightBool && lightEnable)
         {
+            if(!worldLighting.activeSelf){
+                lightEnable = false;
+                lightImage.fillAmount = 0;
+            }
             worldLighting.SetActive(!(worldLighting.activeSelf));
         }
     }
@@ -329,7 +352,7 @@ public class GhostController : MonoBehaviour
         //Edited BY Guanchen
     
             AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
-            if (!gramBool)
+            if (!gramBool && musicEnable)
             {
                 if(musicPlaying == false)
                 {
@@ -340,6 +363,8 @@ public class GhostController : MonoBehaviour
                 {
                     spookyClip.Pause();
                     musicPlaying = false;
+                    musicEnable = false;
+
                 }       
             }
         
@@ -348,7 +373,7 @@ public class GhostController : MonoBehaviour
     void OnHide()
     {
         //Edited BY Guanchen
-        if (!paintBool)
+        if (!paintBool && paintEnable)
         {
 
             //player isnt already hiding
@@ -371,6 +396,7 @@ public class GhostController : MonoBehaviour
                     var otherScript = OtherGhost.GetComponent<GhostController>();
                     otherScript.scarePoint += 75.0f;
                 }
+                paintEnable = false;
                 Debug.Log(scarePoint);
                 //human scare point logic
             }
@@ -653,6 +679,31 @@ public class GhostController : MonoBehaviour
         var otherScript = OtherGhost.GetComponent<GhostController>();
         if(other.gameObject.tag == "Human" && !onHuman && !otherScript.onHuman){
             OnTaking();
+        }
+    }
+
+    void CoolDownManager(){
+        if(!paintEnable){
+            paintCooldown -= 0.02f;
+            if(paintCooldown <= 0){
+                paintEnable = true;
+                paintCooldown = 15f;
+            }
+        }
+        if(!lightEnable){
+            lightImage.fillAmount += 1 / lightCooldown * Time.deltaTime;
+            lightCooldown -= 0.02f;
+            if(lightCooldown <= 0){
+                lightEnable = true;
+                lightCooldown = 15f;
+            }
+        }
+        if(!musicEnable){
+            musicCooldown -= 0.02f;
+            if(musicCooldown <= 0){
+                musicEnable = true;
+                musicCooldown = 15f;
+            }
         }
     }
 }
