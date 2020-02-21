@@ -26,4 +26,9 @@ public class Cleans : Chores
         base.deactiveChore(ghostid);
         _active = false;
     }
+
+    public override GameObject getTargetPosition()
+    {
+        return base.getTargetPosition();
+    }
 }
