@@ -59,9 +59,17 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Leave"",
+                    ""name"": ""Invis"",
                     ""type"": ""Button"",
-                    ""id"": ""b867e56c-a3ae-4bd6-a2c0-f90dc9422fd2"",
+                    ""id"": ""9e99b3b3-1f27-4490-8114-6624d21c9cc9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Appear"",
+                    ""type"": ""Button"",
+                    ""id"": ""721cb5b7-3f25-49d8-9d88-4f3a3afa3bf8"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
@@ -271,7 +279,6 @@ public class @Controller : IInputActionCollection, IDisposable
         m_Gameplay_Lights = m_Gameplay.FindAction("Lights", throwIfNotFound: true);
         m_Gameplay_Music = m_Gameplay.FindAction("Music", throwIfNotFound: true);
         m_Gameplay_Hide = m_Gameplay.FindAction("Hide", throwIfNotFound: true);
-        m_Gameplay_Leave = m_Gameplay.FindAction("Leave", throwIfNotFound: true);
         m_Gameplay_Invis = m_Gameplay.FindAction("Invis", throwIfNotFound: true);
         m_Gameplay_Appear = m_Gameplay.FindAction("Appear", throwIfNotFound: true);
         m_Gameplay_Grabbing = m_Gameplay.FindAction("Grabbing", throwIfNotFound: true);
@@ -334,7 +341,6 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Lights;
     private readonly InputAction m_Gameplay_Music;
     private readonly InputAction m_Gameplay_Hide;
-    private readonly InputAction m_Gameplay_Leave;
     private readonly InputAction m_Gameplay_Invis;
     private readonly InputAction m_Gameplay_Appear;
     private readonly InputAction m_Gameplay_Grabbing;
@@ -352,7 +358,6 @@ public class @Controller : IInputActionCollection, IDisposable
         public InputAction @Lights => m_Wrapper.m_Gameplay_Lights;
         public InputAction @Music => m_Wrapper.m_Gameplay_Music;
         public InputAction @Hide => m_Wrapper.m_Gameplay_Hide;
-        public InputAction @Leave => m_Wrapper.m_Gameplay_Leave;
         public InputAction @Invis => m_Wrapper.m_Gameplay_Invis;
         public InputAction @Appear => m_Wrapper.m_Gameplay_Appear;
         public InputAction @Grabbing => m_Wrapper.m_Gameplay_Grabbing;
@@ -385,9 +390,6 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Hide.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHide;
                 @Hide.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHide;
                 @Hide.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnHide;
-                @Leave.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeave;
-                @Leave.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeave;
-                @Leave.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeave;
                 @Invis.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInvis;
                 @Invis.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInvis;
                 @Invis.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnInvis;
@@ -431,9 +433,6 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Hide.started += instance.OnHide;
                 @Hide.performed += instance.OnHide;
                 @Hide.canceled += instance.OnHide;
-                @Leave.started += instance.OnLeave;
-                @Leave.performed += instance.OnLeave;
-                @Leave.canceled += instance.OnLeave;
                 @Invis.started += instance.OnInvis;
                 @Invis.performed += instance.OnInvis;
                 @Invis.canceled += instance.OnInvis;
@@ -469,7 +468,6 @@ public class @Controller : IInputActionCollection, IDisposable
         void OnLights(InputAction.CallbackContext context);
         void OnMusic(InputAction.CallbackContext context);
         void OnHide(InputAction.CallbackContext context);
-        void OnLeave(InputAction.CallbackContext context);
         void OnInvis(InputAction.CallbackContext context);
         void OnAppear(InputAction.CallbackContext context);
         void OnGrabbing(InputAction.CallbackContext context);

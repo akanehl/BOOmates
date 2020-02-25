@@ -780,7 +780,7 @@ public class GhostController : MonoBehaviour
             currentItem = selectedItem.None;
             currentChore.getTargetPosition().SetActive(false);
             var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
-            selectRigid.velocity = Nathan.transform.forward * 10f;
+            selectRigid.velocity = Nathan.transform.forward * 5f;
             selectRigid.useGravity = true;
             selectRigid.constraints =  RigidbodyConstraints.None;
             grabItem = null;
