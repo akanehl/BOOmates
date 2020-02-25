@@ -50,12 +50,12 @@ public class GhostController : MonoBehaviour
     GameObject painting;
     PaintingScript paintScript;
 
-    // //Prop Variables
-    // public float pushForce;
-    // private bool propBool = false;
-    // bool inProp;
-    // GameObject prop;
-    // PropScript propScript;
+    // Prop Variables
+    public float pushForce;
+    private bool propBool = false;
+    bool inProp;
+    GameObject prop;
+    PropScript propScript;
 
     //Material/Invisibility controls
     public Material color1;
@@ -87,7 +87,7 @@ public class GhostController : MonoBehaviour
         //Assign light variables to proper objects in scene
         lightSwitch = GameObject.FindGameObjectWithTag("Lights");
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
-        backUpLighting = GameObject.FindGameObjectWithTag("BackUpLights");
+        // backUpLighting = GameObject.FindGameObjectWithTag("BackUpLights");
         lightScript = lightSwitch.GetComponent<LightScript>();
 
         //Assign gramophone variables to proper objects in scene
@@ -99,8 +99,8 @@ public class GhostController : MonoBehaviour
         painting = GameObject.FindGameObjectWithTag("Painting");
         paintScript = painting.GetComponent<PaintingScript>();
 
-        // prop = GameObject.FindGameObjectWithTag("Prop");
-        // propScript = prop.GetComponent<PropScript>();
+        prop = GameObject.FindGameObjectWithTag("Prop");
+        propScript = prop.GetComponent<PropScript>();
 
         //Assign player numbers and colors
         playernum = numplayers;
@@ -132,7 +132,7 @@ public class GhostController : MonoBehaviour
             Destroy(temp);
             mesh.material = color2;
             gameObject.name = "Ghost_2";
-            backUpLighting.gameObject.SetActive(false);
+            // backUpLighting.gameObject.SetActive(false);
 
         }
 
@@ -197,7 +197,7 @@ public class GhostController : MonoBehaviour
                 lightBool = lightScript.locked1;
                 gramBool = musicScript.locked1;
                 paintBool = paintScript.locked1;
-                // propBool = propScript.locked1;
+                propBool = propScript.locked1;
                 
             }
             if (playernum == 1)
@@ -206,8 +206,18 @@ public class GhostController : MonoBehaviour
                 lightBool = lightScript.locked2;
                 gramBool = musicScript.locked2;
                 paintBool = paintScript.locked2;
-                // propBool = propScript.locked2;
+                propBool = propScript.locked2;
             }
+        }
+
+        if(!worldLighting.activeSelf)
+        {
+            Debug.Log("is light off");
+            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("Boolean_4E9E1931", 1);
+        }
+        else
+        {
+            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("Boolean_4E9E1931", 0);
         }
     }
 
@@ -356,7 +366,7 @@ public class GhostController : MonoBehaviour
         if (!lightBool)
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
-            backUpLighting.SetActive(!(backUpLighting.activeSelf));
+            // backUpLighting.SetActive(!(backUpLighting.activeSelf));
         }
     }
 
@@ -416,10 +426,9 @@ public class GhostController : MonoBehaviour
 
     void OnEnter()
     {
-       
-        //Ghost enters a prop
+        // Ghost enters a prop
 
-        //If the ghost is in a prop
+        // If the ghost is in a prop
         if (inProp)
         {
             prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce, 0.0f, moveVec.y * pushForce);
@@ -613,9 +622,9 @@ public class GhostController : MonoBehaviour
                 if(_selection != null)
                 {
                     //Sound: Clean Sound around 5 seconds
-                    Nathan.transform.GetChild(0).gameObject.SetActive(true);
-                    Nathan.transform.GetChild(0).transform.rotation = Quaternion.Euler(new Vector3 (0.0f, 0.0f, 0.0f));
-                    Transform timeBar = Nathan.transform.GetChild(0).GetChild(0);
+                    Nathan.transform.GetChild(2).gameObject.SetActive(true);
+                    Nathan.transform.GetChild(2).transform.rotation = Quaternion.Euler(new Vector3 (0.0f, 0.0f, 0.0f));
+                    Transform timeBar = Nathan.transform.GetChild(2).GetChild(0);
                     if(timeBar.localScale.x < 1)
                     {
                         timeBar.localScale += new Vector3(Time.deltaTime * 0.2f, 0.0f, 0.0f);
@@ -626,7 +635,7 @@ public class GhostController : MonoBehaviour
                         Vector3 lTemp = timeBar.localScale;
                         lTemp.x = 0.0f;
                         timeBar.localScale = lTemp;
-                        Nathan.transform.GetChild(0).gameObject.SetActive(false);
+                        Nathan.transform.GetChild(2).gameObject.SetActive(false);
                         _selection = null;
                         currentItem = selectedItem.None;
                         currentChore.finishClean();
@@ -640,29 +649,29 @@ public class GhostController : MonoBehaviour
                 if(Physics.Raycast(ray, out hit, 1.0f))
                 {
                     if(!hit.transform.CompareTag("Human")){
-                        Nathan.transform.GetChild(1).gameObject.SetActive(true);
+                        Nathan.transform.GetChild(3).gameObject.SetActive(true);
                         if(hit.transform.CompareTag("GrabObject") && hit.transform.gameObject == currentChore.gameObject){
-                            Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
-                            Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                            Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(true);
+                            Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
                             _selection = hit.transform;
                         }
                         else if (hit.transform.CompareTag("CleanObject")&& hit.transform.gameObject == currentChore.gameObject)
                         {                        
-                            Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
-                            Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
+                            Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
+                            Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(true);
                             _selection = hit.transform;
                         }
                         else
                         {
-                            Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
-                            Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                            Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
+                            Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
                             _selection = null;
                         }
                     }
                 }
                 else
                 {
-                    Nathan.transform.GetChild(1).gameObject.SetActive(false);
+                    Nathan.transform.GetChild(3).gameObject.SetActive(false);
                     _selection = null;
                 }
             }
@@ -737,10 +746,11 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    //void OnCollisionEnter(Collision other){
-      //  var otherScript = OtherGhost.GetComponent<GhostController>();
-       // if(other.gameObject.tag == "Human" && !onHuman && !otherScript.onHuman){
-      //      OnTaking();
-     //   }
-   // }
+    void OnCollisionEnter(Collision other){
+       var otherScript = OtherGhost.GetComponent<GhostController>();
+       if(other.gameObject.tag == "Human" && !onHuman && !otherScript.onHuman){
+           OnTaking();
+           Debug.Log("is hiting");
+       }
+   }
 }

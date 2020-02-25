@@ -35,7 +35,6 @@ public class ChoreManger : MonoBehaviour
             player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
         }
         player2Chore.activeChore(1);
-
     }
 
     void FixedUpdate()
