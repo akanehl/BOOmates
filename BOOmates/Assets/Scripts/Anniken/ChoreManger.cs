@@ -40,7 +40,7 @@ public class ChoreManger : MonoBehaviour
             }
             player2Chore.activeChore(1);
         }
-
+        player2Chore.activeChore(1);
     }
 
     void FixedUpdate()

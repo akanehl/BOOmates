@@ -58,12 +58,12 @@ public class GhostController : MonoBehaviour
     private bool paintEnable;
     Image paintImage;
 
-    // //Prop Variables
-    // public float pushForce;
-    // private bool propBool = false;
-    // bool inProp;
-    // GameObject prop;
-    // PropScript propScript;
+    // Prop Variables
+    public float pushForce;
+    private bool propBool = false;
+    bool inProp;
+    GameObject prop;
+    PropScript propScript;
 
     //Material/Invisibility controls
     public Material color1;
@@ -100,6 +100,7 @@ public class GhostController : MonoBehaviour
         //Assign light variables to proper objects in scene
         lightSwitch = GameObject.FindGameObjectWithTag("Lights");
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
+        // backUpLighting = GameObject.FindGameObjectWithTag("BackUpLights");
         lightScript = lightSwitch.GetComponent<LightScript>();
         lightCooldown = 10f;
         lightEnable = true;
@@ -117,8 +118,8 @@ public class GhostController : MonoBehaviour
         paintCooldown = 15f;
         paintEnable = true;
 
-        // prop = GameObject.FindGameObjectWithTag("Prop");
-        // propScript = prop.GetComponent<PropScript>();
+        prop = GameObject.FindGameObjectWithTag("Prop");
+        propScript = prop.GetComponent<PropScript>();
 
         //Assign player numbers and colors
         playernum = numplayers;
@@ -157,13 +158,16 @@ public class GhostController : MonoBehaviour
             Destroy(temp);
             mesh.material = color2;
             gameObject.name = "Ghost_2";
+            // backUpLighting.gameObject.SetActive(false);
 
         }
 
         var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
+        
 
         choreManger = GameObject.Find("ChoreManger").GetComponent<ChoreManger>();
     }
+
 
     private void FixedUpdate()
     {
@@ -181,12 +185,12 @@ public class GhostController : MonoBehaviour
         if (playernum == 0)
         {
             painting = paintScript.closest1;
-            // prop = propScript.closest1;
+            prop = propScript.closest1;
         }
         if (playernum == 1)
         {
             painting = paintScript.closest2;
-            // prop = propScript.closest2;
+            prop = propScript.closest2;
         }
 
         if(currentChore == null)
@@ -221,10 +225,32 @@ public class GhostController : MonoBehaviour
         }
         if (playernum == 1)
         {
+            if (playernum == 0)
+            {
+                lightBool = lightScript.locked1;
+                gramBool = musicScript.locked1;
+                paintBool = paintScript.locked1;
+                propBool = propScript.locked1;
+                
+            }
+            if (playernum == 1)
+            {
 
-            lightBool = lightScript.locked2;
-            gramBool = musicScript.locked2;
-            paintBool = paintScript.locked2;
+                lightBool = lightScript.locked2;
+                gramBool = musicScript.locked2;
+                paintBool = paintScript.locked2;
+                propBool = propScript.locked2;
+            }
+        }
+
+        if(!worldLighting.activeSelf)
+        {
+            Debug.Log("is light off");
+            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("Boolean_4E9E1931", 1);
+        }
+        else
+        {
+            transform.GetChild(0).GetComponent<Renderer>().material.SetFloat("Boolean_4E9E1931", 0);
         }
     }
 
@@ -432,10 +458,11 @@ public class GhostController : MonoBehaviour
                 transform.position = painting.transform.GetChild(1).transform.position;
                 rigBod.AddForce((moveVec.x) * 500, 0.0f, (moveVec.y) * 500);
                 hiding = false;
-                if(Vector3.Distance(transform.position, Nathan.transform.position) < 5)
+                if (Vector3.Distance(transform.position, Nathan.transform.position) < 5)
                 {
+
                     var otherScript = OtherGhost.GetComponent<GhostController>();
-                    otherScript.scarePoint += 75.0f;
+                    otherScript.scarePoint += 75;
                 }
                 paintEnable = false;
                 paintImage.fillAmount = 0;
@@ -445,26 +472,42 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    // private void OnEnter()
-    // {
-    //     //Ghost enters a prop
-    //     if(!propBool)
-    //     {
-    //         if (!inProp)
-    //         {
-    //             inProp = true;
-    //             gameObject.transform.position = prop.transform.position;
-    //             gameObject.transform.GetChild(0).gameObject.SetActive(false);
-                
-    //         }
-    //         else
-    //         {
-                
-    //             prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce , 0.0f, moveVec.y * pushForce);
-    //             gameObject.transform.position = prop.transform.position;
-    //         }
-    //     }
-    // }
+
+    void OnEnter()
+    {
+        // Ghost enters a prop
+
+        // If the ghost is in a prop
+        if (inProp)
+        {
+            prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce, 0.0f, moveVec.y * pushForce);
+            Debug.Log("setting pos");
+            gameObject.transform.position = prop.transform.position;
+        }
+
+        //the ghost is not in a prop, and close enough to active
+        if (!propBool)
+        {
+            if (!inProp)
+            {
+                inProp = true;
+                gameObject.transform.position = prop.transform.position;
+                gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
+            }
+        }
+
+    }
+
+    void OnLeave()
+    {
+        if (inProp)
+        {
+            inProp = false;
+            gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        }
+    }
+
 
     void OnDash()
     {
@@ -641,9 +684,9 @@ public class GhostController : MonoBehaviour
                 if(_selection != null)
                 {
                     //Sound: Clean Sound around 5 seconds
-                    Nathan.transform.GetChild(0).gameObject.SetActive(true);
-                    Nathan.transform.GetChild(0).transform.rotation = Quaternion.Euler(new Vector3 (0.0f, 0.0f, 0.0f));
-                    Transform timeBar = Nathan.transform.GetChild(0).GetChild(0);
+                    Nathan.transform.GetChild(2).gameObject.SetActive(true);
+                    Nathan.transform.GetChild(2).transform.rotation = Quaternion.Euler(new Vector3 (0.0f, 0.0f, 0.0f));
+                    Transform timeBar = Nathan.transform.GetChild(2).GetChild(0);
                     if(timeBar.localScale.x < 1)
                     {
                         timeBar.localScale += new Vector3(Time.deltaTime * 0.2f, 0.0f, 0.0f);
@@ -654,7 +697,7 @@ public class GhostController : MonoBehaviour
                         Vector3 lTemp = timeBar.localScale;
                         lTemp.x = 0.0f;
                         timeBar.localScale = lTemp;
-                        Nathan.transform.GetChild(0).gameObject.SetActive(false);
+                        Nathan.transform.GetChild(2).gameObject.SetActive(false);
                         _selection = null;
                         currentItem = selectedItem.None;
                         currentChore.finishClean();
@@ -669,29 +712,29 @@ public class GhostController : MonoBehaviour
                 if(Physics.Raycast(ray, out hit, 1.0f))
                 {
                     if(!hit.transform.CompareTag("Human")){
-                        Nathan.transform.GetChild(1).gameObject.SetActive(true);
+                        Nathan.transform.GetChild(3).gameObject.SetActive(true);
                         if(hit.transform.CompareTag("GrabObject") && hit.transform.gameObject == currentChore.gameObject){
-                            Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
-                            Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                            Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(true);
+                            Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
                             _selection = hit.transform;
                         }
                         else if (hit.transform.CompareTag("CleanObject")&& hit.transform.gameObject == currentChore.gameObject)
                         {                        
-                            Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
-                            Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(true);
+                            Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
+                            Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(true);
                             _selection = hit.transform;
                         }
                         else
                         {
-                            Nathan.transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
-                            Nathan.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+                            Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
+                            Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
                             _selection = null;
                         }
                     }
                 }
                 else
                 {
-                    Nathan.transform.GetChild(1).gameObject.SetActive(false);
+                    Nathan.transform.GetChild(3).gameObject.SetActive(false);
                     _selection = null;
                 }
 
