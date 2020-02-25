@@ -62,22 +62,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Taking",
-                    "type": "Button",
-                    "id": "6817fc1b-9269-4f2a-b761-abb17233588f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Leaving",
-                    "type": "Button",
-                    "id": "e3f7035f-6a12-4271-9aac-f9ac70e884fc",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Grabbing",
                     "type": "Button",
                     "id": "21a34b82-ed48-4e09-98bd-179d4f9c4529",
@@ -102,14 +86,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Enter",
-                    "type": "Button",
-                    "id": "163f6f63-add6-4d08-bae4-7aac2dab25dd",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "NextChore",
                     "type": "Button",
                     "id": "cf1b6374-ceea-495b-9742-db84c753166c",
@@ -122,6 +98,14 @@
                     "type": "Button",
                     "id": "322cfa78-b770-406c-b7d3-18bd72b5a88e",
                     "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Throw",
+                    "type": "Button",
+                    "id": "5400ac3e-fec4-4eec-ac2e-b11387d6309a",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -206,28 +190,6 @@
                 },
                 {
                     "name": "",
-                    "id": "6ca64396-ce4c-40cf-aa2e-6ce1a6293be3",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Taking",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7fc04662-5e9b-4d80-a4a9-9e69d38cc859",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Leaving",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f97185ff-800a-4fc1-b853-038afe6e3562",
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
@@ -261,17 +223,6 @@
                 },
                 {
                     "name": "",
-                    "id": "5c1ae9e4-f38b-4ef8-963f-f82fbefbf873",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Enter",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f1b909c3-b954-423c-8d2f-afcf31f1b1a5",
                     "path": "<Gamepad>/dpad/right",
                     "interactions": "",
@@ -291,476 +242,15 @@
                     "action": "PrevChore",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Gameplay1",
-            "id": "9749596a-3b55-4496-95ad-bf0797747231",
-            "actions": [
-                {
-                    "name": "Dash",
-                    "type": "Button",
-                    "id": "c992905f-674b-4567-a9e4-2b05e1e04e7a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press"
                 },
-                {
-                    "name": "Launch",
-                    "type": "Button",
-                    "id": "f3587d79-db80-42db-bbf3-8294f3130e8c",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Lights",
-                    "type": "Button",
-                    "id": "507462ba-69d1-4cb6-b68b-76f686f773ee",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Music",
-                    "type": "Button",
-                    "id": "7818ce5e-a4b4-4d39-8a51-02d4b5abc8f3",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Hide",
-                    "type": "Button",
-                    "id": "92d0562e-8849-4523-aca7-37a6b9ba84c5",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Invis",
-                    "type": "Button",
-                    "id": "02a0264c-135a-4d3c-b716-6e343a01e90d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Appear",
-                    "type": "Button",
-                    "id": "47a7e3ba-c222-4054-94c9-fcb8fa4d8f1f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Taking",
-                    "type": "Button",
-                    "id": "111cedb9-23f2-43f1-91ec-a71ca929716e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Leaving",
-                    "type": "Button",
-                    "id": "a81668f7-5592-498e-94f0-7a22fbfdc725",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Grabbing",
-                    "type": "Button",
-                    "id": "18d24280-84a9-4bcb-8e54-52c707540360",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Title",
-                    "type": "Button",
-                    "id": "ec8362d6-c066-458e-ac46-99b1103c008b",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "d25aae96-6389-403d-979d-7f1fae43c60f",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
                 {
                     "name": "",
-                    "id": "e8d9038c-69ca-4d60-9ca0-3518a0ae7982",
-                    "path": "<Gamepad>/rightShoulder",
+                    "id": "7ed3e913-da1f-4cfb-9d66-27beb108688c",
+                    "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "163b0e31-c626-441a-b781-99adaa9feea2",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Launch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "79b6b92b-ce17-4907-9b37-55c06e93bfd2",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Lights",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "536cbfb7-f5cf-4140-b592-4881b5413655",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Music",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "9a6a858f-c84f-44e8-a411-5e337529ad5c",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "Hold",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Invis",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "79bbda65-efeb-41eb-acf2-195fe76f0468",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Appear",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "dd0d81bc-465e-4eac-8d73-6685ad46f74b",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Hide",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e8e75824-01e6-4e0b-9038-babfa84bc136",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Taking",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7b0b7156-9778-4bdf-b0fd-45051e8204ed",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Leaving",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6c5fc5e5-f9e6-49c2-903f-61f1f0bbfbe7",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grabbing",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "6313872f-9932-4f3a-b6a1-68a1edcf5564",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Title",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3632d9d3-7241-413a-82c8-bb023069a1bc",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Gameplay2",
-            "id": "465fe6c9-9d96-4772-8a7b-b6c8687bbce4",
-            "actions": [
-                {
-                    "name": "Dash",
-                    "type": "Button",
-                    "id": "6359f0fb-b5ac-40b8-964a-816ebca3e9b6",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "Press"
-                },
-                {
-                    "name": "Launch",
-                    "type": "Button",
-                    "id": "02303151-b017-46ad-b0d9-5341d8144035",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Lights",
-                    "type": "Button",
-                    "id": "d46ef70b-805b-4851-9774-c88adc52e6b1",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Music",
-                    "type": "Button",
-                    "id": "d9e02a51-2bdb-4b72-a8db-596a54cc2461",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Hide",
-                    "type": "Button",
-                    "id": "76b91260-7170-43e4-8be7-ea119cb28e37",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Invis",
-                    "type": "Button",
-                    "id": "90280bb9-ca72-451d-8389-3b48c92cef05",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Appear",
-                    "type": "Button",
-                    "id": "92c60e8e-25fe-4490-8a48-86a3032e47ee",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Taking",
-                    "type": "Button",
-                    "id": "18090ec4-0581-4c26-9076-b558eceec454",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Leaving",
-                    "type": "Button",
-                    "id": "cec2770c-c0d0-45d6-9f7f-a8fbfa27858d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Grabbing",
-                    "type": "Button",
-                    "id": "a49fcbba-0a2c-4364-b3d8-783a146fa364",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Title",
-                    "type": "Button",
-                    "id": "a76ea000-f31a-4640-a078-4a60d51ac191",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Movement",
-                    "type": "Button",
-                    "id": "7b187007-e656-4659-9c8a-5272be3edfcf",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "6d4b13a3-90bb-4630-b179-7709cc4ec241",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dash",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2b8c980b-cccb-4893-ac5e-36280ff97128",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Launch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "79bd388e-2d73-4e89-aaa4-9f60c69f225c",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Lights",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "20cb9b38-96f4-4852-a287-9dc477c70763",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Music",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c90aa39c-4101-47cf-948f-84768b9bb2b9",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "Hold",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Invis",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "49e1cc3b-f4db-4a1c-a48e-0b7dacdf3971",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Appear",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b94f5165-9606-4eb3-b041-28421214f076",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Hide",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1b48592b-bf75-404d-9bc7-f881b54f085c",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Taking",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "0541b093-3d7e-4f06-b5f2-0d6f8b814bd6",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Leaving",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7e2461a3-39ec-48c8-846f-11194d8db8d7",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grabbing",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c2c90afb-47e0-4d6d-b46a-36071449d29e",
-                    "path": "<Gamepad>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Title",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "67ea7aab-dc3f-45e1-91db-2c773b8e3d5f",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
+                    "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

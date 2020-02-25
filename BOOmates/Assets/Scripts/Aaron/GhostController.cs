@@ -257,8 +257,10 @@ public class GhostController : MonoBehaviour
             {
                 movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
                 Nathan.transform.Translate(movement * ((float)baseSpeed/2) * Time.deltaTime, Space.World);
+                Nathan.GetComponent<Rigidbody>().isKinematic = true;
                 if(movement != Vector3.zero)
                 {
+                    Nathan.GetComponent<Rigidbody>().isKinematic = false;
                     Nathan.transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
                 }
             }
@@ -372,13 +374,18 @@ public class GhostController : MonoBehaviour
         //Edited BY Guanchen
         if (!lightBool && lightEnable)
         {
-            if(!worldLighting.activeSelf){
-                lightEnable = false;
-                lightImage.fillAmount = 0;
-            }
             worldLighting.SetActive(!(worldLighting.activeSelf));
+            lightEnable = false;
+            StartCoroutine(lightCoroutine());
         }
     }
+
+    IEnumerator lightCoroutine(){
+       yield return new WaitForSeconds(4);
+       lightEnable = true;
+        worldLighting.SetActive(!(worldLighting.activeSelf));
+    }
+    
 
     void OnMusic()
     {
@@ -502,7 +509,7 @@ public class GhostController : MonoBehaviour
     void OnGrabbing(){
         if(!humanScript.enabled)
         {
-            Debug.Log("pressed");
+            //Debug.Log("pressed");
             if(_selection != null && currentChore.gameObject == _selection.gameObject)
             {
                 if(_selection.CompareTag("GrabObject") && currentChore is Grabs)
@@ -611,13 +618,22 @@ public class GhostController : MonoBehaviour
     //on human.
     void humanTask(){
         if(!freezeHuman){
+            //_selection.GetComponent<Rigidbody>().isKinematic = true;
+
           if(currentItem == selectedItem.GrabObject && currentChore is Grabs)
             {
                 if(_selection != null)
                 {
                     //Sound: Grab Item Sound
-                    _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, -Nathan.transform.position.y, 0.0f);
-                    _selection.transform.rotation = Quaternion.LookRotation(Nathan.transform.forward);
+                    Debug.Log("isgrabbing");
+                    var grabPosition = Nathan.transform.Find("holdingPos").gameObject;
+                    var selectRigid = _selection.GetComponent<Rigidbody>();
+                    _selection.transform.position = grabPosition.transform.position;
+                    selectRigid.constraints =  RigidbodyConstraints.FreezeRotation;
+                    selectRigid.useGravity = false;
+                    //_selection.GetComponent<Rigidbody>().isKinematic = true;
+                    // _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, -Nathan.transform.position.y, 0.0f);
+                    // _selection.transform.rotation = Quaternion.LookRotation(Nathan.transform.forward);
                 }
             }
             else if(currentItem == selectedItem.CleanObject && currentChore is Cleans)
@@ -647,6 +663,7 @@ public class GhostController : MonoBehaviour
                 }
             }
             else{
+
                 Ray ray = new Ray(Nathan.transform.position, Nathan.transform.forward); 
                 RaycastHit hit;
                 if(Physics.Raycast(ray, out hit, 1.0f))
@@ -677,6 +694,15 @@ public class GhostController : MonoBehaviour
                     Nathan.transform.GetChild(1).gameObject.SetActive(false);
                     _selection = null;
                 }
+
+                if(currentChore is Grabs)
+                {
+                    currentChore.placed();
+                    if(currentChore.complete())
+                    {
+                        currentChore = null;
+                    }
+                }
             }
         }
     }
@@ -693,21 +719,30 @@ public class GhostController : MonoBehaviour
         if(onHuman){
             if (currentItem == selectedItem.GrabObject)
             {
+                
                 currentItem = selectedItem.None;
                 currentChore.getTargetPosition().SetActive(false);
-                if(grabItem.gameObject == currentChore.gameObject)
-                {
-                    currentChore.placed();
-                    if(currentChore.complete())
-                    {
-                        currentChore = null;
-                    }
-                }
+                var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
+                selectRigid.useGravity = true;
+                selectRigid.constraints =  RigidbodyConstraints.None;
                 grabItem = null;
             }
         }
     }
 
+    //Add by Guanchen liu
+    //An interesting function that allow player to throw stuff
+    void OnThrow(){
+        if(currentItem == selectedItem.GrabObject && onHuman){
+            currentItem = selectedItem.None;
+            currentChore.getTargetPosition().SetActive(false);
+            var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
+            selectRigid.velocity = Nathan.transform.forward * 10f;
+            selectRigid.useGravity = true;
+            selectRigid.constraints =  RigidbodyConstraints.None;
+            grabItem = null;
+        }
+    }
     //Add by Guanchen Liu
     //Origin: Enxuan
     //Access by Controller

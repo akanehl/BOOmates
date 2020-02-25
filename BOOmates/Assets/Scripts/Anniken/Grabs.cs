@@ -6,6 +6,9 @@ public class Grabs : Chores
 {
     [SerializeField]
     protected GameObject targetPosition;
+
+    [SerializeField]
+    protected Vector3 correctRotation;
     
     void Start()
     {
@@ -18,11 +21,18 @@ public class Grabs : Chores
         Vector2 target = new Vector2(targetPosition.transform.position.x, targetPosition.transform.position.z);
         if(checkItemInPos(target, item, 1)){
             transform.position = new Vector3(target.x, transform.position.y, target.y);
+            StartCoroutine(ExampleCoroutine(target));
             targetPosition.gameObject.SetActive(false);
-            transform.rotation = Quaternion.Euler(new Vector3(0.0f, 180.0f, 0.0f));
+            transform.rotation = Quaternion.Euler(correctRotation);
             this.tag = "PositionedItem";
             _complete = true;
         }
+    }
+    IEnumerator ExampleCoroutine(Vector2 target){
+        var _rigid = GetComponent<Rigidbody>();
+        yield return new WaitForSeconds(2);
+        transform.position = new Vector3(target.x, transform.position.y, target.y);
+        _rigid.isKinematic = true;
     }
     
 
