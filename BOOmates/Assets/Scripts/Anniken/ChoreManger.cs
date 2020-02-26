@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChoreManger : MonoBehaviour
 {
@@ -25,14 +26,19 @@ public class ChoreManger : MonoBehaviour
         player1Score = 0;
         player2Score = 0;
         player1ChoreNum = Random.Range(0, chores.Count);
+        Debug.Log(player1ChoreNum);
+        Debug.Log(chores.Count);
         player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
-        player1Chore.activeChore(0);
-        player2ChoreNum = Random.Range(0, chores.Count);
-        player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-        while (player1Chore.getID() == player2Chore.getID())
-        {
+        if(chores.Count > 1){
+            player1Chore.activeChore(0);
             player2ChoreNum = Random.Range(0, chores.Count);
             player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
+            while (player1Chore.getID() == player2Chore.getID())
+            {
+                player2ChoreNum = Random.Range(0, chores.Count);
+                player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
+            }
+            player2Chore.activeChore(1);
         }
         player2Chore.activeChore(1);
     }
@@ -41,12 +47,20 @@ public class ChoreManger : MonoBehaviour
     {
         if(player1Score >= 3)
         {
-            GameObject.Find("UI").gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            var UI = GameObject.Find("UI");
+            var image = UI.transform.Find("player1Win").gameObject;
+            image.SetActive(true);
+            Debug.Log("p1win");
+            //player 1 wins
         }
 
         if(player2Score >= 3)
         {
-            GameObject.Find("UI").gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            //player 2 wins
+            var UI = GameObject.Find("UI");
+            var image = UI.transform.Find("player2Win").gameObject;
+            image.SetActive(true);
+            Debug.Log("p2win");
         }
 
         if(chores.Count > 0){
@@ -59,7 +73,7 @@ public class ChoreManger : MonoBehaviour
                     if(player2ChoreNum > player1ChoreNum)
                         player2ChoreNum--;
                     chores.Remove(player1Chore.gameObject);
-                    if(chores.Count > 0){
+                    if(chores.Count > 1){
                         player1ChoreNum = Random.Range(0, chores.Count);               
                         player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
                         while(player1Chore.getID() == player2Chore.getID())
@@ -81,7 +95,7 @@ public class ChoreManger : MonoBehaviour
                     if(player1ChoreNum > player2ChoreNum)
                         player1ChoreNum--;
                     chores.Remove(player2Chore.gameObject);
-                    if(chores.Count > 0){
+                    if(chores.Count > 1){
                         player2ChoreNum = Random.Range(0, chores.Count);               
                         player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
                         while(player1Chore.getID() == player2Chore.getID())

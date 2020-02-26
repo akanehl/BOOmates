@@ -35,6 +35,9 @@ public class GhostController : MonoBehaviour
     GameObject lightSwitch;
     LightScript lightScript;
     GameObject worldLighting;
+    private float lightCooldown;
+    private bool lightEnable = true;
+    Image lightImage;
     GameObject backUpLighting;
 
     //Gramophone variables
@@ -43,17 +46,23 @@ public class GhostController : MonoBehaviour
     GameObject gramophone;
     GramophoneScript musicScript;
     GameObject worldMusic;
+    private float musicCooldown;
+    private bool musicEnable = true;
+    Image musicImage;
     
     //Painting variables
     private bool paintBool = false;
     bool hiding = false;
     GameObject painting;
     PaintingScript paintScript;
+    private float paintCooldown;
+    private bool paintEnable;
+    Image paintImage;
 
     // Prop Variables
     public float pushForce;
     private bool propBool = false;
-    bool inProp;
+    bool inProp = false;
     GameObject prop;
     PropScript propScript;
 
@@ -74,11 +83,16 @@ public class GhostController : MonoBehaviour
     //Find other gameobject
     private GameObject OtherGhost;
     private GameObject mainCamera;
+    private bool freezeHuman;
+
+    private GameObject UI;
+
     private CameraControl sc;
 
     private Chores currentChore;
 
     private ChoreManger choreManger;
+
 
     private void Awake()
     {
@@ -87,17 +101,23 @@ public class GhostController : MonoBehaviour
         //Assign light variables to proper objects in scene
         lightSwitch = GameObject.FindGameObjectWithTag("Lights");
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
-        // backUpLighting = GameObject.FindGameObjectWithTag("BackUpLights");
+        backUpLighting = GameObject.FindGameObjectWithTag("BackUpLights");
         lightScript = lightSwitch.GetComponent<LightScript>();
-
+        lightCooldown = 10f;
+        lightEnable = true;
+    
         //Assign gramophone variables to proper objects in scene
         gramophone = GameObject.FindGameObjectWithTag("Gramophone");
         worldMusic = GameObject.FindGameObjectWithTag("WorldMusic");
         musicScript = gramophone.GetComponent<GramophoneScript>();
+        musicCooldown = 10f;
+        musicEnable = true;
 
         //Assign painting variables to proper objects in scene
         painting = GameObject.FindGameObjectWithTag("Painting");
         paintScript = painting.GetComponent<PaintingScript>();
+        paintCooldown = 15f;
+        paintEnable = true;
 
         prop = GameObject.FindGameObjectWithTag("Prop");
         propScript = prop.GetComponent<PropScript>();
@@ -113,6 +133,13 @@ public class GhostController : MonoBehaviour
         currentItem = selectedItem.None;
         mainCamera  = GameObject.Find("MainCamera");
         sc          = mainCamera.GetComponent<CameraControl>();
+        UI = GameObject.Find("UI");
+        var UICoolDown = UI.transform.Find("CoolDown").gameObject;
+        
+        lightImage = UICoolDown.transform.GetChild(0).GetComponent<Image>();
+        musicImage = UICoolDown.transform.GetChild(1).GetComponent<Image>();
+        paintImage = UICoolDown.transform.GetChild(2).GetComponent<Image>();
+
 
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
 
@@ -132,7 +159,7 @@ public class GhostController : MonoBehaviour
             Destroy(temp);
             mesh.material = color2;
             gameObject.name = "Ghost_2";
-            // backUpLighting.gameObject.SetActive(false);
+            backUpLighting.gameObject.SetActive(false);
 
         }
 
@@ -153,7 +180,8 @@ public class GhostController : MonoBehaviour
         //Then, Dash Calculations
         doDash();
         //Update the ScarePoint Value, due to conditions
-        scareManager();
+        //scareManager();
+        CoolDownManager();
 
         if (playernum == 0)
         {
@@ -189,8 +217,14 @@ public class GhostController : MonoBehaviour
             // timeSwiping();
 
         }
-    
-        else
+        //NEEDS TO BE UPDATED TO WORK WITH MULTIPLE ITEMS
+        if (playernum == 0)
+        { 
+            lightBool = lightScript.locked1;
+            gramBool = musicScript.locked1;
+            paintBool = paintScript.locked1;
+        }
+        if (playernum == 1)
         {
             if (playernum == 0)
             {
@@ -250,8 +284,10 @@ public class GhostController : MonoBehaviour
             {
                 movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
                 Nathan.transform.Translate(movement * ((float)baseSpeed/2) * Time.deltaTime, Space.World);
+                Nathan.GetComponent<Rigidbody>().isKinematic = true;
                 if(movement != Vector3.zero)
                 {
+                    Nathan.GetComponent<Rigidbody>().isKinematic = false;
                     Nathan.transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
                 }
             }
@@ -363,12 +399,22 @@ public class GhostController : MonoBehaviour
     {
         // Debug.Log(gramBool);
         //Edited BY Guanchen
-        if (!lightBool)
+        if (!lightBool && lightEnable)
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
-            // backUpLighting.SetActive(!(backUpLighting.activeSelf));
+            lightEnable = false;
+            backUpLighting.gameObject.SetActive(!backUpLighting.activeSelf);
+            StartCoroutine(lightCoroutine());
         }
     }
+
+    IEnumerator lightCoroutine(){
+       yield return new WaitForSeconds(4);
+       lightEnable = true;
+        worldLighting.SetActive(!(worldLighting.activeSelf));
+        backUpLighting.gameObject.SetActive(!backUpLighting.activeSelf);
+    }
+    
 
     void OnMusic()
     {
@@ -376,7 +422,7 @@ public class GhostController : MonoBehaviour
      
     
             AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
-            if (!gramBool)
+            if (!gramBool && musicEnable)
             {
                 if(musicPlaying == false)
                 {
@@ -387,6 +433,9 @@ public class GhostController : MonoBehaviour
                 {
                     spookyClip.Pause();
                     musicPlaying = false;
+                    musicEnable  = false;
+                    musicImage.fillAmount = 0;
+
                 }       
             }
         
@@ -395,7 +444,7 @@ public class GhostController : MonoBehaviour
     void OnHide()
     {
         //Edited BY Guanchen
-        if (!paintBool)
+        if (!paintBool && paintEnable)
         {
 
             //player isnt already hiding
@@ -418,6 +467,9 @@ public class GhostController : MonoBehaviour
                     var otherScript = OtherGhost.GetComponent<GhostController>();
                     otherScript.scarePoint += 75;
                 }
+                paintEnable = false;
+                paintImage.fillAmount = 0;
+                Debug.Log(scarePoint);
                 //human scare point logic
             }
         }
@@ -427,22 +479,25 @@ public class GhostController : MonoBehaviour
     void OnEnter()
     {
         // Ghost enters a prop
-
+      
         // If the ghost is in a prop
         if (inProp)
         {
             prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce, 0.0f, moveVec.y * pushForce);
-            Debug.Log("setting pos");
+           
             gameObject.transform.position = prop.transform.position;
         }
 
+
         //the ghost is not in a prop, and close enough to active
+        Debug.Log(propBool);
         if (!propBool)
         {
             if (!inProp)
             {
                 inProp = true;
                 gameObject.transform.position = prop.transform.position;
+                baseSpeed = 0;
                 gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
             }
@@ -452,10 +507,15 @@ public class GhostController : MonoBehaviour
 
     void OnLeave()
     {
+        Debug.Log("Attempting to leave");
         if (inProp)
         {
+            Debug.Log("Attempting to leave the object");
             inProp = false;
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            baseSpeed = 4;
+            Vector3 resetPos = new Vector3(0, 0.5f, 0);
+            gameObject.transform.position = resetPos;
         }
     }
 
@@ -474,6 +534,7 @@ public class GhostController : MonoBehaviour
     {
         //update direction of movement
         moveVec = value.Get<Vector2>();
+        //Debug.Log("is taking value");
     }
     private void OnInvis()
     {
@@ -502,7 +563,7 @@ public class GhostController : MonoBehaviour
     void OnGrabbing(){
         if(!humanScript.enabled)
         {
-            Debug.Log("pressed");
+            //Debug.Log("pressed");
             if(_selection != null && currentChore.gameObject == _selection.gameObject)
             {
                 if(_selection.CompareTag("GrabObject") && currentChore is Grabs)
@@ -555,6 +616,7 @@ public class GhostController : MonoBehaviour
             //sc.isMoving = true;
             onHuman = false;
             humanScript.enabled = true;
+            freezeHuman = true;
             transform.GetChild(0).gameObject.SetActive(true);
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = false;
             StartCoroutine(ExampleCoroutine());
@@ -589,6 +651,7 @@ public class GhostController : MonoBehaviour
     IEnumerator ExampleCoroutine(){
        yield return new WaitForSeconds(1);
        rigBod.detectCollisions = true;
+       freezeHuman = false;
     }
 
     void OnNextChore()
@@ -608,13 +671,23 @@ public class GhostController : MonoBehaviour
     //This function will go through the human interaction when ghosts
     //on human.
     void humanTask(){
+        if(!freezeHuman){
+            //_selection.GetComponent<Rigidbody>().isKinematic = true;
+
           if(currentItem == selectedItem.GrabObject && currentChore is Grabs)
             {
                 if(_selection != null)
                 {
                     //Sound: Grab Item Sound
-                    _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, -Nathan.transform.position.y, 0.0f);
-                    _selection.transform.rotation = Quaternion.LookRotation(Nathan.transform.forward);
+                    Debug.Log("isgrabbing");
+                    var grabPosition = Nathan.transform.Find("holdingPos").gameObject;
+                    var selectRigid = _selection.GetComponent<Rigidbody>();
+                    _selection.transform.position = grabPosition.transform.position;
+                    selectRigid.constraints =  RigidbodyConstraints.FreezeRotation;
+                    selectRigid.useGravity = false;
+                    //_selection.GetComponent<Rigidbody>().isKinematic = true;
+                    // _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, -Nathan.transform.position.y, 0.0f);
+                    // _selection.transform.rotation = Quaternion.LookRotation(Nathan.transform.forward);
                 }
             }
             else if(currentItem == selectedItem.CleanObject && currentChore is Cleans)
@@ -644,6 +717,7 @@ public class GhostController : MonoBehaviour
                 }
             }
             else{
+
                 Ray ray = new Ray(Nathan.transform.position, Nathan.transform.forward); 
                 RaycastHit hit;
                 if(Physics.Raycast(ray, out hit, 1.0f))
@@ -674,7 +748,17 @@ public class GhostController : MonoBehaviour
                     Nathan.transform.GetChild(3).gameObject.SetActive(false);
                     _selection = null;
                 }
+
+                if(currentChore is Grabs)
+                {
+                    currentChore.placed();
+                    if(currentChore.complete())
+                    {
+                        currentChore = null;
+                    }
+                }
             }
+        }
     }
 
     //Add by Guanchen Liu
@@ -689,21 +773,30 @@ public class GhostController : MonoBehaviour
         if(onHuman){
             if (currentItem == selectedItem.GrabObject)
             {
+                
                 currentItem = selectedItem.None;
                 currentChore.getTargetPosition().SetActive(false);
-                if(grabItem.gameObject == currentChore.gameObject)
-                {
-                    currentChore.placed();
-                    if(currentChore.complete())
-                    {
-                        currentChore = null;
-                    }
-                }
+                var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
+                selectRigid.useGravity = true;
+                selectRigid.constraints =  RigidbodyConstraints.None;
                 grabItem = null;
             }
         }
     }
 
+    //Add by Guanchen liu
+    //An interesting function that allow player to throw stuff
+    void OnThrow(){
+        if(currentItem == selectedItem.GrabObject && onHuman){
+            currentItem = selectedItem.None;
+            currentChore.getTargetPosition().SetActive(false);
+            var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
+            selectRigid.velocity = Nathan.transform.forward * 5f;
+            selectRigid.useGravity = true;
+            selectRigid.constraints =  RigidbodyConstraints.None;
+            grabItem = null;
+        }
+    }
     //Add by Guanchen Liu
     //Origin: Enxuan
     //Access by Controller
@@ -747,10 +840,36 @@ public class GhostController : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision other){
-       var otherScript = OtherGhost.GetComponent<GhostController>();
-       if(other.gameObject.tag == "Human" && !onHuman && !otherScript.onHuman){
-           OnTaking();
-           Debug.Log("is hiting");
-       }
-   }
+        var otherScript = OtherGhost.GetComponent<GhostController>();
+        if(other.gameObject.tag == "Human" && !onHuman && !otherScript.onHuman){
+            OnTaking();
+        }
+    }
+
+    void CoolDownManager(){
+        if(!paintEnable){
+            paintImage.fillAmount += 1 / lightCooldown * Time.deltaTime;
+            paintCooldown -= 0.02f;
+            if(paintCooldown <= 0){
+                paintEnable = true;
+                paintCooldown = 15f;
+            }
+        }
+        if(!lightEnable){
+            lightImage.fillAmount += 1 / lightCooldown * Time.deltaTime;
+            lightCooldown -= 0.02f;
+            if(lightCooldown <= 0){
+                lightEnable = true;
+                lightCooldown = 15f;
+            }
+        }
+        if(!musicEnable){
+            musicImage.fillAmount += 1 / lightCooldown * Time.deltaTime;
+            musicCooldown -= 0.02f;
+            if(musicCooldown <= 0){
+                musicEnable = true;
+                musicCooldown = 15f;
+            }
+        }
+    }
 }
