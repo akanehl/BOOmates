@@ -77,7 +77,7 @@ public class GhostController : MonoBehaviour
     //Combining human script and ghost script together
     public enum selectedItem {GrabObject, CleanObject, None}
     public selectedItem currentItem;
-    public enum ghostCond {inHuman,onEjectng,None}
+    public enum ghostCond {inHuman,onEjecting,None}
     public ghostCond currentCond;
     private Transform _selection;
     private Transform grabItem;
@@ -133,6 +133,7 @@ public class GhostController : MonoBehaviour
         Nathan = GameObject.Find("Nathan");
         humanScript = Nathan.GetComponent<HumanBehavior>();
         currentItem = selectedItem.None;
+        currentCond = ghostCond.None;
         mainCamera  = GameObject.Find("MainCamera");
         sc          = mainCamera.GetComponent<CameraControl>();
         UI = GameObject.Find("UI");
@@ -166,7 +167,6 @@ public class GhostController : MonoBehaviour
         }
 
         var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
-        
 
         choreManger = GameObject.Find("ChoreManger").GetComponent<ChoreManger>();
     }
@@ -184,7 +184,6 @@ public class GhostController : MonoBehaviour
         //Update the ScarePoint Value, due to conditions
         //scareManager();
         CoolDownManager();
-
         if (playernum == 0)
         {
             painting = paintScript.closest1;
@@ -220,14 +219,7 @@ public class GhostController : MonoBehaviour
 
         }
         //NEEDS TO BE UPDATED TO WORK WITH MULTIPLE ITEMS
-        if (playernum == 0)
-        { 
-            lightBool = lightScript.locked1;
-            gramBool = musicScript.locked1;
-            paintBool = paintScript.locked1;
-        }
-        if (playernum == 1)
-        {
+       
             if (playernum == 0)
             {
                 lightBool = lightScript.locked1;
@@ -244,7 +236,7 @@ public class GhostController : MonoBehaviour
                 paintBool = paintScript.locked2;
                 propBool = propScript.locked2;
             }
-        }
+        
 
         if(!worldLighting.activeSelf)
         {
@@ -367,14 +359,17 @@ public class GhostController : MonoBehaviour
         
         if(scarePoint > 100)
         {
-            scarePoint = 0;
-            OnLeaving();
-            var otherScript = OtherGhost.GetComponent<GhostController>();
-            otherScript.OnTaking();
+            Nathan.transform.Find("Firefly").gameObject.SetActive(true);
+            currentCond = ghostCond.onEjecting;
+            //OnLeaving();
+            //var otherScript = OtherGhost.GetComponent<GhostController>();
+            //otherScript.OnTaking();
         }
 
         if(scarePoint < 100)
         {
+            Nathan.transform.Find("Firefly").gameObject.SetActive(false);
+            currentCond = ghostCond.inHuman;
             if (!worldLighting.activeSelf)
             {
                 scarePoint += 0.05f;
@@ -452,15 +447,25 @@ public class GhostController : MonoBehaviour
             //player isnt already hiding
             if (!hiding)
             {
-                transform.position = painting.transform.GetChild(0).transform.position;
+                //Edit by Guanchen Liu
+                //Fix the problem that ghost's y value would change
+                //when ever it goes into the painting
+                var targetPos = painting.transform.GetChild(0).transform.position;
+                targetPos.y = transform.position.y;
+                transform.position = targetPos;
                 rigBod.constraints = RigidbodyConstraints.FreezePosition;
+                Debug.Log(transform.position);
+                
                 hiding = true;
             }
             else
             {
                 rigBod.constraints = RigidbodyConstraints.None;
                 rigBod.constraints = RigidbodyConstraints.FreezePositionY;
-                transform.position = painting.transform.GetChild(1).transform.position;
+                var targetPos = painting.transform.GetChild(1).transform.position;
+                targetPos.y = transform.position.y;
+                transform.position = targetPos;
+                Debug.Log(transform.position);
                 rigBod.AddForce((moveVec.x) * 500, 0.0f, (moveVec.y) * 500);
                 hiding = false;
                 if (Vector3.Distance(transform.position, Nathan.transform.position) < 5)
@@ -483,17 +488,16 @@ public class GhostController : MonoBehaviour
         // Ghost enters a prop
       
         // If the ghost is in a prop
-        if (inProp)
+        if (inProp && !onHuman)
         {
-            prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce, 0.0f, moveVec.y * pushForce);
-           
+            prop.GetComponent<Rigidbody>().velocity = prop.transform.forward * 10f;
             gameObject.transform.position = prop.transform.position;
         }
 
 
         //the ghost is not in a prop, and close enough to active
         Debug.Log(propBool);
-        if (!propBool)
+        if (!propBool && !onHuman)
         {
             if (!inProp)
             {
@@ -592,6 +596,7 @@ public class GhostController : MonoBehaviour
         if(!onHuman && humanScript.enabled){
             var controlScript = this.GetComponent<GhostController>();
             rigBod.detectCollisions = false;
+            scarePoint = 0;
             var x = Nathan.transform.position.x;
             var y = this.transform.position.y;
             var z = Nathan.transform.position.z;
@@ -610,6 +615,7 @@ public class GhostController : MonoBehaviour
     //if scarePoint equals 0, ghosts will be forced eject
     void OnLeaving(){
         if(onHuman && !humanScript.enabled){
+            scarePoint = 0;
             var rb = GetComponent<Rigidbody>();
             Vector3 randomDirection = new Vector3(Random.Range(-10.0f, 10.0f), 0, Random.Range(-10.0f, 10.0f));
             rigBod.AddForce(randomDirection * (float)moveSpeed);
@@ -817,21 +823,21 @@ public class GhostController : MonoBehaviour
     //Edited by: Jordan Timm (UI modification)
     //Origin: Guanchen
     //This function will swipe the possessions of the ghost after a specific time
-    void timeSwiping(){
+    // void timeSwiping(){
 
-        if(onHuman){
-            swipeTime -= 0.02f;
-        }
-        if(swipeTime <= 0f){
-            //onHuman = false;
-            OnLeaving();
-            var otherScript = OtherGhost.GetComponent<GhostController>();
-            otherScript.OnTaking();
-            swipeTime = 15f;
-        }
+    //     if(onHuman){
+    //         swipeTime -= 0.02f;
+    //     }
+    //     if(swipeTime <= 0f){
+    //         //onHuman = false;
+    //         OnLeaving();
+    //         var otherScript = OtherGhost.GetComponent<GhostController>();
+    //         otherScript.OnTaking();
+    //         swipeTime = 15f;
+    //     }
 
-       UIManager.instance.UpdateTimer((int)swipeTime);
-    }
+    //    UIManager.instance.UpdateTimer((int)swipeTime);
+    // }
 
     void findOther(){
         var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
@@ -844,8 +850,13 @@ public class GhostController : MonoBehaviour
 
     void OnCollisionEnter(Collision other){
         var otherScript = OtherGhost.GetComponent<GhostController>();
-        if(other.gameObject.tag == "Human" && !onHuman && !otherScript.onHuman){
-            OnTaking();
+        if(other.gameObject.tag == "Human" && !onHuman){
+            if(!otherScript.onHuman){
+                OnTaking();
+            }else if(otherScript.currentCond == ghostCond.onEjecting){
+                otherScript.OnLeaving();
+                OnTaking();
+            }
         }
     }
 
