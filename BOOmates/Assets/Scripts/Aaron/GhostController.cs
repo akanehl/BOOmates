@@ -481,7 +481,7 @@ public class GhostController : MonoBehaviour
         // Ghost enters a prop
       
         // If the ghost is in a prop
-        if (inProp)
+        if (inProp && !onHuman)
         {
             prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce, 0.0f, moveVec.y * pushForce);
            
@@ -491,7 +491,7 @@ public class GhostController : MonoBehaviour
 
         //the ghost is not in a prop, and close enough to active
         Debug.Log(propBool);
-        if (!propBool)
+        if (!propBool && !onHuman)
         {
             if (!inProp)
             {
@@ -685,6 +685,7 @@ public class GhostController : MonoBehaviour
                     _selection.transform.position = grabPosition.transform.position;
                     selectRigid.constraints =  RigidbodyConstraints.FreezeRotation;
                     selectRigid.useGravity = false;
+                    _selection.transform.forward = Nathan.transform.forward;
                     //_selection.GetComponent<Rigidbody>().isKinematic = true;
                     // _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, -Nathan.transform.position.y, 0.0f);
                     // _selection.transform.rotation = Quaternion.LookRotation(Nathan.transform.forward);
