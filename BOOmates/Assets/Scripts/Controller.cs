@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Aaron/Controller.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Scripts/Controller.inputactions'
 
 using System;
 using System.Collections;
@@ -119,6 +119,22 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""5400ac3e-fec4-4eec-ac2e-b11387d6309a"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""59b8415d-b476-4781-aa36-58eca06bd115"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Leave"",
+                    ""type"": ""Button"",
+                    ""id"": ""c93a8fa9-39d9-4d62-8f30-3c3278e6eec2"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -266,6 +282,28 @@ public class @Controller : IInputActionCollection, IDisposable
                     ""action"": ""Throw"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49262d5f-8e85-40e1-982f-631ddff0a83f"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""be2a59a5-abca-4d27-b09a-816a19687a3b"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Leave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -287,6 +325,8 @@ public class @Controller : IInputActionCollection, IDisposable
         m_Gameplay_NextChore = m_Gameplay.FindAction("NextChore", throwIfNotFound: true);
         m_Gameplay_PrevChore = m_Gameplay.FindAction("PrevChore", throwIfNotFound: true);
         m_Gameplay_Throw = m_Gameplay.FindAction("Throw", throwIfNotFound: true);
+        m_Gameplay_Enter = m_Gameplay.FindAction("Enter", throwIfNotFound: true);
+        m_Gameplay_Leave = m_Gameplay.FindAction("Leave", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -349,6 +389,8 @@ public class @Controller : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_NextChore;
     private readonly InputAction m_Gameplay_PrevChore;
     private readonly InputAction m_Gameplay_Throw;
+    private readonly InputAction m_Gameplay_Enter;
+    private readonly InputAction m_Gameplay_Leave;
     public struct GameplayActions
     {
         private @Controller m_Wrapper;
@@ -366,6 +408,8 @@ public class @Controller : IInputActionCollection, IDisposable
         public InputAction @NextChore => m_Wrapper.m_Gameplay_NextChore;
         public InputAction @PrevChore => m_Wrapper.m_Gameplay_PrevChore;
         public InputAction @Throw => m_Wrapper.m_Gameplay_Throw;
+        public InputAction @Enter => m_Wrapper.m_Gameplay_Enter;
+        public InputAction @Leave => m_Wrapper.m_Gameplay_Leave;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -414,6 +458,12 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Throw.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
                 @Throw.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
                 @Throw.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnThrow;
+                @Enter.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
+                @Enter.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
+                @Enter.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnEnter;
+                @Leave.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeave;
+                @Leave.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeave;
+                @Leave.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnLeave;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -457,6 +507,12 @@ public class @Controller : IInputActionCollection, IDisposable
                 @Throw.started += instance.OnThrow;
                 @Throw.performed += instance.OnThrow;
                 @Throw.canceled += instance.OnThrow;
+                @Enter.started += instance.OnEnter;
+                @Enter.performed += instance.OnEnter;
+                @Enter.canceled += instance.OnEnter;
+                @Leave.started += instance.OnLeave;
+                @Leave.performed += instance.OnLeave;
+                @Leave.canceled += instance.OnLeave;
             }
         }
     }
@@ -476,5 +532,7 @@ public class @Controller : IInputActionCollection, IDisposable
         void OnNextChore(InputAction.CallbackContext context);
         void OnPrevChore(InputAction.CallbackContext context);
         void OnThrow(InputAction.CallbackContext context);
+        void OnEnter(InputAction.CallbackContext context);
+        void OnLeave(InputAction.CallbackContext context);
     }
 }

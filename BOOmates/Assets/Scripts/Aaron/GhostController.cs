@@ -38,6 +38,7 @@ public class GhostController : MonoBehaviour
     private float lightCooldown;
     private bool lightEnable = true;
     Image lightImage;
+    GameObject backUpLighting;
 
     //Gramophone variables
     private bool gramBool = false;
@@ -61,7 +62,7 @@ public class GhostController : MonoBehaviour
     // Prop Variables
     public float pushForce;
     private bool propBool = false;
-    bool inProp;
+    bool inProp = false;
     GameObject prop;
     PropScript propScript;
 
@@ -102,7 +103,7 @@ public class GhostController : MonoBehaviour
         //Assign light variables to proper objects in scene
         lightSwitch = GameObject.FindGameObjectWithTag("Lights");
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
-        // backUpLighting = GameObject.FindGameObjectWithTag("BackUpLights");
+        backUpLighting = GameObject.FindGameObjectWithTag("BackUpLights");
         lightScript = lightSwitch.GetComponent<LightScript>();
         lightCooldown = 10f;
         lightEnable = true;
@@ -160,7 +161,7 @@ public class GhostController : MonoBehaviour
             Destroy(temp);
             mesh.material = color2;
             gameObject.name = "Ghost_2";
-            // backUpLighting.gameObject.SetActive(false);
+            backUpLighting.gameObject.SetActive(false);
 
         }
 
@@ -404,6 +405,7 @@ public class GhostController : MonoBehaviour
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
             lightEnable = false;
+            backUpLighting.gameObject.SetActive(!backUpLighting.activeSelf);
             StartCoroutine(lightCoroutine());
         }
     }
@@ -412,6 +414,7 @@ public class GhostController : MonoBehaviour
        yield return new WaitForSeconds(4);
        lightEnable = true;
         worldLighting.SetActive(!(worldLighting.activeSelf));
+        backUpLighting.gameObject.SetActive(!backUpLighting.activeSelf);
     }
     
 
@@ -478,22 +481,25 @@ public class GhostController : MonoBehaviour
     void OnEnter()
     {
         // Ghost enters a prop
-
+      
         // If the ghost is in a prop
         if (inProp)
         {
             prop.GetComponent<Rigidbody>().AddForce(moveVec.x * pushForce, 0.0f, moveVec.y * pushForce);
-            Debug.Log("setting pos");
+           
             gameObject.transform.position = prop.transform.position;
         }
 
+
         //the ghost is not in a prop, and close enough to active
+        Debug.Log(propBool);
         if (!propBool)
         {
             if (!inProp)
             {
                 inProp = true;
                 gameObject.transform.position = prop.transform.position;
+                baseSpeed = 0;
                 gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
             }
@@ -503,10 +509,15 @@ public class GhostController : MonoBehaviour
 
     void OnLeave()
     {
+        Debug.Log("Attempting to leave");
         if (inProp)
         {
+            Debug.Log("Attempting to leave the object");
             inProp = false;
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            baseSpeed = 4;
+            Vector3 resetPos = new Vector3(0, 0.5f, 0);
+            gameObject.transform.position = resetPos;
         }
     }
 
