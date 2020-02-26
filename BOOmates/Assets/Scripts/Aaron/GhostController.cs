@@ -76,6 +76,8 @@ public class GhostController : MonoBehaviour
     //Combining human script and ghost script together
     public enum selectedItem {GrabObject, CleanObject, None}
     public selectedItem currentItem;
+    public enum ghostCond {inHuman,onEjectng,None}
+    public ghostCond currentCond;
     private Transform _selection;
     private Transform grabItem;
     //Add by Guanchen Liu
@@ -672,7 +674,8 @@ public class GhostController : MonoBehaviour
                     var grabPosition = Nathan.transform.Find("holdingPos").gameObject;
                     var selectRigid = _selection.GetComponent<Rigidbody>();
                     _selection.transform.position = grabPosition.transform.position;
-                    selectRigid.constraints =  RigidbodyConstraints.FreezeRotation;
+                    _selection.transform.forward = Nathan.transform.forward;
+                    // selectRigid.constraints =  RigidbodyConstraints.FreezeRotation;
                     selectRigid.useGravity = false;
                     //_selection.GetComponent<Rigidbody>().isKinematic = true;
                     // _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, -Nathan.transform.position.y, 0.0f);
@@ -780,7 +783,7 @@ public class GhostController : MonoBehaviour
             currentItem = selectedItem.None;
             currentChore.getTargetPosition().SetActive(false);
             var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
-            selectRigid.velocity = Nathan.transform.forward * 5f;
+            selectRigid.velocity = Nathan.transform.forward * 10f;
             selectRigid.useGravity = true;
             selectRigid.constraints =  RigidbodyConstraints.None;
             grabItem = null;
