@@ -20,8 +20,8 @@ public class GhostController : MonoBehaviour
     //Nathan info
     GameObject Nathan;
     HumanBehavior humanScript;
-    bool onHuman = false;
-    private float scarePoint = 0f;
+    public bool onHuman = false;
+    public float scarePoint = 0f;
     private float swipeTime = 15f;
 
 
@@ -94,6 +94,7 @@ public class GhostController : MonoBehaviour
     private Chores currentChore;
 
     private ChoreManger choreManger;
+    private bool _enabled = false;
 
 
     private void Awake()
@@ -277,7 +278,7 @@ public class GhostController : MonoBehaviour
             if(currentItem != selectedItem.CleanObject)
             {
                 movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
-                Nathan.transform.Translate(movement * ((float)baseSpeed/2) * Time.deltaTime, Space.World);
+                Nathan.transform.Translate(movement * ((float)baseSpeed) * Time.deltaTime, Space.World);
                 Nathan.GetComponent<Rigidbody>().isKinematic = true;
                 if(movement != Vector3.zero)
                 {
@@ -490,7 +491,8 @@ public class GhostController : MonoBehaviour
         // If the ghost is in a prop
         if (inProp && !onHuman)
         {
-            prop.GetComponent<Rigidbody>().velocity = prop.transform.forward * 10f;
+            var moving = new Vector3(moveVec.x, 0.0f,  moveVec.y);
+            prop.GetComponent<Rigidbody>().velocity = moving * 10f;
             gameObject.transform.position = prop.transform.position;
         }
 
@@ -554,7 +556,9 @@ public class GhostController : MonoBehaviour
 
     void OnEnable()
     {
+        Debug.Log("enable");
         player.Gameplay.Enable();
+
     }
     private void OnDisable()
     {
@@ -593,7 +597,7 @@ public class GhostController : MonoBehaviour
     void OnTaking(){
 
         Debug.Log("pressed in taking");
-        if(!onHuman && humanScript.enabled){
+        if(!onHuman && humanScript.enabled && !inProp){
             var controlScript = this.GetComponent<GhostController>();
             rigBod.detectCollisions = false;
             scarePoint = 0;

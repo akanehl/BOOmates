@@ -131,4 +131,15 @@ public class PropScript : MonoBehaviour
             }
         }
     }
+
+    void OnCollisionEnter(Collision other){
+        if(other.gameObject.tag == "Human"){
+            foreach(GameObject player in ghosts){
+                var playerScript = player.GetComponent<GhostController>();
+                if(playerScript.onHuman){
+                    playerScript.scarePoint += 20f;
+                }
+            }
+        }
+    }
 }
