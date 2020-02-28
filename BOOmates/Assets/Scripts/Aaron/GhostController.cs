@@ -564,13 +564,13 @@ public class GhostController : MonoBehaviour
             //Debug.Log("pressed");
             if(_selection != null)
             {
-                if(_selection.CompareTag("GrabObject"))
+                if(_selection.CompareTag("GrabObject") && !_selection.GetComponent<Chores>().complete())
                 {
                     currentItem = selectedItem.GrabObject;
                     grabItem = _selection;
                     _selection.GetComponent<Chores>().getTargetPosition().SetActive(true);
                 }
-                else if( _selection.CompareTag("CleanObject")) 
+                else if( _selection.CompareTag("CleanObject") && !_selection.GetComponent<Chores>().complete()) 
                 {
                     currentItem = selectedItem.CleanObject;
                 }
@@ -760,6 +760,7 @@ public class GhostController : MonoBehaviour
                 currentItem = selectedItem.None;
                 var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
                 selectRigid.useGravity = true;
+                grabItem.GetComponent<Chores>().getTargetPosition().SetActive(false);
                 selectRigid.constraints =  RigidbodyConstraints.None;
                 //test
                 currentChore.placed();
@@ -774,6 +775,7 @@ public class GhostController : MonoBehaviour
     void OnThrow(){
         if(currentItem == selectedItem.GrabObject && onHuman){
             currentItem = selectedItem.None;
+            grabItem.GetComponent<Chores>().getTargetPosition().SetActive(false);
             var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
             selectRigid.velocity = Nathan.transform.forward * 10f;
             selectRigid.useGravity = true;

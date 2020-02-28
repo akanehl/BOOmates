@@ -21,9 +21,9 @@ public class Cleans : Chores
         _active = true;
     }
 
-    public override void deactiveChore(int ghostid)
+    public override void deactiveChore()
     {
-        base.deactiveChore(ghostid);
+        base.deactiveChore();
         _active = false;
     }
 

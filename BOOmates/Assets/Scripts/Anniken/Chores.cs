@@ -56,7 +56,7 @@ public class Chores: MonoBehaviour
         UIManager.instance.UpdateChore(this);
     }
 
-    public virtual void deactiveChore(int ghostid)
+    public virtual void deactiveChore()
     {
         Renderer rend = GetComponent<Renderer>();
         if(rend != null)

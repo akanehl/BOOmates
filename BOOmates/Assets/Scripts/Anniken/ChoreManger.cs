@@ -71,6 +71,7 @@ public class ChoreManger : MonoBehaviour
                         player2Score++;
                     }
                     chores.Remove(currentPlayerChore.gameObject);
+                    currentPlayerChore.deactiveChore();
                     currentPlayerChore = null;
                 }
             }
@@ -96,7 +97,7 @@ public class ChoreManger : MonoBehaviour
 
     private void choreRotate(int player)
     {
-        chores[lightChore].GetComponent<Chores>().deactiveChore(player);
+        chores[lightChore].GetComponent<Chores>().deactiveChore();
         lightChore++;
         if(lightChore >= chores.Count){
             lightChore = 0;
