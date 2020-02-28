@@ -5,42 +5,32 @@ using UnityEngine.UI;
 
 public class ChoreManger : MonoBehaviour
 {
-    public int player1Score;
-    public int player2Score;
-    
+    [SerializeField]
+    private int player1Score;
+
+    [SerializeField]
+    private int player2Score;
+
+    [SerializeField]
+    private Chores currentPlayerChore;
+
+    [SerializeField]
+    private GameObject currentPlayer;
+
     [SerializeField]
     private List<GameObject> chores;
 
-    public Chores player1Chore;
+    private int lightChore = 0;
 
-    public int player1ChoreNum;
-
-    public Chores player2Chore;
-
-    public int player2ChoreNum;
-
-    private int rand;
+    private float lightTime = 1.5f;
 
     void Start()
     {
         player1Score = 0;
+
         player2Score = 0;
-        player1ChoreNum = Random.Range(0, chores.Count);
-        Debug.Log(player1ChoreNum);
-        Debug.Log(chores.Count);
-        player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
-        if(chores.Count > 1){
-            player1Chore.activeChore(0);
-            player2ChoreNum = Random.Range(0, chores.Count);
-            player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-            while (player1Chore.getID() == player2Chore.getID())
-            {
-                player2ChoreNum = Random.Range(0, chores.Count);
-                player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-            }
-            player2Chore.activeChore(1);
-        }
-        player2Chore.activeChore(1);
+
+        lightChore = 0;
     }
 
     void FixedUpdate()
@@ -53,7 +43,6 @@ public class ChoreManger : MonoBehaviour
             Debug.Log("p1win");
             //player 1 wins
         }
-
         if(player2Score >= 3)
         {
             //player 2 wins
@@ -62,150 +51,56 @@ public class ChoreManger : MonoBehaviour
             image.SetActive(true);
             Debug.Log("p2win");
         }
+        //Edit by Enxuan
+        if(currentPlayer != null){
+            //update currentChore to last Chore player is doing
+            if(currentPlayer.GetComponent<GhostController>().getcurrentChore() != null)
+            {
+                currentPlayerChore = currentPlayer.GetComponent<GhostController>().getcurrentChore();
+            }
 
-        if(chores.Count > 0){
-            if(player1Chore != null){
-                if(player1Chore.complete() && player1Chore.isActive() )
+            if(currentPlayerChore != null)
+            {
+                if(currentPlayerChore.complete())
                 {
-                    player1Score++;
-                    Debug.Log("the chore1 is complete");
-                    player1Chore.deactiveChore(0);
-                    if(player2ChoreNum > player1ChoreNum)
-                        player2ChoreNum--;
-                    chores.Remove(player1Chore.gameObject);
-                    if(chores.Count > 1){
-                        player1ChoreNum = Random.Range(0, chores.Count);               
-                        player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
-                        while(player1Chore.getID() == player2Chore.getID())
-                        {
-                            player1ChoreNum = Random.Range(0, chores.Count);               
-                            player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
-                        }
-                        player1Chore.activeChore(0);
+                    if(currentPlayer.GetComponent<GhostController>().playernum == 0){
+                        player1Score++;
                     }
-                }
-            } 
-
-            if(player2Chore != null){
-                if(player2Chore.complete() && player2Chore.isActive())
-                {
-                    player2Score++;
-                    Debug.Log("the chore2 is complete");
-                    player2Chore.deactiveChore(1);
-                    if(player1ChoreNum > player2ChoreNum)
-                        player1ChoreNum--;
-                    chores.Remove(player2Chore.gameObject);
-                    if(chores.Count > 1){
-                        player2ChoreNum = Random.Range(0, chores.Count);               
-                        player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-                        while(player1Chore.getID() == player2Chore.getID())
-                        {
-                            player2ChoreNum = Random.Range(0, chores.Count);               
-                            player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-                        }
-                        player2Chore.activeChore(1);
+                    else
+                    {
+                        player2Score++;
                     }
+                    chores.Remove(currentPlayerChore.gameObject);
+                    currentPlayerChore = null;
                 }
+            }
+        }
+        if(chores.Count > 0 && currentPlayer != null)
+        {
+            if(lightTime > 0)
+            {
+                lightTime -= Time.deltaTime;
+            }
+            else
+            {
+                choreRotate(currentPlayer.GetComponent<GhostController>().playernum);
+                lightTime = 1.5f;
             }
         }
     }
 
-    public Chores nextChore(int player)
+    public void setPlayer(GameObject player)
     {
-        if (player == 0)
-        {
-            player1Chore.deactiveChore(0);
-            if(chores.Count > 0){
-                player1ChoreNum++;
-                if(player1ChoreNum == player2ChoreNum)
-                {
-                    player1ChoreNum++;
-                }
-                if(player1ChoreNum >= chores.Count)
-                {
-                    player1ChoreNum = 0;
-                    if(player1ChoreNum == player2ChoreNum)
-                    {
-                        player1ChoreNum++;
-                    }
-                }
-                player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
-                player1Chore.activeChore(0);
-                return player1Chore;
-            }
-        }
-        else
-        {
-            player2Chore.deactiveChore(1);
-            if(chores.Count > 0){
-                player2ChoreNum++;
-                if(player2ChoreNum == player1ChoreNum)
-                {
-                    player2ChoreNum++;
-                }
-                if(player2ChoreNum >= chores.Count)
-                {
-                    player2ChoreNum = 0;
-                    if(player2ChoreNum == player1ChoreNum)
-                    {
-                        player2ChoreNum++;
-                    }
-                }
-                player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-                player2Chore.activeChore(1);
-            }
-            return player2Chore;
-        }
-        return null;
+        currentPlayer = player;
     }
 
-    public Chores prevChore(int player)
+    private void choreRotate(int player)
     {
-        if (player == 0)
-        {
-            player1Chore.deactiveChore(0);
-            if(chores.Count > 0){
-                player1ChoreNum--;
-                if(player1ChoreNum == player2ChoreNum)
-                {
-                    player1ChoreNum--;
-                }
-                if(player1ChoreNum <= -1)
-                {
-                    player1ChoreNum = chores.Count - 1;
-                    if(player1ChoreNum == player2ChoreNum)
-                    {
-                        player1ChoreNum--;
-                    }
-                }
-                player1Chore = chores[player1ChoreNum].GetComponent<Chores>();
-                player1Chore.activeChore(0);
-                return player1Chore;
-            }
+        chores[lightChore].GetComponent<Chores>().deactiveChore(player);
+        lightChore++;
+        if(lightChore >= chores.Count){
+            lightChore = 0;
         }
-        else
-        {
-            player2Chore.deactiveChore(1);
-            if(chores.Count > 0){
-                player2ChoreNum--;
-                if(player2ChoreNum == player1ChoreNum)
-                {
-                    player2ChoreNum--;
-                }
-                if(player2ChoreNum <= -1)
-                {
-                    player2ChoreNum = chores.Count -1;
-                    if(player2ChoreNum == player1ChoreNum)
-                    {
-                        player2ChoreNum--;
-                    }
-                }
-                player2Chore = chores[player2ChoreNum].GetComponent<Chores>();
-                player2Chore.activeChore(1);
-            }
-            return player2Chore;
-        }
-        return null;
+        chores[lightChore].GetComponent<Chores>().activeChore(player);
     }
-
 }

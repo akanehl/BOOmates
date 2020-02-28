@@ -91,10 +91,11 @@ public class GhostController : MonoBehaviour
 
     private CameraControl sc;
 
+    private bool _enabled = false;
+
     private Chores currentChore;
 
-    private ChoreManger choreManger;
-    private bool _enabled = false;
+    public ChoreManger choreManger;
 
 
     private void Awake()
@@ -194,19 +195,6 @@ public class GhostController : MonoBehaviour
         {
             painting = paintScript.closest2;
             prop = propScript.closest2;
-        }
-
-        if(currentChore == null)
-        {
-            if (playernum == 0)
-            {
-
-                currentChore = choreManger.player1Chore;
-            }
-            else
-            {
-                currentChore = choreManger.player2Chore;
-            }
         }
 
         //Then, calculate the human condition tasks
@@ -369,7 +357,7 @@ public class GhostController : MonoBehaviour
 
         if(scarePoint < 100)
         {
-            Nathan.transform.Find("Firefly").gameObject.SetActive(false);
+            //Nathan.transform.Find("Firefly").gameObject.SetActive(false);
             currentCond = ghostCond.inHuman;
             if (!worldLighting.activeSelf)
             {
@@ -574,18 +562,19 @@ public class GhostController : MonoBehaviour
         if(!humanScript.enabled)
         {
             //Debug.Log("pressed");
-            if(_selection != null && currentChore.gameObject == _selection.gameObject)
+            if(_selection != null)
             {
-                if(_selection.CompareTag("GrabObject") && currentChore is Grabs)
+                if(_selection.CompareTag("GrabObject"))
                 {
                     currentItem = selectedItem.GrabObject;
                     grabItem = _selection;
-                    currentChore.getTargetPosition().SetActive(true);
+                    _selection.GetComponent<Chores>().getTargetPosition().SetActive(true);
                 }
-                else if( _selection.CompareTag("CleanObject") && currentChore is Cleans) 
+                else if( _selection.CompareTag("CleanObject")) 
                 {
                     currentItem = selectedItem.CleanObject;
                 }
+                currentChore = _selection.GetComponent<Chores>();
             }
         }
     }
@@ -607,8 +596,8 @@ public class GhostController : MonoBehaviour
             this.transform.position = new Vector3(x,y,z);
             transform.GetChild(0).gameObject.SetActive(false);
             humanScript.enabled = false;
-            
             onHuman = true;
+            choreManger.setPlayer(this.gameObject);
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
         }
     }
@@ -666,18 +655,6 @@ public class GhostController : MonoBehaviour
        freezeHuman = false;
     }
 
-    void OnNextChore()
-    {
-        currentChore = choreManger.nextChore(playernum);
-        UIManager.instance.UpdateChore(currentChore);
-    }
-
-    void OnPrevChore()
-    {
-        currentChore = choreManger.prevChore(playernum);
-        UIManager.instance.UpdateChore(currentChore);
-    }
-
     //Add by Guanchen Liu
     //Origin: Enxuan
     //This function will go through the human interaction when ghosts
@@ -686,7 +663,7 @@ public class GhostController : MonoBehaviour
         if(!freezeHuman){
             //_selection.GetComponent<Rigidbody>().isKinematic = true;
 
-          if(currentItem == selectedItem.GrabObject && currentChore is Grabs)
+          if(currentItem == selectedItem.GrabObject)
             {
                 if(_selection != null)
                 {
@@ -704,7 +681,7 @@ public class GhostController : MonoBehaviour
                     // _selection.transform.rotation = Quaternion.LookRotation(Nathan.transform.forward);
                 }
             }
-            else if(currentItem == selectedItem.CleanObject && currentChore is Cleans)
+            else if(currentItem == selectedItem.CleanObject)
             {
                 if(_selection != null)
                 {
@@ -724,8 +701,8 @@ public class GhostController : MonoBehaviour
                         timeBar.localScale = lTemp;
                         Nathan.transform.GetChild(2).gameObject.SetActive(false);
                         _selection = null;
-                        currentItem = selectedItem.None;
                         currentChore.finishClean();
+                        currentItem = selectedItem.None;
                         currentChore = null;
                     }
                 }
@@ -738,12 +715,12 @@ public class GhostController : MonoBehaviour
                 {
                     if(!hit.transform.CompareTag("Human")){
                         Nathan.transform.GetChild(3).gameObject.SetActive(true);
-                        if(hit.transform.CompareTag("GrabObject") && hit.transform.gameObject == currentChore.gameObject){
+                        if(hit.transform.CompareTag("GrabObject")){
                             Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(true);
                             Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
                             _selection = hit.transform;
                         }
-                        else if (hit.transform.CompareTag("CleanObject")&& hit.transform.gameObject == currentChore.gameObject)
+                        else if (hit.transform.CompareTag("CleanObject"))
                         {                        
                             Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
                             Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(true);
@@ -763,14 +740,6 @@ public class GhostController : MonoBehaviour
                     _selection = null;
                 }
 
-                if(currentChore is Grabs)
-                {
-                    currentChore.placed();
-                    if(currentChore.complete())
-                    {
-                        currentChore = null;
-                    }
-                }
             }
         }
     }
@@ -789,11 +758,13 @@ public class GhostController : MonoBehaviour
             {
                 
                 currentItem = selectedItem.None;
-                currentChore.getTargetPosition().SetActive(false);
                 var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
                 selectRigid.useGravity = true;
                 selectRigid.constraints =  RigidbodyConstraints.None;
+                //test
+                currentChore.placed();
                 grabItem = null;
+                currentChore = null;
             }
         }
     }
@@ -803,12 +774,12 @@ public class GhostController : MonoBehaviour
     void OnThrow(){
         if(currentItem == selectedItem.GrabObject && onHuman){
             currentItem = selectedItem.None;
-            currentChore.getTargetPosition().SetActive(false);
             var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
             selectRigid.velocity = Nathan.transform.forward * 10f;
             selectRigid.useGravity = true;
             selectRigid.constraints =  RigidbodyConstraints.None;
             grabItem = null;
+            currentChore = null;
         }
     }
     //Add by Guanchen Liu
@@ -890,5 +861,10 @@ public class GhostController : MonoBehaviour
                 musicCooldown = 15f;
             }
         }
+    }
+
+    public Chores getcurrentChore()
+    {
+        return currentChore;
     }
 }

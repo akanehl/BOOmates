@@ -9,12 +9,14 @@ public class Chores: MonoBehaviour
     protected int id;
     [SerializeField]
     protected Sprite choreIcon;
+    
     [SerializeField]
     [TextArea(3,10)]
     protected string discription;
     protected bool _complete = false;
 
     protected bool _active = false;
+
     [SerializeField]
     protected Material defalutMaterial;
     [SerializeField]
@@ -51,6 +53,7 @@ public class Chores: MonoBehaviour
             else
                 rend.material = ghost2Material;
         }
+        UIManager.instance.UpdateChore(this);
     }
 
     public virtual void deactiveChore(int ghostid)
