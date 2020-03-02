@@ -270,10 +270,10 @@ public class GhostController : MonoBehaviour
             {
                 movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
                 Nathan.transform.Translate(movement * ((float)baseSpeed) * Time.deltaTime, Space.World);
-                //Nathan.GetComponent<Rigidbody>().isKinematic = true;
+                Nathan.GetComponent<Rigidbody>().isKinematic = true;
                 if(movement != Vector3.zero)
                 {
-                    //Nathan.GetComponent<Rigidbody>().isKinematic = false;
+                    Nathan.GetComponent<Rigidbody>().isKinematic = false;
                     Nathan.transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
                 }
             }
@@ -691,7 +691,6 @@ public class GhostController : MonoBehaviour
                     _selection.transform.forward = Nathan.transform.forward;
                     // selectRigid.constraints =  RigidbodyConstraints.FreezeRotation;
                     selectRigid.useGravity = false;
-                    _selection.transform.forward = Nathan.transform.forward;
                     //_selection.GetComponent<Rigidbody>().isKinematic = true;
                     // _selection.transform.position = Nathan.transform.position + Nathan.transform.forward * 1 + new Vector3(0.0f, -Nathan.transform.position.y, 0.0f);
                     // _selection.transform.rotation = Quaternion.LookRotation(Nathan.transform.forward);
