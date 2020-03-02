@@ -606,11 +606,14 @@ public class GhostController : MonoBehaviour
             var vfx = Nathan.transform.Find("Firefly").gameObject;
             vfx.SetActive(false);
             choreManger.setPlayer(this.gameObject);
-            Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
-            Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
-            GameObject.Find("NavMesh Surface").SetActive(false);
+            if(Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled)
+            {
+                Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
+                Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+                GameObject.Find("NavMesh Surface").SetActive(false);
+            }
             var x = Nathan.transform.position.x;
-            var y = 0;
+            var y = 0.5f;
             var z = Nathan.transform.position.z;
             this.transform.position = new Vector3(x,y,z);
         }
@@ -633,8 +636,14 @@ public class GhostController : MonoBehaviour
             onHuman = false;
             humanScript.enabled = true;
             freezeHuman = true;
+            if(_selection != null){
+                _selection.transform.parent = GameObject.Find("Chores").transform;
+                _selection.GetComponent<Rigidbody>().useGravity = true;
+            }
             transform.GetChild(0).gameObject.SetActive(true);
-            Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = false;
+            if(Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled){
+                Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = false;
+            }
             Nathan.transform.Find("Aura").gameObject.SetActive(true);
             StartCoroutine(ExampleCoroutine());
         }
@@ -877,6 +886,7 @@ public class GhostController : MonoBehaviour
                 OnTaking();
             }else if(otherScript.currentCond == ghostCond.onEjecting && !inProp){
                 Debug.Log("active");
+                currentItem = selectedItem.None;
                 otherScript.OnLeaving();
                 OnTaking();
             }

@@ -138,8 +138,10 @@ public class PropScript : MonoBehaviour
             foreach(GameObject player in ghosts){
                 var playerScript = player.GetComponent<GhostController>();
                 if(playerScript.onHuman){
-                    playerScript.scarePoint += 20f;
+                    playerScript.scarePoint += 10f;
+                    UIManager.instance.UpdateScarePoints((int)playerScript.scarePoint);
                 }
+
             }
         }
     }
