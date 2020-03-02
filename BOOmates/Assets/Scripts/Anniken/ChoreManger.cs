@@ -34,7 +34,7 @@ public class ChoreManger : MonoBehaviour
 
         lightChore = 0;
 
-        Worldlight = GameObject.Find("Directional Light");
+        Worldlight = GameObject.Find("LightsMaster");
     }
 
     void FixedUpdate()
