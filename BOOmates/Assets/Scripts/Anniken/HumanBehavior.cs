@@ -68,7 +68,7 @@ public class HumanBehavior : MonoBehaviour
                 while (prevRandomSpot == randomSpot)
                 {
                     randomSpot = Random.Range(0, moveSpots.Length);
-                    Debug.Log("change random spot to" + randomSpot);
+                    //Debug.Log("change random spot to" + randomSpot);
                 }
                 waitTime = startWaitTime;
             }

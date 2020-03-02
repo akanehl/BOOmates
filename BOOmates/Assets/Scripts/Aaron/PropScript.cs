@@ -13,6 +13,7 @@ public class PropScript : MonoBehaviour
     GameObject[] props;
     public GameObject closest1;
     public GameObject closest2;
+    public bool onProp;
     // Start is called before the first frame update
     void Start()
     {

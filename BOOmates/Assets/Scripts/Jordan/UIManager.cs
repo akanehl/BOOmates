@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour
     //Create a singleton pattern for the UI Manager
     private void Awake()
     {
+        Time.timeScale = 0;
         if(instance != null)
         {
             Destroy(this);
@@ -168,5 +169,40 @@ public class UIManager : MonoBehaviour
         isImageFading = false;
         playerEmoteBubble.gameObject.SetActive(false);
     }
+
+    //Add by Guanchen Liu
+    //Related to: GhostController.cs, line 168
+    //When the second player has join the game
+    //The animation will play
+
+    public void playStartImage(){
+        var startAnime = transform.Find("GameStart").gameObject;
+        if(startAnime == null){
+            Time.timeScale = 1.0f;
+            return;
+        }
+        StartCoroutine(StartAnimation());
+    }
+    private IEnumerator StartAnimation()
+    {
+        var startAnime = transform.Find("GameStart").gameObject;
+        var _take = startAnime.transform.Find("take").gameObject;
+        var _over = startAnime.transform.Find("over").gameObject;
+        var _body = startAnime.transform.Find("body").gameObject;
+        _take.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        _take.SetActive(false);
+        yield return new WaitForSeconds(0.3f);
+        _over.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        _over.SetActive(false);
+        yield return new WaitForSeconds(0.3f);
+        _body.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        _body.SetActive(false);
+        Time.timeScale = 1.0f;
+        
+    }
+
 
 }

@@ -165,6 +165,9 @@ public class GhostController : MonoBehaviour
             mesh.material = color2;
             gameObject.name = "Ghost_2";
             backUpLighting.gameObject.SetActive(false);
+            var UIScript = UI.GetComponent<UIManager>();
+            Time.timeScale = 1.0f;
+            UIScript.playStartImage();
 
         }
 
@@ -267,10 +270,10 @@ public class GhostController : MonoBehaviour
             {
                 movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
                 Nathan.transform.Translate(movement * ((float)baseSpeed) * Time.deltaTime, Space.World);
-                Nathan.GetComponent<Rigidbody>().isKinematic = true;
+                //Nathan.GetComponent<Rigidbody>().isKinematic = true;
                 if(movement != Vector3.zero)
                 {
-                    Nathan.GetComponent<Rigidbody>().isKinematic = false;
+                    //Nathan.GetComponent<Rigidbody>().isKinematic = false;
                     Nathan.transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
                 }
             }
@@ -481,6 +484,7 @@ public class GhostController : MonoBehaviour
         {
             var moving = new Vector3(moveVec.x, 0.0f,  moveVec.y);
             prop.GetComponent<Rigidbody>().velocity = moving * 10f;
+
             gameObject.transform.position = prop.transform.position;
         }
 
@@ -585,7 +589,7 @@ public class GhostController : MonoBehaviour
     //when the human is vaccan(?)
     void OnTaking(){
 
-        Debug.Log("pressed in taking");
+        //Debug.Log("pressed in taking");
         if(!onHuman && humanScript.enabled && !inProp){
             var controlScript = this.GetComponent<GhostController>();
             rigBod.detectCollisions = false;
@@ -597,6 +601,8 @@ public class GhostController : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(false);
             humanScript.enabled = false;
             onHuman = true;
+            var vfx = Nathan.transform.Find("Firefly").gameObject;
+            vfx.SetActive(false);
             choreManger.setPlayer(this.gameObject);
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
         }
@@ -615,11 +621,13 @@ public class GhostController : MonoBehaviour
             
             //sc.TargetRoom = Nathan.transform.GetChild(3).transform.position;
             //sc.isMoving = true;
+            Handheld.Vibrate();
             onHuman = false;
             humanScript.enabled = true;
             freezeHuman = true;
             transform.GetChild(0).gameObject.SetActive(true);
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = false;
+            Nathan.transform.Find("Aura").gameObject.SetActive(true);
             StartCoroutine(ExampleCoroutine());
         }
 
@@ -650,9 +658,11 @@ public class GhostController : MonoBehaviour
     //Add by Guanchen Liu
     //A function to reset ghost's collision when leaving human body
     IEnumerator ExampleCoroutine(){
-       yield return new WaitForSeconds(1);
+       yield return new WaitForSeconds(1f);
        rigBod.detectCollisions = true;
        freezeHuman = false;
+       yield return new WaitForSeconds(2f);
+       Nathan.transform.Find("Aura").gameObject.SetActive(false);
     }
 
     //Add by Guanchen Liu
@@ -672,6 +682,7 @@ public class GhostController : MonoBehaviour
                     var grabPosition = Nathan.transform.Find("holdingPos").gameObject;
                     var selectRigid = _selection.GetComponent<Rigidbody>();
                     _selection.transform.position = grabPosition.transform.position;
+                    _selection.transform.parent = Nathan.transform;
                     _selection.transform.forward = Nathan.transform.forward;
                     // selectRigid.constraints =  RigidbodyConstraints.FreezeRotation;
                     selectRigid.useGravity = false;
@@ -756,6 +767,7 @@ public class GhostController : MonoBehaviour
         if(onHuman){
             if (currentItem == selectedItem.GrabObject)
             {
+                _selection.transform.parent = GameObject.Find("Chores").transform;
                 
                 currentItem = selectedItem.None;
                 var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
@@ -774,6 +786,7 @@ public class GhostController : MonoBehaviour
     //An interesting function that allow player to throw stuff
     void OnThrow(){
         if(currentItem == selectedItem.GrabObject && onHuman){
+            _selection.transform.parent = GameObject.Find("Chores").transform;
             currentItem = selectedItem.None;
             grabItem.GetComponent<Chores>().getTargetPosition().SetActive(false);
             var selectRigid = grabItem.gameObject.GetComponent<Rigidbody>();
@@ -831,7 +844,8 @@ public class GhostController : MonoBehaviour
         if(other.gameObject.tag == "Human" && !onHuman){
             if(!otherScript.onHuman){
                 OnTaking();
-            }else if(otherScript.currentCond == ghostCond.onEjecting){
+            }else if(otherScript.currentCond == ghostCond.onEjecting && !inProp){
+                Debug.Log("active");
                 otherScript.OnLeaving();
                 OnTaking();
             }
