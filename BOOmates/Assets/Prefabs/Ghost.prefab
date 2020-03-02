@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1593182777894116768}
   - component: {fileID: 5400673641394963616}
   - component: {fileID: 7062989772769588854}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Anim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 3370499320277960281}
   - component: {fileID: 4752327191333297666}
   - component: {fileID: 5933493488689822520}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Indicator (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 1344455301761994810}
   - component: {fileID: 6153906113409462470}
   - component: {fileID: 906202994592558071}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 6942424525635988832}
   - component: {fileID: 8596528313347212018}
   - component: {fileID: 4706022013208696434}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Indicator (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -522,7 +522,7 @@ GameObject:
   - component: {fileID: 6364441373156333166}
   - component: {fileID: 5841165833986090174}
   - component: {fileID: 1170093360362053369}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Indicator (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -618,7 +618,7 @@ GameObject:
   - component: {fileID: 5985760098002004247}
   - component: {fileID: 8116370903738144725}
   - component: {fileID: 8924669806447737751}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: Ghost
   m_TagString: Ghost
   m_Icon: {fileID: 0}

@@ -15,6 +15,8 @@ public class GhostController : MonoBehaviour
     public Rigidbody rigBod;
     private double moveSpeed;
     private double baseSpeed = 4;
+
+    private float propTime;
     
     //Add by Guanchen Liu
     //Nathan info
@@ -212,22 +214,34 @@ public class GhostController : MonoBehaviour
         }
         //NEEDS TO BE UPDATED TO WORK WITH MULTIPLE ITEMS
        
-            if (playernum == 0)
-            {
-                lightBool = lightScript.locked1;
-                gramBool = musicScript.locked1;
-                paintBool = paintScript.locked1;
-                propBool = propScript.locked1;
-                
-            }
-            if (playernum == 1)
-            {
+        if (playernum == 0)
+        {
+            lightBool = lightScript.locked1;
+            gramBool = musicScript.locked1;
+            paintBool = paintScript.locked1;
+            propBool = propScript.locked1;
+            
+        }
+        if (playernum == 1)
+        {
 
-                lightBool = lightScript.locked2;
-                gramBool = musicScript.locked2;
-                paintBool = paintScript.locked2;
-                propBool = propScript.locked2;
+            lightBool = lightScript.locked2;
+            gramBool = musicScript.locked2;
+            paintBool = paintScript.locked2;
+            propBool = propScript.locked2;
+        }
+        
+        if(inProp)
+        {
+            if(propTime > 0.0f)
+            {
+                propTime -= Time.deltaTime;
             }
+            else
+            {
+                OnLeave();
+            }
+        }
         
 
         if(!worldLighting.activeSelf)
@@ -394,7 +408,7 @@ public class GhostController : MonoBehaviour
     {
         // Debug.Log(gramBool);
         //Edited BY Guanchen
-        if (!lightBool && lightEnable)
+        if (!lightBool && lightEnable && !inProp)
         {
             worldLighting.SetActive(!(worldLighting.activeSelf));
             lightEnable = false;
@@ -417,7 +431,7 @@ public class GhostController : MonoBehaviour
      
     
             AudioSource spookyClip = worldMusic.GetComponent<AudioSource>();
-            if (!gramBool && musicEnable)
+            if (!gramBool && musicEnable && !inProp)
             {
                 if(musicPlaying == false)
                 {
@@ -439,7 +453,7 @@ public class GhostController : MonoBehaviour
     void OnHide()
     {
         //Edited BY Guanchen
-        if (!paintBool && paintEnable)
+        if (!paintBool && paintEnable && !inProp)
         {
 
             //player isnt already hiding
@@ -505,6 +519,7 @@ public class GhostController : MonoBehaviour
                 gameObject.transform.position = prop.transform.position;
                 baseSpeed = 0;
                 gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                propTime = 2.0f;
 
             }
         }
