@@ -94,7 +94,7 @@ public class GhostController : MonoBehaviour
     private bool _enabled = false;
 
     private Chores currentChore;
-
+    private float cleanTimer;
     public ChoreManger choreManger;
 
 
@@ -596,10 +596,6 @@ public class GhostController : MonoBehaviour
             var controlScript = this.GetComponent<GhostController>();
             rigBod.detectCollisions = false;
             scarePoint = 0;
-            var x = Nathan.transform.position.x;
-            var y = this.transform.position.y;
-            var z = Nathan.transform.position.z;
-            this.transform.position = new Vector3(x,y,z);
             transform.GetChild(0).gameObject.SetActive(false);
             humanScript.enabled = false;
             onHuman = true;
@@ -607,6 +603,10 @@ public class GhostController : MonoBehaviour
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
             GameObject.Find("NavMesh Surface").SetActive(false);
+            var x = Nathan.transform.position.x;
+            var y = 0;
+            var z = Nathan.transform.position.z;
+            this.transform.position = new Vector3(x,y,z);
         }
     }
 
@@ -634,13 +634,15 @@ public class GhostController : MonoBehaviour
     }
 
     //Add by Guanchen Liu
+    //Edited BY Jordan Timm
     //Access by Controller
-    //Back to title page
+    //opens pause menu for now
     void OnTitle(){
-        Destroy(GameObject.Find("Ghost_1"));
-        Destroy(GameObject.Find("Ghost_2"));
-        numplayers = 0;
-        SceneManager.LoadScene (sceneName:"MenuScreen");
+        UIManager.instance.TogglePause();
+    }
+    void OnPause()
+    {
+        UIManager.instance.TogglePause();
     }
 
     //Add by Guanchen Liu
@@ -665,17 +667,20 @@ public class GhostController : MonoBehaviour
 
     //Add by Guanchen Liu
     //Origin: Enxuan
+    //Modified: Jordan Timm
+    //Mods: Changed physcial items to UI based elements
     //This function will go through the human interaction when ghosts
     //on human.
     void humanTask(){
         if(!freezeHuman){
             //_selection.GetComponent<Rigidbody>().isKinematic = true;
-
-          if(currentItem == selectedItem.GrabObject)
+            
+            if(currentItem == selectedItem.GrabObject)
             {
                 if(_selection != null)
                 {
                     UIManager.instance.UpdateChore(_selection.GetComponent<Chores>());
+                    UIManager.instance.TriggerHintDeactivate();
                     //Sound: Grab Item Sound
                     Debug.Log("isgrabbing");
                     var grabPosition = Nathan.transform.Find("holdingPos").gameObject;
@@ -692,24 +697,37 @@ public class GhostController : MonoBehaviour
             }
             else if(currentItem == selectedItem.CleanObject)
             {
-                if(_selection != null)
+                UIManager.instance.TriggerHintDeactivate();
+
+                if (_selection != null)
                 {
                     UIManager.instance.UpdateChore(_selection.GetComponent<Chores>());
                     //Sound: Clean Sound around 5 seconds
-                    Nathan.transform.GetChild(2).gameObject.SetActive(true);
-                    Nathan.transform.GetChild(2).transform.rotation = Quaternion.Euler(new Vector3 (0.0f, 0.0f, 0.0f));
-                    Transform timeBar = Nathan.transform.GetChild(2).GetChild(0);
-                    if(timeBar.localScale.x < 1)
+
+                    //Turn on CleanTimer
+                    UIManager.instance.CleanTimerToggle(true);
+                    //Nathan.transform.GetChild(2).gameObject.SetActive(true);
+                    //Nathan.transform.GetChild(2).transform.rotation = Quaternion.Euler(new Vector3 (0.0f, 0.0f, 0.0f));
+                    //Transform timeBar = Nathan.transform.GetChild(2).GetChild(0);
+                    if(cleanTimer < 1)
                     {
-                        timeBar.localScale += new Vector3(Time.deltaTime * 0.2f, 0.0f, 0.0f);
+                        cleanTimer += Time.deltaTime * 0.2f;
+                        UIManager.instance.UpdateCleanTimer(cleanTimer);
+
                     }
                     else
                     {
                         _selection.gameObject.SetActive(false);
-                        Vector3 lTemp = timeBar.localScale;
-                        lTemp.x = 0.0f;
-                        timeBar.localScale = lTemp;
-                        Nathan.transform.GetChild(2).gameObject.SetActive(false);
+                        cleanTimer = 0;
+
+                        //Vector3 lTemp = timeBar.localScale;
+                        //lTemp.x = 0.0f;
+                        //timeBar.localScale = lTemp;
+
+                        UIManager.instance.CleanTimerToggle(false);
+                        UIManager.instance.UpdateCleanTimer(cleanTimer);
+
+                        //Nathan.transform.GetChild(2).gameObject.SetActive(false);
                         _selection = null;
                         currentChore.finishClean();
                         currentItem = selectedItem.None;
@@ -726,27 +744,31 @@ public class GhostController : MonoBehaviour
                     if(!hit.transform.CompareTag("Human")){
                         Nathan.transform.GetChild(3).gameObject.SetActive(true);
                         if(hit.transform.CompareTag("GrabObject")){
-                            Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(true);
-                            Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
+                            UIManager.instance.TriggerHint(0);
+                            //Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(true);
+                            //Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
                             _selection = hit.transform;
                         }
                         else if (hit.transform.CompareTag("CleanObject"))
-                        {                        
-                            Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
-                            Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(true);
+                        {
+                            UIManager.instance.TriggerHint(1);
+                            //Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
+                            //Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(true);
                             _selection = hit.transform;
                         }
                         else
                         {
-                            Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
-                            Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
+                            UIManager.instance.TriggerHintDeactivate();
+                            //Nathan.transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
+                            //Nathan.transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
                             _selection = null;
                         }
                     }
                 }
                 else
                 {
-                    Nathan.transform.GetChild(3).gameObject.SetActive(false);
+                    UIManager.instance.TriggerHintDeactivate();
+                    //Nathan.transform.GetChild(3).gameObject.SetActive(false);
                     _selection = null;
                 }
 

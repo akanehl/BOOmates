@@ -456,13 +456,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingTime: 180
+  pauseMenu: {fileID: 0}
+  eventSys: {fileID: 0}
   timer: {fileID: 220806026}
   scarePoints: {fileID: 1038290213}
   crystalBallIcon: {fileID: 248120613}
+  iconFadeSpeed: 1.5
   playerEmotes:
   - {fileID: 21300000, guid: 062a31c88be465440990498ce6f318ef, type: 3}
   - {fileID: 21300000, guid: 0fe6a50a5cd039145bb6cf9bab8d03c9, type: 3}
   - {fileID: 21300000, guid: 06c95a3ae92fb064aae0b439a4b44b73, type: 3}
+  staticEmoteBubble: {fileID: 0}
+  staticEmoteAnimator: {fileID: 0}
+  hintIcons: []
 --- !u!114 &95951084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1648,7 +1654,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1800,7 +1806,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 63b9e5d15f3b9784eac9e9ae49e09c56, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 65acb4f1b2504b7488ffe1a933bfcce9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14441,7 +14447,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693277929}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
