@@ -2,13 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+
 using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
+
     public int startingTime;
     private int currentTime;
+
+    [SerializeField] private GameObject pauseMenu;
+
+    [SerializeField] private EventSystem eventSys;
+
 
     [SerializeField] private TextMeshProUGUI timer;
 
@@ -16,16 +26,25 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scarePoints;
 
     [SerializeField] private Image crystalBallIcon;
+    [SerializeField] private float iconFadeSpeed = 1.5f;
 
     [SerializeField] private Sprite[] playerEmotes;
+    [SerializeField] private Image staticEmoteBubble;
+    [SerializeField] private Animator staticEmoteAnimator;
 
-    //Assigned when player loads in.
-    private Image playerEmoteBubble;
+    [SerializeField] private Sprite[] hintIcons;
+
+    //Assigned when Nathan loads in.
+    private NathanUI nathanUI;
+
+    
 
 
     //Flags
     private bool isChoreChanging = false;
     private bool isImageFading = false;
+    private bool isPaused = false;
+
     private int emoteIndex = -1;
 
     //Create a singleton pattern for the UI Manager
@@ -44,23 +63,26 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        if(eventSys == null)
+        {
+           eventSys = FindObjectOfType<EventSystem>();
+        }
+        pauseMenu.SetActive(false);
+        staticEmoteBubble.gameObject.SetActive(false);
         StartCoroutine(StartTimer());
     }
 
     private void Update()
     {
-        //Debug Keys
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-        }
+     
+        //var gamepad = Gamepad.current;
+        //if (gamepad == null)
+        //    return; // No gamepad connected.
 
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-        }
-
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-        }
+        //if (gamepad.startButton.wasPressedThisFrame)
+        //{
+        //    TogglePause();
+        //}
 
 
     }
@@ -87,22 +109,29 @@ public class UIManager : MonoBehaviour
     {
         if (scareValue > 50 && scareValue <= 75 && emoteIndex != 0)
         {
+            staticEmoteBubble.gameObject.SetActive(true);
+
             emoteIndex = 0;
             UpdateNathanEmoteSprite(0);
         }
         else if (scareValue > 75 && scareValue <= 96 && emoteIndex != 1)
         {
+            staticEmoteBubble.gameObject.SetActive(true);
+
             emoteIndex = 1;
             UpdateNathanEmoteSprite(1);
         }
         else if (scareValue > 97 && emoteIndex != 2)
         {
+            staticEmoteAnimator.SetTrigger("Pop");
+            staticEmoteBubble.gameObject.SetActive(true);
             emoteIndex = 2;
             UpdateNathanEmoteSprite(2);
         }
         else if(scareValue < 50)
         {
             emoteIndex = -1;
+            staticEmoteBubble.gameObject.SetActive(false);
         }
 
         scarePoints.text = "Scare Points: " + scareValue.ToString();
@@ -118,23 +147,89 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void SetEmoteBubble(GameObject bubble)
+    public void SetNathanUI(NathanUI nathan)
     {
-        playerEmoteBubble = bubble.GetComponent<Image>();
+        nathanUI = nathan;
     }
 
     public void UpdateNathanEmoteSprite(int scareLevel)
     {
-       
         if (isImageFading == false)
         {
-            playerEmoteBubble.sprite = playerEmotes[scareLevel];
-            playerEmoteBubble.gameObject.SetActive(true);
+            staticEmoteBubble.sprite = playerEmotes[scareLevel];
+            nathanUI.EmoteBubble.sprite = playerEmotes[scareLevel];
+            nathanUI.EmoteBubble.gameObject.SetActive(true);
             isImageFading = true;
-            StartCoroutine(FadeImage(playerEmoteBubble));
+            StartCoroutine(FadeImage(nathanUI.EmoteBubble));
         }
 
     }
+
+    public void TriggerHint(int iconIndex)
+    {
+        if (isImageFading == false)
+        {
+            nathanUI.HintIcon.sprite = hintIcons[iconIndex];
+            nathanUI.HintIcon.gameObject.SetActive(true);
+        }
+        else
+        {
+            nathanUI.HintIcon.gameObject.SetActive(false);
+        }
+
+    }
+    public void TriggerHintDeactivate()
+    {
+        nathanUI.HintIcon.gameObject.SetActive(false);
+    }
+
+    public void CleanTimerToggle(bool flag)
+    {
+        if (isImageFading == false && flag)
+        {
+            nathanUI.CleaningTimeGauge.gameObject.SetActive(true);
+        }
+        else
+        {
+            nathanUI.CleaningTimeGauge.gameObject.SetActive(false);
+        }
+    }
+    public void UpdateCleanTimer(float time)
+    {
+        nathanUI.CleaningTimeGauge.value = time;
+    }
+
+
+    //Pause Menu Functions
+
+    public void TogglePause()
+    {
+        Debug.Log("Pause Called");
+        if(isPaused)
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
+            isPaused = false;
+            eventSys.SetSelectedGameObject(null);
+        }
+        else
+        {
+            pauseMenu.SetActive(true);
+
+            //Set controller selection to the first button in pause menu.
+            GameObject button = pauseMenu.GetComponentInChildren<Button>().gameObject;
+            eventSys.SetSelectedGameObject(button);
+            Time.timeScale = 0;
+            isPaused = true;
+        }
+    }
+
+    public void ReturnToMenu(string scene)
+    {
+        SceneManager.LoadScene(scene);
+    }
+
+    //Enumerators 
     private IEnumerator StartTimer()
     {
         currentTime = startingTime;
@@ -151,23 +246,24 @@ public class UIManager : MonoBehaviour
     //Fades out previous chore and swaps the chore, fades back in with the new chore.
     private IEnumerator FadeCrystalBallIcon(Sprite icon)
     {
-        crystalBallIcon.CrossFadeAlpha(0, 1f, false);
-        yield return new WaitForSeconds(1f);
+        float spd = iconFadeSpeed / 2;
+        crystalBallIcon.CrossFadeAlpha(0, spd, false);
+        yield return new WaitForSeconds(spd);
 
         crystalBallIcon.sprite = icon;
 
-        crystalBallIcon.CrossFadeAlpha(1, 1f, false);
-        yield return new WaitForSeconds(1f);
+        crystalBallIcon.CrossFadeAlpha(1, spd, false);
+        yield return new WaitForSeconds(spd);
         isChoreChanging = false;
     }
 
     private IEnumerator FadeImage(Image target)
     {
+        yield return new WaitForSeconds(3f);
+        target.CrossFadeAlpha(0, 1f, false);
         yield return new WaitForSeconds(1f);
-        target.CrossFadeAlpha(0, 0.5f, false);
-        yield return new WaitForSeconds(2f);
         isImageFading = false;
-        playerEmoteBubble.gameObject.SetActive(false);
+        nathanUI.EmoteBubble.gameObject.SetActive(false);
     }
 
     //Add by Guanchen Liu
