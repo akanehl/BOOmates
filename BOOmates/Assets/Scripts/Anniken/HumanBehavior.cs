@@ -10,6 +10,8 @@ public class HumanBehavior : MonoBehaviour
 
     [SerializeField]
     private float speed;
+
+    private Animator anim;
     
     public Transform[] moveSpots; 
     private int randomSpot;
@@ -36,6 +38,8 @@ public class HumanBehavior : MonoBehaviour
         randomSpot = Random.Range(0, moveSpots.Length);
         currentState = HumanState.NORMAL;
         waitTime = startWaitTime;
+        anim = GetComponent<Animator>();
+        anim.Play("walk");
     }
 
     // Update is called once per frame
@@ -60,6 +64,7 @@ public class HumanBehavior : MonoBehaviour
         //Sound: walking sound
         agent.SetDestination(moveSpots[randomSpot].position);
         transform.rotation = Quaternion.LookRotation(transform.forward);
+        
         if(Vector3.Distance(transform.position, moveSpots[randomSpot].position) < 0.5f)
         {
             if(waitTime <= 0) 
@@ -70,10 +75,15 @@ public class HumanBehavior : MonoBehaviour
                     randomSpot = Random.Range(0, moveSpots.Length);
                     Debug.Log("change random spot to" + randomSpot);
                 }
+                agent.isStopped = false;
+                anim.Play("walk");
                 waitTime = startWaitTime;
             }
             else
             {
+                agent.isStopped = true;
+                anim.Play("Idel");
+                this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
                 waitTime -= Time.deltaTime;
             }
         }

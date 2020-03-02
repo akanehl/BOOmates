@@ -265,6 +265,7 @@ public class GhostController : MonoBehaviour
         }else{
             if(currentItem != selectedItem.CleanObject)
             {
+                Animator anim = Nathan.GetComponent<Animator>();
                 movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
                 Nathan.transform.Translate(movement * ((float)baseSpeed) * Time.deltaTime, Space.World);
                 Nathan.GetComponent<Rigidbody>().isKinematic = true;
@@ -272,6 +273,11 @@ public class GhostController : MonoBehaviour
                 {
                     Nathan.GetComponent<Rigidbody>().isKinematic = false;
                     Nathan.transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
+                    anim.Play("walk");
+                }
+                else
+                {
+                    anim.Play("Idel");
                 }
             }
         }
@@ -599,6 +605,8 @@ public class GhostController : MonoBehaviour
             onHuman = true;
             choreManger.setPlayer(this.gameObject);
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
+            Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+            GameObject.Find("NavMesh Surface").SetActive(false);
         }
     }
 
@@ -667,6 +675,7 @@ public class GhostController : MonoBehaviour
             {
                 if(_selection != null)
                 {
+                    UIManager.instance.UpdateChore(_selection.GetComponent<Chores>());
                     //Sound: Grab Item Sound
                     Debug.Log("isgrabbing");
                     var grabPosition = Nathan.transform.Find("holdingPos").gameObject;
@@ -685,6 +694,7 @@ public class GhostController : MonoBehaviour
             {
                 if(_selection != null)
                 {
+                    UIManager.instance.UpdateChore(_selection.GetComponent<Chores>());
                     //Sound: Clean Sound around 5 seconds
                     Nathan.transform.GetChild(2).gameObject.SetActive(true);
                     Nathan.transform.GetChild(2).transform.rotation = Quaternion.Euler(new Vector3 (0.0f, 0.0f, 0.0f));

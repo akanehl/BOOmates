@@ -53,7 +53,6 @@ public class Chores: MonoBehaviour
             else
                 rend.material = ghost2Material;
         }
-        UIManager.instance.UpdateChore(this);
     }
 
     public virtual void deactiveChore()
