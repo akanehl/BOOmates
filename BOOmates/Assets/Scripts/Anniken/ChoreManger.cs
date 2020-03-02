@@ -20,8 +20,6 @@ public class ChoreManger : MonoBehaviour
     [SerializeField]
     private List<GameObject> chores;
 
-    private int lightChore = 0;
-
     private float lightTime = 1.5f;
 
     private GameObject Worldlight;
@@ -31,8 +29,6 @@ public class ChoreManger : MonoBehaviour
         player1Score = 0;
 
         player2Score = 0;
-
-        lightChore = 0;
 
         Worldlight = GameObject.Find("LightsMaster");
     }
@@ -82,20 +78,13 @@ public class ChoreManger : MonoBehaviour
         }
         if(chores.Count > 0 && currentPlayer != null && Worldlight.activeSelf)
         {
-            if(lightTime > 0)
-            {
-                lightTime -= Time.deltaTime;
-            }
-            else
-            {
-                choreRotate(currentPlayer.GetComponent<GhostController>().playernum);
-                lightTime = 1.5f;
-            }
+ 
+            choresActive(currentPlayer.GetComponent<GhostController>().playernum);
         }
 
         if(!Worldlight.activeSelf)
         {
-            chores[lightChore].GetComponent<Chores>().deactiveChore();
+            choresdeactive();
         }
     }
 
@@ -104,13 +93,19 @@ public class ChoreManger : MonoBehaviour
         currentPlayer = player;
     }
 
-    private void choreRotate(int player)
+    private void choresActive(int player)
     {
-        chores[lightChore].GetComponent<Chores>().deactiveChore();
-        lightChore++;
-        if(lightChore >= chores.Count){
-            lightChore = 0;
+        foreach(GameObject x in chores)
+        {
+            x.GetComponent<Chores>().activeChore(player);
         }
-        chores[lightChore].GetComponent<Chores>().activeChore(player);
+    }
+
+    private void choresdeactive()
+    {
+        foreach(GameObject x in chores)
+        {
+            x.GetComponent<Chores>().deactiveChore();
+        }
     }
 }

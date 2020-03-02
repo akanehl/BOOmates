@@ -268,6 +268,7 @@ public class GhostController : MonoBehaviour
         }else{
             if(currentItem != selectedItem.CleanObject)
             {
+                Animator anim = Nathan.GetComponent<Animator>();
                 movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
                 Nathan.transform.Translate(movement * ((float)baseSpeed) * Time.deltaTime, Space.World);
                 Nathan.GetComponent<Rigidbody>().isKinematic = true;
@@ -275,6 +276,11 @@ public class GhostController : MonoBehaviour
                 {
                     Nathan.GetComponent<Rigidbody>().isKinematic = false;
                     Nathan.transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
+                    anim.Play("walk");
+                }
+                else
+                {
+                    anim.Play("Idel");
                 }
             }
         }
@@ -594,10 +600,6 @@ public class GhostController : MonoBehaviour
             var controlScript = this.GetComponent<GhostController>();
             rigBod.detectCollisions = false;
             scarePoint = 0;
-            var x = Nathan.transform.position.x;
-            var y = this.transform.position.y;
-            var z = Nathan.transform.position.z;
-            this.transform.position = new Vector3(x,y,z);
             transform.GetChild(0).gameObject.SetActive(false);
             humanScript.enabled = false;
             onHuman = true;
@@ -605,6 +607,12 @@ public class GhostController : MonoBehaviour
             vfx.SetActive(false);
             choreManger.setPlayer(this.gameObject);
             Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
+            Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+            GameObject.Find("NavMesh Surface").SetActive(false);
+            var x = Nathan.transform.position.x;
+            var y = 0;
+            var z = Nathan.transform.position.z;
+            this.transform.position = new Vector3(x,y,z);
         }
     }
 
@@ -681,6 +689,7 @@ public class GhostController : MonoBehaviour
             {
                 if(_selection != null)
                 {
+                    UIManager.instance.UpdateChore(_selection.GetComponent<Chores>());
                     UIManager.instance.TriggerHintDeactivate();
                     //Sound: Grab Item Sound
                     Debug.Log("isgrabbing");
@@ -702,6 +711,7 @@ public class GhostController : MonoBehaviour
 
                 if (_selection != null)
                 {
+                    UIManager.instance.UpdateChore(_selection.GetComponent<Chores>());
                     //Sound: Clean Sound around 5 seconds
 
                     //Turn on CleanTimer
