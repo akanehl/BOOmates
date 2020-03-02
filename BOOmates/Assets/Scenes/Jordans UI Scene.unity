@@ -13132,6 +13132,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 0fe6a50a5cd039145bb6cf9bab8d03c9, type: 3}
   - {fileID: 21300000, guid: 06c95a3ae92fb064aae0b439a4b44b73, type: 3}
   staticEmoteBubble: {fileID: 1447376962}
+  staticEmoteAnimator: {fileID: 1447376964}
   hintIcons:
   - {fileID: 21300000, guid: b403611f528b1ee4cb92f88641d5e50f, type: 3}
   - {fileID: 21300000, guid: 8b12cde5a16c1cf4582809e192a37f7f, type: 3}
