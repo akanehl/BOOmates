@@ -24,6 +24,8 @@ public class ChoreManger : MonoBehaviour
 
     private float lightTime = 1.5f;
 
+    private GameObject Worldlight;
+
     void Start()
     {
         player1Score = 0;
@@ -31,6 +33,8 @@ public class ChoreManger : MonoBehaviour
         player2Score = 0;
 
         lightChore = 0;
+
+        Worldlight = GameObject.Find("Directional Light");
     }
 
     void FixedUpdate()
@@ -76,7 +80,7 @@ public class ChoreManger : MonoBehaviour
                 }
             }
         }
-        if(chores.Count > 0 && currentPlayer != null)
+        if(chores.Count > 0 && currentPlayer != null && Worldlight.activeSelf)
         {
             if(lightTime > 0)
             {
@@ -87,6 +91,11 @@ public class ChoreManger : MonoBehaviour
                 choreRotate(currentPlayer.GetComponent<GhostController>().playernum);
                 lightTime = 1.5f;
             }
+        }
+
+        if(!Worldlight.activeSelf)
+        {
+            chores[lightChore].GetComponent<Chores>().deactiveChore();
         }
     }
 

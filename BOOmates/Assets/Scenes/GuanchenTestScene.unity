@@ -14064,6 +14064,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Score: 0
   player2Score: 0
+  currentPlayerChore: {fileID: 0}
+  currentPlayer: {fileID: 0}
   chores:
   - {fileID: 1982114950}
   - {fileID: 552979066}
@@ -14071,10 +14073,6 @@ MonoBehaviour:
   - {fileID: 123401922}
   - {fileID: 1508853033}
   - {fileID: 91722921}
-  player1Chore: {fileID: 0}
-  player1ChoreNum: 0
-  player2Chore: {fileID: 0}
-  player2ChoreNum: 0
 --- !u!4 &1480961416
 Transform:
   m_ObjectHideFlags: 0
