@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -456,9 +456,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingTime: 180
+  pauseMenu: {fileID: 0}
+  eventSys: {fileID: 0}
   timer: {fileID: 220806026}
   scarePoints: {fileID: 1038290213}
   crystalBallIcon: {fileID: 248120613}
+  iconFadeSpeed: 1.5
   playerEmotes:
   - {fileID: 21300000, guid: 062a31c88be465440990498ce6f318ef, type: 3}
   - {fileID: 21300000, guid: 0fe6a50a5cd039145bb6cf9bab8d03c9, type: 3}
@@ -1643,7 +1646,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1795,7 +1798,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 63b9e5d15f3b9784eac9e9ae49e09c56, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 65acb4f1b2504b7488ffe1a933bfcce9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13900,6 +13903,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player1Score: 0
   player2Score: 0
+  currentPlayerChore: {fileID: 0}
+  currentPlayer: {fileID: 0}
   chores:
   - {fileID: 1982114950}
   - {fileID: 552979066}
@@ -13907,10 +13912,6 @@ MonoBehaviour:
   - {fileID: 123401922}
   - {fileID: 1508853033}
   - {fileID: 91722921}
-  player1Chore: {fileID: 0}
-  player1ChoreNum: 0
-  player2Chore: {fileID: 0}
-  player2ChoreNum: 0
 --- !u!4 &1480961416
 Transform:
   m_ObjectHideFlags: 0
