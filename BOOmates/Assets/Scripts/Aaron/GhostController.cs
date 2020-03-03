@@ -71,7 +71,7 @@ public class GhostController : MonoBehaviour
     //Material/Invisibility controls
     public Material color1;
     public Material color2;
-    public MeshRenderer mesh;
+    public SkinnedMeshRenderer mesh;
     private float invisVal = 0;
     private bool dissapearing = false;
 
@@ -263,6 +263,7 @@ public class GhostController : MonoBehaviour
         //Edited by Guanchen Liu
 
         if(!onHuman){
+            Animator anim = GetComponent<Animator>();
             if (powerUp)
             {
                 movement = new Vector3(-moveVec.x, 0.0f, -moveVec.y);
@@ -274,6 +275,11 @@ public class GhostController : MonoBehaviour
                 if(movement != Vector3.zero)
                 {
                     transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
+                    anim.Play("Walk");
+                }
+                else
+                {
+                    anim.Play("Idel");
                 }
     
             }
