@@ -618,6 +618,7 @@ GameObject:
   - component: {fileID: 5985760098002004247}
   - component: {fileID: 8116370903738144725}
   - component: {fileID: 8924669806447737751}
+  - component: {fileID: 7615431847358972601}
   m_Layer: 11
   m_Name: Ghost
   m_TagString: Ghost
@@ -770,3 +771,22 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!95 &7615431847358972601
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9036390579222707113}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 77ba4bc10263f4cbd80619850cc886d1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

@@ -140,7 +140,7 @@ public class GhostController : MonoBehaviour
         currentCond = ghostCond.None;
         mainCamera  = GameObject.Find("MainCamera");
         sc          = mainCamera.GetComponent<CameraControl>();
-        UI = GameObject.Find("UI");
+        UI = UIManager.instance.gameObject;
         var UICoolDown = UI.transform.Find("CoolDown").gameObject;
         
         // lightImage = UICoolDown.transform.GetChild(0).GetComponent<Image>();
@@ -290,7 +290,11 @@ public class GhostController : MonoBehaviour
             {
                 Animator anim = Nathan.GetComponent<Animator>();
                 movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
-                Nathan.transform.Translate(movement * ((float)baseSpeed) * Time.deltaTime, Space.World);
+                if(currentItem == selectedItem.GrabObject){
+                    Nathan.transform.Translate(movement * ((float)baseSpeed)/3 * Time.deltaTime, Space.World);
+                }else{
+                    Nathan.transform.Translate(movement * ((float)baseSpeed) * Time.deltaTime, Space.World);
+                }
                 Nathan.GetComponent<Rigidbody>().isKinematic = true;
                 if(movement != Vector3.zero)
                 {
@@ -447,9 +451,9 @@ public class GhostController : MonoBehaviour
                 else
                 {
                     spookyClip.Pause();
-                    musicPlaying = false;
-                    musicEnable  = false;
-                    musicImage.fillAmount = 0;
+                    // musicPlaying = false;
+                    // musicEnable  = false;
+                    // musicImage.fillAmount = 0;
 
                 }       
             }
@@ -492,9 +496,9 @@ public class GhostController : MonoBehaviour
                     var otherScript = OtherGhost.GetComponent<GhostController>();
                     otherScript.scarePoint += 75;
                 }
-                paintEnable = false;
-                paintImage.fillAmount = 0;
-                Debug.Log(scarePoint);
+                // paintEnable = false;
+                // paintImage.fillAmount = 0;
+                // Debug.Log(scarePoint);
                 //human scare point logic
             }
         }
@@ -510,7 +514,6 @@ public class GhostController : MonoBehaviour
         {
             var moving = new Vector3(moveVec.x, 0.0f,  moveVec.y);
             prop.GetComponent<Rigidbody>().velocity = moving * 10f;
-
             gameObject.transform.position = prop.transform.position;
         }
 
@@ -539,6 +542,7 @@ public class GhostController : MonoBehaviour
         {
             Debug.Log("Attempting to leave the object");
             inProp = false;
+            propScript.onProp = false;
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
             baseSpeed = 4;
             Vector3 resetPos = new Vector3(0, 0.5f, 0);
