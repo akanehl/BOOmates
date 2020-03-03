@@ -140,7 +140,7 @@ public class GhostController : MonoBehaviour
         currentCond = ghostCond.None;
         mainCamera  = GameObject.Find("MainCamera");
         sc          = mainCamera.GetComponent<CameraControl>();
-        UI = GameObject.Find("UI");
+        UI = UIManager.instance.gameObject;
         var UICoolDown = UI.transform.Find("CoolDown").gameObject;
         
         // lightImage = UICoolDown.transform.GetChild(0).GetComponent<Image>();

@@ -196,7 +196,7 @@ public class UIManager : MonoBehaviour
     }
     public void UpdateCleanTimer(float time)
     {
-        nathanUI.CleaningTimeGauge.value = time;
+        nathanUI.CleaningTimeGauge.fillAmount = time;
     }
 
 
