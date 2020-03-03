@@ -451,9 +451,9 @@ public class GhostController : MonoBehaviour
                 else
                 {
                     spookyClip.Pause();
-                    musicPlaying = false;
-                    musicEnable  = false;
-                    musicImage.fillAmount = 0;
+                    // musicPlaying = false;
+                    // musicEnable  = false;
+                    // musicImage.fillAmount = 0;
 
                 }       
             }
