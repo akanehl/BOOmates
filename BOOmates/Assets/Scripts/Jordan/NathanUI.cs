@@ -7,13 +7,13 @@ public class NathanUI : MonoBehaviour
 {
     [SerializeField] private Image emoteBubble;
     [SerializeField] private Image hintIcon;
-    [SerializeField] private Slider cleaningTimeGauge;
+    [SerializeField] private Image cleaningTimeGauge;
 
     private Camera mainCam;
 
     public Image EmoteBubble { get => emoteBubble; private set => emoteBubble = value; }
     public Image HintIcon { get => hintIcon; private set => hintIcon = value; }
-    public Slider CleaningTimeGauge { get => cleaningTimeGauge; private set => cleaningTimeGauge = value; }
+    public Image CleaningTimeGauge { get => cleaningTimeGauge; private set => cleaningTimeGauge = value; }
 
     // On start up finds camera and then turns off image. Passes ref to UIManager
     void Start()
@@ -23,7 +23,7 @@ public class NathanUI : MonoBehaviour
         emoteBubble.gameObject.SetActive(false);
         hintIcon.gameObject.SetActive(false);
         cleaningTimeGauge.gameObject.SetActive(false);
-        cleaningTimeGauge.value = 0;
+        cleaningTimeGauge.fillAmount = 0;
     }
 
     
