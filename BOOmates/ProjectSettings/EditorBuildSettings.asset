@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu_UI.unity
     guid: a25847f13064cd7468eded8fa5f1ecca
   - enabled: 1
-    path: Assets/Scenes/MainLevelRevision.unity
-    guid: bcbac8cc419a4421dbf3dc7b5a20518b
+    path: Assets/Scenes/BaseLevel (Tifa Clone).unity
+    guid: 0478ff29093f2554a967ab8864a586c3
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 11ba76f69bb84d94f8dde59cf6a8e210,
       type: 2}
