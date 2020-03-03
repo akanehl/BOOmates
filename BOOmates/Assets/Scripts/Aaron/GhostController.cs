@@ -143,9 +143,9 @@ public class GhostController : MonoBehaviour
         UI = GameObject.Find("UI");
         var UICoolDown = UI.transform.Find("CoolDown").gameObject;
         
-        lightImage = UICoolDown.transform.GetChild(0).GetComponent<Image>();
-        musicImage = UICoolDown.transform.GetChild(1).GetComponent<Image>();
-        paintImage = UICoolDown.transform.GetChild(2).GetComponent<Image>();
+        // lightImage = UICoolDown.transform.GetChild(0).GetComponent<Image>();
+        // musicImage = UICoolDown.transform.GetChild(1).GetComponent<Image>();
+        // paintImage = UICoolDown.transform.GetChild(2).GetComponent<Image>();
 
 
         player.Gameplay.Grabbing.canceled += context => ReleaseObject();
@@ -190,7 +190,7 @@ public class GhostController : MonoBehaviour
         doDash();
         //Update the ScarePoint Value, due to conditions
         //scareManager();
-        CoolDownManager();
+        //CoolDownManager();
         if (playernum == 0)
         {
             painting = paintScript.closest1;
