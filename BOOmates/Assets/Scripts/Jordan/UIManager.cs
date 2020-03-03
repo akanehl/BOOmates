@@ -273,6 +273,8 @@ public class UIManager : MonoBehaviour
 
     public void playStartImage(){
         var startAnime = transform.Find("GameStart").gameObject;
+        var _pressX = startAnime.transform.Find("pressX").gameObject;
+        _pressX.SetActive(false);
         if(startAnime == null){
             Time.timeScale = 1.0f;
             return;

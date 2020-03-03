@@ -657,7 +657,7 @@ public class GhostController : MonoBehaviour
             
             //sc.TargetRoom = Nathan.transform.GetChild(3).transform.position;
             //sc.isMoving = true;
-            Handheld.Vibrate();
+            //Handheld.Vibrate();
             onHuman = false;
             humanScript.enabled = true;
             freezeHuman = true;
