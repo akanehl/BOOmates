@@ -64,7 +64,7 @@ public class GhostController : MonoBehaviour
     // Prop Variables
     public float pushForce;
     private bool propBool = false;
-    bool inProp = false;
+    public bool inProp = false;
     GameObject prop;
     PropScript propScript;
 
@@ -530,7 +530,7 @@ public class GhostController : MonoBehaviour
                 baseSpeed = 0;
                 gameObject.transform.GetChild(0).gameObject.SetActive(false);
                 propTime = 2.0f;
-
+                prop.GetComponent<PropScript>().onProp = true;
             }
         }
 
@@ -543,7 +543,7 @@ public class GhostController : MonoBehaviour
         {
             Debug.Log("Attempting to leave the object");
             inProp = false;
-            propScript.onProp = false;
+            prop.GetComponent<PropScript>().onProp = false;
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
             baseSpeed = 4;
             Vector3 resetPos = new Vector3(0, 0.5f, 0);
@@ -747,6 +747,7 @@ public class GhostController : MonoBehaviour
                 if (_selection != null)
                 {
                     UIManager.instance.UpdateChore(_selection.GetComponent<Chores>());
+
                     Nathan.GetComponent<Rigidbody>().isKinematic = true;
                     //Sound: Clean Sound around 5 seconds
 

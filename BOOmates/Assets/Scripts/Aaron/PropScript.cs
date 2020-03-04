@@ -134,7 +134,7 @@ public class PropScript : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision other){
-        if(other.gameObject.tag == "Human"){
+        if(other.gameObject.tag == "Human" && onProp){
             foreach(GameObject player in ghosts){
                 var playerScript = player.GetComponent<GhostController>();
                 if(playerScript.onHuman){
