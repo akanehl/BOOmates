@@ -451,6 +451,7 @@ public class GhostController : MonoBehaviour
                 else
                 {
                     spookyClip.Pause();
+                    musicPlaying = false;
                     // musicPlaying = false;
                     // musicEnable  = false;
                     // musicImage.fillAmount = 0;
@@ -746,6 +747,7 @@ public class GhostController : MonoBehaviour
                 if (_selection != null)
                 {
                     UIManager.instance.UpdateChore(_selection.GetComponent<Chores>());
+                    Nathan.GetComponent<Rigidbody>().isKinematic = true;
                     //Sound: Clean Sound around 5 seconds
 
                     //Turn on CleanTimer
