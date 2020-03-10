@@ -14,8 +14,6 @@ public class PropScript : MonoBehaviour
     public GameObject closest1;
     public GameObject closest2;
     public bool onProp;
-
-    GameManger gameManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +21,6 @@ public class PropScript : MonoBehaviour
         locked2 = true;
         distance1 = 2;
         distance2 = 2;
-        gameManager = GameObject.Find("GameManger").GetComponent<GameManger>();
 
     }
 
@@ -141,9 +138,10 @@ public class PropScript : MonoBehaviour
             foreach(GameObject player in ghosts){
                 var playerScript = player.GetComponent<GhostController>();
                 if(playerScript.onHuman){
-                    gameManager.scarePoint += 10f;
-                    UIManager.instance.UpdateScarePoints((int)gameManager.scarePoint);
+                    playerScript.scarePoint += 10f;
+                    UIManager.instance.UpdateScarePoints((int)playerScript.scarePoint);
                 }
+
             }
         }
     }
