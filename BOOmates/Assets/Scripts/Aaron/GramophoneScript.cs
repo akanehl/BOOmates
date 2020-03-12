@@ -29,29 +29,25 @@ public class GramophoneScript : MonoBehaviour
         gramophones = GameObject.FindGameObjectsWithTag("Gramophone");
 
         findClosest(gramophones);
-        GhostCondition(ghosts);
-        //Edited BY Guanchen
-        if(ghostCondition){
-            distance1 = Vector3.Distance(closest1.transform.position, ghosts[0].transform.position);
-            distance2 = Vector3.Distance(closest2.transform.position, ghosts[1].transform.position);
-    
-            if (distance1 < 1)
-            {
-                unlockSwitch(0);
-            }
-            else
-            {
-                lockSwitch(0);
-            }
-    
-            if (distance2 < 1)
-            {
-                unlockSwitch(1);
-            }
-            else
-            {
-                lockSwitch(1);
-            }
+        distance1 = Vector3.Distance(closest1.transform.position, ghosts[0].transform.position);
+        distance2 = Vector3.Distance(closest2.transform.position, ghosts[1].transform.position);
+
+        if (distance1 < 1)
+        {
+            unlockSwitch(0);
+        }
+        else
+        {
+            lockSwitch(0);
+        }
+
+        if (distance2 < 1)
+        {
+            unlockSwitch(1);
+        }
+        else
+        {
+            lockSwitch(1);
         }
     }
 
@@ -81,14 +77,6 @@ public class GramophoneScript : MonoBehaviour
             ghosts[num].transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(false);
     }
 
-    //Edited BY Guanchen
-    void GhostCondition(GameObject[] ghosts){
-        if(ghosts.Length != 2){
-            ghostCondition = false;
-        }else{
-            ghostCondition = true;
-        }
-    }
 
     //Determine closest gramophone
     void findClosest(GameObject[] objects)

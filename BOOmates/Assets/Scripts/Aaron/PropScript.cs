@@ -33,33 +33,29 @@ public class PropScript : MonoBehaviour
         findClosest(props);
 
         //Edited BY Guanchen
-        GhostCondition(ghosts);
-        if (ghostCondition)
+        distance1 = Vector3.Distance(closest1.transform.position, ghosts[0].transform.position);
+
+        distance2 = Vector3.Distance(closest2.transform.position, ghosts[1].transform.position);
+
+
+
+        if (distance1 < 1)
         {
-            distance1 = Vector3.Distance(closest1.transform.position, ghosts[0].transform.position);
-
-            distance2 = Vector3.Distance(closest2.transform.position, ghosts[1].transform.position);
-
-
-
-            if (distance1 < 1)
-            {
-                unlockSwitch(0);
-            }
-            else
-            {
-                lockSwitch(0);
-            }
+            unlockSwitch(0);
+        }
+        else
+        {
+            lockSwitch(0);
+        }
 
 
-            if (distance2 < 1)
-            {
-                unlockSwitch(1);
-            }
-            else
-            {
-                lockSwitch(1);
-            }
+        if (distance2 < 1)
+        {
+            unlockSwitch(1);
+        }
+        else
+        {
+            lockSwitch(1);
         }
 
     }
@@ -97,19 +93,6 @@ public class PropScript : MonoBehaviour
         }
     }
 
-    //Edited BY Guanchen
-    void GhostCondition(GameObject[] ghosts)
-    {
-        if (ghosts.Length != 2)
-        {
-            ghostCondition = false;
-        }
-        else
-        {
-            ghostCondition = true;
-        }
-    }
-
     //Find closest Prop
     void findClosest(GameObject[] objects)
     {
@@ -136,10 +119,20 @@ public class PropScript : MonoBehaviour
     void OnCollisionEnter(Collision other){
         if(other.gameObject.tag == "Human" && onProp){
             foreach(GameObject player in ghosts){
-                var playerScript = player.GetComponent<GhostController>();
-                if(playerScript.onHuman){
-                    playerScript.scarePoint += 10f;
-                    UIManager.instance.UpdateScarePoints((int)playerScript.scarePoint);
+                if(player.name == "ghostAI")
+                {
+                    var playerScript = player.GetComponent<GhostAI>();
+                    if(playerScript.onHuman){
+                        playerScript.scarePoint += 10f;
+                        UIManager.instance.UpdateScarePoints((int)playerScript.scarePoint);
+                    }
+                }
+                else{
+                    var playerScript = player.GetComponent<GhostController>();
+                    if(playerScript.onHuman){
+                        playerScript.scarePoint += 10f;
+                        UIManager.instance.UpdateScarePoints((int)playerScript.scarePoint);
+                    }
                 }
 
             }

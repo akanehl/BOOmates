@@ -1061,17 +1061,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c31065c73261684c801edf160c8eba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playernum: 0
+  playernum: 1
   rigBod: {fileID: 838978300537796847}
   onHuman: 0
+  scarePoint: 0
   maxDashForce: 50
   pushForce: 100
   inProp: 0
-  color1: {fileID: 2100000, guid: dc4b1ae2f066f47279a773f079efe879, type: 2}
-  color2: {fileID: 2100000, guid: 4a45d188cc1ab4109b65da6e6c0ccbf4, type: 2}
-  mesh: {fileID: 5587479483111334792}
   currentItem: 2
-  currentCond: 0
+  currentCond: 2
   choreManger: {fileID: 0}
 --- !u!114 &2521032430364146119
 MonoBehaviour:

@@ -5,13 +5,11 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
-public class GhostController : MonoBehaviour
+public class GhostAI : MonoBehaviour
 {
     //General Player Info
     static int numplayers = 0;
-    public int playernum = 1;
-    Controller player;
-    Vector2 moveVec;
+    public int playernum;
     public Rigidbody rigBod;
     private double moveSpeed;
     private double baseSpeed = 4;
@@ -86,6 +84,7 @@ public class GhostController : MonoBehaviour
     private GameObject mainCamera;
     private bool freezeHuman;
 
+    [SerializeField]
     private GameObject UI;
 
     private CameraControl sc;
@@ -94,13 +93,11 @@ public class GhostController : MonoBehaviour
 
     private Chores currentChore;
     private float cleanTimer;
-    public ChoreManger choreManger;
+    public ChoreMangerAI choreManger;
 
 
     private void Awake()
     {
-        player = new Controller();
-
         //Assign light variables to proper objects in scene
         lightSwitch = GameObject.FindGameObjectWithTag("Lights");
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
@@ -125,7 +122,7 @@ public class GhostController : MonoBehaviour
         prop = GameObject.FindGameObjectWithTag("Prop");
         propScript = prop.GetComponent<PropScript>();
 
-        //Assign player numbers and colors
+        //Assign player numbers and color
 
         //Add by Guanchen Liu
         //Assign nathan
@@ -135,38 +132,24 @@ public class GhostController : MonoBehaviour
         currentCond = ghostCond.None;
         mainCamera  = GameObject.Find("MainCamera");
         sc          = mainCamera.GetComponent<CameraControl>();
-        UI = UIManager.instance.gameObject;
         var UICoolDown = UI.transform.Find("CoolDown").gameObject;
         
         // lightImage = UICoolDown.transform.GetChild(0).GetComponent<Image>();
         // musicImage = UICoolDown.transform.GetChild(1).GetComponent<Image>();
         // paintImage = UICoolDown.transform.GetChild(2).GetComponent<Image>();
 
-
-        player.Gameplay.Grabbing.canceled += context => ReleaseObject();
-
-        GameObject temp = GameObject.Find("Ghost_1");
+        GameObject temp = GameObject.Find("Ghost_2");
         transform.position = temp.transform.position;
         Destroy(temp);
-        gameObject.name = "Ghost_1";
-        backUpLighting.gameObject.SetActive(false);
-        var UIScript = UI.GetComponent<UIManager>();
-        Time.timeScale = 1.0f;
-        UIScript.playStartImage();
             
 
         var allGhost = GameObject.FindGameObjectsWithTag("Ghost");
-
-        choreManger = GameObject.Find("ChoreManger").GetComponent<ChoreManger>();
-    }
+     }
 
 
     private void FixedUpdate()
     {
         findOther();
-        //First, we calculate movement speed+direction
-        calculateMovement();
-        //Secondly, calculate invisibility
         //Then, Dash Calculations
         doDash();
         //Update the ScarePoint Value, due to conditions
@@ -236,61 +219,6 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    void calculateMovement()
-    {
-        Vector3 movement;
-        //Movement modifications for PoweringUp
-
-        //Edited by Guanchen Liu
-
-        if(!onHuman){
-            Animator anim = GetComponent<Animator>();
-            if (powerUp)
-            {
-                movement = new Vector3(-moveVec.x, 0.0f, -moveVec.y);
-            }
-            else
-            {
-                
-                movement = new Vector3(moveVec.x, 0.0f, moveVec.y);
-                if(movement != Vector3.zero)
-                {
-                    transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
-                    anim.Play("Walk");
-                }
-                else
-                {
-                    anim.Play("Idel");
-                }
-    
-            }
-            rigBod.AddForce(movement * (float)moveSpeed);
-
-        }else{
-            if(currentItem != selectedItem.CleanObject)
-            {
-                Animator anim = Nathan.GetComponent<Animator>();
-                movement = new Vector3(moveVec.x, 0.0f ,moveVec.y);
-                if(currentItem == selectedItem.GrabObject){
-                    Nathan.transform.Translate(movement * ((float)baseSpeed)/3 * Time.deltaTime, Space.World);
-                }else{
-                    Nathan.transform.Translate(movement * ((float)baseSpeed) * Time.deltaTime, Space.World);
-                }
-                Nathan.GetComponent<Rigidbody>().isKinematic = true;
-                if(movement != Vector3.zero)
-                {
-                    Nathan.GetComponent<Rigidbody>().isKinematic = false;
-                    Nathan.transform.rotation = Quaternion.LookRotation(new Vector3(moveVec.x, 0 ,moveVec.y));
-                    anim.Play("walk");
-                }
-                else
-                {
-                    anim.Play("Idel");
-                }
-            }
-        }
-    }
-
     void doDash()
     {
         //Player is holding down dash button
@@ -309,7 +237,7 @@ public class GhostController : MonoBehaviour
         }
         else
         {
-            rigBod.AddForce(moveVec.x * dashForce * 10, 0.0f, moveVec.y * dashForce * 10);
+            rigBod.AddForce(dashForce * 10, 0.0f, dashForce * 10);
             if (moveSpeed < baseSpeed)
             {
                 moveSpeed += 5;
@@ -439,7 +367,7 @@ public class GhostController : MonoBehaviour
                 targetPos.y = transform.position.y;
                 transform.position = targetPos;
                 Debug.Log(transform.position);
-                rigBod.AddForce((moveVec.x) * 500, 0.0f, (moveVec.y) * 500);
+                rigBod.AddForce((1) * 500, 0.0f, (1) * 500);
                 hiding = false;
                 if (Vector3.Distance(transform.position, Nathan.transform.position) < 5)
                 {
@@ -463,7 +391,7 @@ public class GhostController : MonoBehaviour
         // If the ghost is in a prop
         if (inProp && !onHuman)
         {
-            var moving = new Vector3(moveVec.x, 0.0f,  moveVec.y);
+            var moving = new Vector3(1, 0.0f, 1);
             prop.GetComponent<Rigidbody>().velocity = moving * 10f;
             gameObject.transform.position = prop.transform.position;
         }
@@ -512,12 +440,6 @@ public class GhostController : MonoBehaviour
         //Button is rleased;
         powerUp = false;
     }
-    private void OnMovement(InputValue value)
-    {
-        //update direction of movement
-        moveVec = value.Get<Vector2>();
-        //Debug.Log("is taking value");
-    }
     private void OnInvis()
     {
         dissapearing = true;
@@ -526,17 +448,6 @@ public class GhostController : MonoBehaviour
     private void OnAppear()
     {
         dissapearing = false;
-    }
-
-    void OnEnable()
-    {
-        Debug.Log("enable");
-        player.Gameplay.Enable();
-
-    }
-    private void OnDisable()
-    {
-        player.Gameplay.Disable();
     }
 
     /*--------------------------------------------------------------------------------------------------------------------*/
@@ -849,19 +760,24 @@ public class GhostController : MonoBehaviour
     // }
 
     void findOther(){
-        OtherGhost = GameObject.Find("ghostAI");
+        if(Time.timeScale == 1.0f)
+        {
+            OtherGhost = GameObject.Find("Ghost_1");
+        }
     }
 
     void OnCollisionEnter(Collision other){
-        var otherScript = OtherGhost.GetComponent<GhostAI>();
-        if(other.gameObject.tag == "Human" && !onHuman){
-            if(!otherScript.onHuman){
-                OnTaking();
-            }else if(otherScript.currentCond == GhostAI.ghostCond.onEjecting && !inProp){
-                Debug.Log("active");
-                currentItem = selectedItem.None;
-                otherScript.OnLeaving();
-                OnTaking();
+        if(OtherGhost != null) {
+            var otherScript = OtherGhost.GetComponent<GhostController>();
+            if(other.gameObject.tag == "Human" && !onHuman){
+                if(!otherScript.onHuman){
+                    OnTaking();
+                }else if(otherScript.currentCond == GhostController.ghostCond.onEjecting && !inProp){
+                    Debug.Log("active");
+                    currentItem = selectedItem.None;
+                    otherScript.OnLeaving();
+                    OnTaking();
+                }
             }
         }
     }

@@ -32,32 +32,29 @@ public class PaintingScript : MonoBehaviour
         findClosest(paintings);
 
         //Edited BY Guanchen
-        GhostCondition(ghosts);
-        if(ghostCondition){
-            distance1 = Vector3.Distance(closest1.transform.position, ghosts[0].transform.position);
-            
-            distance2 = Vector3.Distance(closest2.transform.position, ghosts[1].transform.position);
-            
-    
-    
-            if (distance1 < 1)
-            {
-                unlockSwitch(0);
-            }
-            else
-            {
-                lockSwitch(0);
-            }
-    
-    
-            if (distance2 < 1)
-            {
-                unlockSwitch(1);
-            }
-            else
-            {
-                lockSwitch(1);
-            }
+        distance1 = Vector3.Distance(closest1.transform.position, ghosts[0].transform.position);
+        
+        distance2 = Vector3.Distance(closest2.transform.position, ghosts[1].transform.position);
+        
+
+
+        if (distance1 < 1)
+        {
+            unlockSwitch(0);
+        }
+        else
+        {
+            lockSwitch(0);
+        }
+
+
+        if (distance2 < 1)
+        {
+            unlockSwitch(1);
+        }
+        else
+        {
+            lockSwitch(1);
         }
 
     }
@@ -96,13 +93,6 @@ public class PaintingScript : MonoBehaviour
     }
 
     //Edited BY Guanchen
-    void GhostCondition(GameObject[] ghosts){
-        if(ghosts.Length != 2){
-            ghostCondition = false;
-        }else{
-            ghostCondition = true;
-        }
-    }
 
     //Find closest Painting
     void findClosest(GameObject[] objects)
