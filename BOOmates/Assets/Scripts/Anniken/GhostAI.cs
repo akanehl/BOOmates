@@ -91,7 +91,7 @@ public class GhostAI : MonoBehaviour
 
     private bool _enabled = false;
 
-    private Chores currentChore;
+    public Chores currentChore;
     private float cleanTimer;
     public ChoreMangerAI choreManger;
 
