@@ -977,9 +977,9 @@ GameObject:
   - component: {fileID: 6358635784717352405}
   - component: {fileID: 838978300537796847}
   - component: {fileID: 2521032430364146119}
-  - component: {fileID: 4891779425186808116}
+  - component: {fileID: 8758895644048890119}
   m_Layer: 11
-  m_Name: GhostIdle 1
+  m_Name: ghostAI
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1080,7 +1080,7 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &4891779425186808116
+--- !u!114 &8758895644048890119
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1089,6 +1089,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 9060163212918363525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84ff8ed5e2aa142f894a06e2de521396, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c31065c73261684c801edf160c8eba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playernum: 0
+  rigBod: {fileID: 0}
+  onHuman: 0
+  maxDashForce: 0
+  pushForce: 0
+  inProp: 0
+  color1: {fileID: 2100000, guid: dc4b1ae2f066f47279a773f079efe879, type: 2}
+  color2: {fileID: 2100000, guid: 4a45d188cc1ab4109b65da6e6c0ccbf4, type: 2}
+  mesh: {fileID: 0}
+  currentItem: 0
+  currentCond: 0
+  choreManger: {fileID: 0}
