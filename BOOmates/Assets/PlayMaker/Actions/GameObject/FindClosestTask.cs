@@ -71,6 +71,8 @@ namespace HutongGames.PlayMaker.Actions
 
 		void DoFindClosest()
 		{
+
+			Debug.Log("The State MAchine is Working!!!!@!@!!!!!!!!");
 			var go = gameObject.OwnerOption == OwnerDefaultOption.UseOwner ? Owner : gameObject.GameObject.Value;
 
 			GameObject[] objects; // objects to consider
