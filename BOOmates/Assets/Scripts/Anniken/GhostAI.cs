@@ -384,14 +384,15 @@ public class GhostAI : MonoBehaviour
     }
 
 
-    void OnEnter()
+    public void OnEnter()
     {
         // Ghost enters a prop
       
         // If the ghost is in a prop
         if (inProp && !onHuman)
         {
-            var moving = new Vector3(1, 0.0f, 1);
+            var heading = Nathan.transform.position - transform.position;
+            var moving = heading;
             prop.GetComponent<Rigidbody>().velocity = moving * 10f;
             gameObject.transform.position = prop.transform.position;
         }
@@ -414,7 +415,7 @@ public class GhostAI : MonoBehaviour
 
     }
 
-    void OnLeave()
+    public void OnLeave()
     {
         Debug.Log("Attempting to leave");
         if (inProp)
