@@ -11,10 +11,7 @@ public class CameraControl : MonoBehaviour
     // Start is called before the first frame update
     public  float       moveSpeed       = 20f;
     public  int         cameraCondition = 2;
-    //private Vector3 FirstRoom;
-    private Vector3     SecondRoom;
-    //private Vector3 ThirdRoom;
-    //private Vector3 ForthRoom;
+
     public  Quaternion  TargetRotation;
     public  Vector3     TargetRoom;
     //public  Vector3     RespawnPoint;
@@ -22,13 +19,23 @@ public class CameraControl : MonoBehaviour
     public  float       smoothTime      = 0.3F;
     private float       rotationSpeed   = 100f;
     private Vector3     velocity        = Vector3.zero;
+    private Vector3     originPos;
+    private Vector3     cutScenePos;
     private float       timer           = 1.5f;
+    GameObject Nathan;
+    HumanBehavior humanScript;
+    GameObject CutSceneCamera;
+    public TimeManager timeManager;
     void Start()
     {
 
         //Set a default position for the camera
-        SecondRoom = new Vector3(-0.89f, 5.86f, -5.73f);
-        transform.position = SecondRoom;
+        Nathan = GameObject.Find("Nathan");
+        humanScript = Nathan.GetComponent<HumanBehavior>();
+        CutSceneCamera = Nathan.transform.Find("cutScene").gameObject;
+        TargetRoom = transform.position;
+        originPos = transform.position;
+
 
     }
 
@@ -38,15 +45,37 @@ public class CameraControl : MonoBehaviour
         //Condition:isMoving
         //Related to Script: DoorManagement.cs/43
         //Determing the moving condition of camera
+        updateCutScenePos();
         if (isMoving){
         	CameraTransform(TargetRoom);
         }
 
         //Temp method
         //Kill all the clone stuff so game won't break
-        killClone();
     }
 
+    //Add by Guanchen Liu
+    //This function will trigger when ghosts are swiping body
+    
+    public void DoCutScene(){
+        isMoving = true;
+        TargetRoom = cutScenePos;
+        //timeManager.doSlowMotion();
+        StartCoroutine(cameraCoroutine());
+
+    }
+    void updateCutScenePos(){
+        var pos = Nathan.transform.position;
+        pos.z -= 1.82f;
+        pos.y += 3.0f;
+        cutScenePos = pos;
+    }
+
+    IEnumerator cameraCoroutine(){
+        yield return new WaitForSeconds(2f);
+        TargetRoom = originPos;
+        isMoving = true;
+    }
     //Condition: Vector3 TargetRoom, Passed by doormanagement.cs
     //This function will actually moving the camera in to direct position
     void CameraTransform(Vector3 TargetRoom){
@@ -85,10 +114,4 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    void killClone(){
-        var clone = GameObject.Find("Ghost(Clone)");
-
-        Destroy(clone);
-
-    }
 }
