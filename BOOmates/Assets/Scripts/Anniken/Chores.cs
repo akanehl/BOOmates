@@ -45,7 +45,7 @@ public class Chores: MonoBehaviour
 
     public virtual void activeChore(int ghostid)
     {
-        Renderer rend = GetComponent<Renderer>();
+        Renderer rend = transform.GetChild(1).GetComponent<Renderer>();
         if(rend != null)
         {
             if(ghostid == 0)
@@ -57,7 +57,7 @@ public class Chores: MonoBehaviour
 
     public virtual void deactiveChore()
     {
-        Renderer rend = GetComponent<Renderer>();
+        Renderer rend = transform.GetChild(1).GetComponent<Renderer>();
         if(rend != null)
             rend.material = defalutMaterial;
     }
