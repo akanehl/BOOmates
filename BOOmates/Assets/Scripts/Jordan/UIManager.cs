@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     public int startingTime;
-    private int currentTime;
+    public int currentTime;
 
     [SerializeField] private GameObject pauseMenu;
 

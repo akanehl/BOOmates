@@ -24,6 +24,8 @@ public class ChoreManger : MonoBehaviour
 
     private GameObject Worldlight;
 
+    private UIManager UI;
+
     void Start()
     {
         player1Score = 0;
@@ -31,25 +33,29 @@ public class ChoreManger : MonoBehaviour
         player2Score = 0;
 
         Worldlight = GameObject.Find("LightsMaster");
+
+        UI = GameObject.Find("UI").GetComponent<UIManager>();
     }
 
     void FixedUpdate()
     {
-        if(player1Score >= 3)
-        {
-            var UI = GameObject.Find("UI");
-            var image = UI.transform.Find("player1Win").gameObject;
-            image.SetActive(true);
-            Debug.Log("p1win");
-            //player 1 wins
-        }
-        if(player2Score >= 3)
-        {
-            //player 2 wins
-            var UI = GameObject.Find("UI");
-            var image = UI.transform.Find("player2Win").gameObject;
-            image.SetActive(true);
-            Debug.Log("p2win");
+        if(chores.Count == 0 || UI.currentTime <= 0){
+            if(player1Score > player2Score)
+            {
+                var UI = GameObject.Find("UI");
+                var image = UI.transform.Find("player1Win").gameObject;
+                image.SetActive(true);
+                Debug.Log("p1win");
+                //player 1 wins
+            }
+            else
+            {
+                //player 2 wins
+                var UI = GameObject.Find("UI");
+                var image = UI.transform.Find("player2Win").gameObject;
+                image.SetActive(true);
+                Debug.Log("p2win");
+            }
         }
         //Edit by Enxuan
         if(currentPlayer != null){
@@ -64,11 +70,25 @@ public class ChoreManger : MonoBehaviour
                 if(currentPlayerChore.complete())
                 {
                     if(currentPlayer.GetComponent<GhostController>().playernum == 0){
-                        player1Score++;
+                        if(chores.Count > 2)
+                        {
+                            player1Score++;
+                        }
+                        else
+                        {
+                            player1Score += 2;
+                        }
                     }
                     else
                     {
-                        player2Score++;
+                        if(chores.Count > 2)
+                        {
+                            player2Score++;
+                        }
+                        else
+                        {
+                            player2Score += 2;
+                        }
                     }
                     chores.Remove(currentPlayerChore.gameObject);
                     currentPlayerChore.deactiveChore();
