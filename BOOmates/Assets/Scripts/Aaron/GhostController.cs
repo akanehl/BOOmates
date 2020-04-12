@@ -24,8 +24,6 @@ public class GhostController : MonoBehaviour
     HumanBehavior humanScript;
     public bool onHuman = false;
     public float scarePoint = 0f;
-    private float swipeTime = 15f;
-
 
     //Dash Information
     private bool powerUp;
@@ -37,9 +35,9 @@ public class GhostController : MonoBehaviour
     GameObject lightSwitch;
     LightScript lightScript;
     GameObject worldLighting;
-    private float lightCooldown;
+    //private float lightCooldown;
     private bool lightEnable = true;
-    Image lightImage;
+    //Image lightImage;
     GameObject backUpLighting;
 
     //Gramophone variables
@@ -48,18 +46,18 @@ public class GhostController : MonoBehaviour
     GameObject gramophone;
     GramophoneScript musicScript;
     GameObject worldMusic;
-    private float musicCooldown;
+    //private float musicCooldown;
     private bool musicEnable = true;
-    Image musicImage;
+    //Image musicImage;
     
     //Painting variables
     private bool paintBool = false;
     bool hiding = false;
     GameObject painting;
     PaintingScript paintScript;
-    private float paintCooldown;
+    //private float paintCooldown;
     private bool paintEnable;
-    Image paintImage;
+    //Image paintImage;
 
     // Prop Variables
     public float pushForce;
@@ -93,8 +91,6 @@ public class GhostController : MonoBehaviour
 
     private CameraControl sc;
 
-    private bool _enabled = false;
-
     private Chores currentChore;
     private float cleanTimer;
     public ChoreManger choreManger;
@@ -109,20 +105,20 @@ public class GhostController : MonoBehaviour
         worldLighting = GameObject.FindGameObjectWithTag("EnvironmentLights");
         backUpLighting = GameObject.FindGameObjectWithTag("BackUpLights");
         lightScript = lightSwitch.GetComponent<LightScript>();
-        lightCooldown = 10f;
+        //lightCooldown = 10f;
         lightEnable = true;
     
         //Assign gramophone variables to proper objects in scene
         gramophone = GameObject.FindGameObjectWithTag("Gramophone");
         worldMusic = GameObject.FindGameObjectWithTag("WorldMusic");
         musicScript = gramophone.GetComponent<GramophoneScript>();
-        musicCooldown = 10f;
+        //musicCooldown = 10f;
         musicEnable = true;
 
         //Assign painting variables to proper objects in scene
         painting = GameObject.FindGameObjectWithTag("Painting");
         paintScript = painting.GetComponent<PaintingScript>();
-        paintCooldown = 15f;
+        //paintCooldown = 15f;
         paintEnable = true;
 
         prop = GameObject.FindGameObjectWithTag("Prop");
@@ -671,6 +667,7 @@ public class GhostController : MonoBehaviour
                 Nathan.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = false;
             }
             Nathan.transform.Find("Aura").gameObject.SetActive(true);
+            sc.DoCutScene();
             StartCoroutine(ExampleCoroutine());
         }
 
@@ -865,6 +862,11 @@ public class GhostController : MonoBehaviour
             currentChore = null;
         }
     }
+
+    void OnFire(){
+        var bulletControl = GetComponent<BulletControl>();
+        bulletControl.fire();
+    }
     //Add by Guanchen Liu
     //Origin: Enxuan
     //Access by Controller
@@ -921,32 +923,6 @@ public class GhostController : MonoBehaviour
         }
     }
 
-    void CoolDownManager(){
-        if(!paintEnable){
-            paintImage.fillAmount += 1 / lightCooldown * Time.deltaTime;
-            paintCooldown -= 0.02f;
-            if(paintCooldown <= 0){
-                paintEnable = true;
-                paintCooldown = 15f;
-            }
-        }
-        if(!lightEnable){
-            lightImage.fillAmount += 1 / lightCooldown * Time.deltaTime;
-            lightCooldown -= 0.02f;
-            if(lightCooldown <= 0){
-                lightEnable = true;
-                lightCooldown = 15f;
-            }
-        }
-        if(!musicEnable){
-            musicImage.fillAmount += 1 / lightCooldown * Time.deltaTime;
-            musicCooldown -= 0.02f;
-            if(musicCooldown <= 0){
-                musicEnable = true;
-                musicCooldown = 15f;
-            }
-        }
-    }
 
     public Chores getcurrentChore()
     {
