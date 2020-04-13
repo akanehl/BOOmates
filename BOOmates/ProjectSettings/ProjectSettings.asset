@@ -635,6 +635,7 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Collab: 1
     UNet: 1
   luminIcon:
     m_Name: 
@@ -655,10 +656,10 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 6
-  cloudProjectId: 
+  cloudProjectId: dc2a2fce-53e0-4100-a60d-7dfebd14d73b
   framebufferDepthMemorylessMode: 0
-  projectName: 
-  organizationId: 
+  projectName: BooMates
+  organizationId: monkeyradio
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 1
   disableOldInputManagerSupport: 0
